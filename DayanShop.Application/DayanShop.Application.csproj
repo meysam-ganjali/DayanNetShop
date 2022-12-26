@@ -6,4 +6,10 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="FacadePattern\" />
+    <Folder Include="StoreServices\Commands\" />
+    <Folder Include="StoreServices\Queries\" />
+  </ItemGroup>
+
 </Project>
