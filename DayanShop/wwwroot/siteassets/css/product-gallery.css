@@ -1,0 +1,49 @@
+/* zero custom styles for photoswipe */
+
+/*==================================
+SWIPER - minimal styling
+===================================*/
+/* semantic HTML - remove bullet and space from the list */
+ul.swiper-wrapper {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+/* Swiper container */
+.swiper-container {
+    max-width: 100%;
+}
+
+/* swiper responive image */
+.swiper-container img {
+    width: auto;
+    height: 100%;
+}
+
+/* Swiper custom pagination */
+.swiper-pagination-bullet {
+    width: 34px;
+    height: 34px;
+    text-align: center;
+    line-height: 34px;
+    font-size: 14px;
+    color: #000;
+    opacity: 1;
+    background: rgba(0, 0, 0, 0.3);
+    transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+/* Swiper custom pagination */
+.swiper-pagination-bullet:hover {
+    transition: background-color 0.5s ease;
+    background: rgba(0, 0, 0, 1);
+    color: white;
+}
+
+/* Swiper custom pagination active state */
+.swiper-pagination-bullet-active {
+    color: #fff;
+    background: black;
+}
+‎ =================================*/ /* HTML معنایی - حذف گلوله و فاصله از لیست */ ul.swiper-wrapper { list-style-type: none; حاشیه: 0; بالشتک: 0; } /* Swiper container */ .swiper-container { max-width: 100%; } /* تصویر پاسخگو swiper */ .swiper-container img { width: auto; ارتفاع: 100%; } /* صفحه‌بندی سفارشی Swiper */ .swiper-pagination-bullet { width: 34px; ارتفاع: 34 پیکسل؛ text-align: center; ارتفاع خط: 34 پیکسل؛ اندازه فونت: 14px; رنگ: #000; کدورت: 1; پس زمینه: rgba (0، 0، 0، 0.3); انتقال: سهولت رنگ پس زمینه 0.5 ثانیه، سهولت رنگ 0.5 ثانیه. } /* صفحه‌بندی سفارشی Swiper */ .swiper-pagination-bullet:hover { transition: background-color 0.5s ease; پس زمینه: rgba(0, 0, 0, 1); رنگ سفید؛ } /* وضعیت فعال صفحه‌بندی سفارشی Swiper */ .swiper-pagination-bullet-active { color: #fff; پس زمینه: مشکی؛ }
