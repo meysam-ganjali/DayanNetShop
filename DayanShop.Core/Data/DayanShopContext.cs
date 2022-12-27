@@ -13,6 +13,8 @@ public class DayanShopContext : IdentityDbContext<IdentityUser>
     }
 
     public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+    public DbSet<ParentCategory> ParentCategories { get; set; }
+    public DbSet<ChildCategory> ChildCategories { get; set; }
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
