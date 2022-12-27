@@ -1,3 +1,4 @@
+using DayanShop.Application.IOC;
 using DayanShop.Core.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -16,7 +17,7 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(option =>
         option.Password.RequireDigit = false;
     })
     .AddEntityFrameworkStores<DayanShopContext>();
-
+DependencyContainer.RegisterServices(builder.Services,builder.Configuration);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();

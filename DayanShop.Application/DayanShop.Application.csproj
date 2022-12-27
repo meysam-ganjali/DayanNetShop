@@ -7,9 +7,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="FacadePattern\" />
-    <Folder Include="StoreServices\Commands\" />
+    <Folder Include="FacadePattern\FSDCategory\" />
+    <Folder Include="IOC\" />
+    <Folder Include="StoreServices\Commands\Category\" />
     <Folder Include="StoreServices\Queries\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DayanShop.Core\DayanShop.Core.csproj" />
+    <ProjectReference Include="..\DayanShop.Utilities\DayanShop.Utilities.csproj" />
   </ItemGroup>
 
 </Project>
