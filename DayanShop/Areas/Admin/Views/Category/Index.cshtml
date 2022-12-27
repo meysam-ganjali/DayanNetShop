@@ -1,19 +1,20 @@
 ﻿@{
     ViewData["Title"] = "لیست دسته بندی های فروشگاه";
 }
+<partial name="_Notification" />
 <div class="page-breadcrumb">
     <div class="row">
         <div class="col-5 align-self-center">
-            <h4 class="page-title">داشبورد</h4>
+            <h4 class="page-title">@ViewData["Title"]</h4>
         </div>
         <div class="col-7 align-self-center">
             <div class="d-flex align-items-center justify-content-end">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">
-                            <a href="#">Home</a>
+                            <a href="/Admin/Home">داشبورد</a>
                         </li>
-                        <li class="breadcrumb-item active" aria-current="page">داشبرد</li>
+                        <li class="breadcrumb-item active" aria-current="page">دسته بندی</li>
                     </ol>
                 </nav>
             </div>
@@ -23,7 +24,88 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-12">
-        
+            <div class="card">
+                <div class="card-body d-flex justify-content-between flex-wrap">
+                    <div class="card-title">
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" placeholder="دنبال چی می گردی؟" aria-label="Search For Parent Category" aria-describedby="basic-addon2">
+                            <button class="input-group-text bg-primary text-white" id="basic-addon2"><i class="fa fa-search"></i></button>
+                        </div>
+                    </div>
+                    <div class="card-subtitle">
+                        <button onclick="ShowModalAddParentCategory()" class="btn btn-success"><i class="fa fa-plus"></i>&nbsp;ثبت دسته بندی پدر</button>
+                    </div>
+                </div>
+                <div class="table-responsive p-1">
+                    <table class="table table-bordered table-hover table-striped">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>عنوان دسته</th>
+                            <th>تعداد زیر دسته</th>
+                            <th>
+                                <i class=" mdi mdi-settings"></i>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+@section Scripts
+{
+    <script>
+        function ShowModalAddParentCategory(){
+            $('#AddParent').modal('show');
+            }
+    </script>
+}
+ @section Modals
+ {
+    <div class="modal" id="AddParent" tabindex="-1" role="dialog">
+         <div class="modal-dialog" role="document">
+             <div class="modal-content">
+                 <div class="modal-header">
+                     <h5 class="modal-title">ثبت دسته بندی والد</h5>
+                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                         <span aria-hidden="true">&times;</span>
+                     </button>
+                 </div>
+                 <div class="modal-body">
+                    <form method="post" action="/Admin/Category/CreateParentCategory" enctype=multipart/form-data>
+                         <div class="input-group mb-3">
+                             <span class="input-group-text bg-light" id="basic-addon1">عنوان دسته پدر</span>
+                            <input name="ParentTitle" type="text" class="form-control" aria-label="Parent Category Title" aria-describedby="basic-addon1">
+                         </div>
+                         <div class="input-group mb-3">
+                             <span class="input-group-text bg-light" id="basic-addon1">Slug</span>
+                            <input name="ParentTitleSlug" type="text" class="form-control" aria-label="Parent Category Slug" aria-describedby="basic-addon1">
+                         </div>
+                         <div class="input-group mb-3">
+                             <span class="input-group-text bg-light" id="basic-addon1">ترتیب نمایش </span>
+                            <select name="DisplayOrder" class="form-select form-control" aria-label="Default select example">
+                                 @for (int i = 1; i <= 100; i++)
+                                 {
+                                     <option value="@i">@i</option>
+                                 }
+                             </select>
+                         </div>
+                        
+                         <div class="row">
+                             <button type="submit" class="btn btn-primary">ثبت </button>
+                         </div>
+                     </form>
+
+                 </div>
+                 <div class="modal-footer">
+
+                     <button type="button" class="btn btn-secondary" data-dismiss="modal">انصراف</button>
+                 </div>
+             </div>
+         </div>
+     </div>
+ }

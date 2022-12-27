@@ -1,4 +1,5 @@
-﻿using DayanShop.Application.StoreServices.Commands.Category;
+﻿using DayanShop.Application.FacadePattern.FSDCategory;
+using DayanShop.Application.StoreServices.Commands.Category;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -8,6 +9,6 @@ public class DependencyContainer
 {
     public static void RegisterServices(IServiceCollection services, IConfiguration configuration)
     {
-        services.AddScoped<ICreateParentCategory, CreateParentCategory>();
+        services.AddScoped<IFSDPatternCategory, FsdPatternCategory>();
     }
 }

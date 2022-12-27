@@ -22,8 +22,7 @@ public  class CreateParentCategory : ICreateParentCategory
     public async Task<ResultDto> CreateCategoryAsync(ParentCategory parentCategory)
     {
         var categoryIsExist = await _db.ParentCategories.FirstOrDefaultAsync(c =>
-            c.ParentTitle.Equals(parentCategory.ParentTitle) ||
-            c.ParentTitleSlug.Equals(parentCategory.ParentTitleSlug));
+            c.ParentTitle.Equals(parentCategory.ParentTitle));
         if (categoryIsExist != null)
         {
             return new ResultDto
@@ -40,7 +39,7 @@ public  class CreateParentCategory : ICreateParentCategory
             return new ResultDto
             {
                 Message = $"تبریک دسته {parentCategory.ParentTitle} با موفقیت اضافه شد",
-                IsSuccess = false
+                IsSuccess = true
             };
         }
         catch (Exception e)
