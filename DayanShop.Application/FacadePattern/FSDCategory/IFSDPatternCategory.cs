@@ -11,4 +11,5 @@ public interface IFSDPatternCategory
     IRemoveParentCategory RemoveParentCategory { get; }
     ICreateChildCategory CreateChildCategory { get; }   
     IChildCategoryInformation ChildCategoryInformation { get; }
+    IRemoveChildCategory RemoveChildCategory { get; }
 }

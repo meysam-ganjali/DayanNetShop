@@ -40,42 +40,42 @@
                 <div class="table-responsive p-1">
                     <table class="table table-bordered table-hover table-striped">
                         <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>عنوان دسته</th>
-                                <th>
-                                    <i class=" mdi mdi-settings"></i>
-                                </th>
-                            </tr>
+                        <tr>
+                            <th>#</th>
+                            <th>عنوان دسته</th>
+                            <th>
+                                <i class=" mdi mdi-settings"></i>
+                            </th>
+                        </tr>
                         </thead>
                         <tbody>
-                            @if (!Model.Any())
+                        @if (!Model.Any())
+                        {
+                            <tr>
+                                <td colspan="4">
+                                    <p class="text-danger text-center">دسته بندی برای نمایش وجود ندارد. ابتدا یک دسته ثبت کنید!</p>
+                                </td>
+                            </tr>
+                        }
+                        else
+                        {
+                            foreach (var childCat in Model)
                             {
                                 <tr>
-                                    <td colspan="4">
-                                        <p class="text-danger text-center">دسته بندی برای نمایش وجود ندارد. ابتدا یک دسته ثبت کنید!</p>
+                                    <td>کد :@childCat.Id</td>
+                                    <td>
+
+                                        <p title="@childCat.ChildTitleSlug">@childCat.ChildTitle</p>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group-sm">
+                                            <button onclick="ShowModalEditchildCategory()" type="button" class="btn btn-primary"><i class="fa fa-edit"></i> ویرایش</button>
+                                                <button onclick="DeleteChild('@childCat.Id','@childCat.ChildTitle')" class="btn btn-danger"><i class="fa fa-trash"></i> حذف</button>
+                                        </div>
                                     </td>
                                 </tr>
                             }
-                            else
-                            {
-                                foreach (var childCat in Model)
-                                {
-                                    <tr>
-                                        <td>کد :@childCat.Id</td>
-                                        <td>
-
-                                            <p title="@childCat.ChildTitle">@childCat.ChildTitleSlug</p>
-                                        </td>
-                                        <td>
-                                            <div class="btn-group-sm">
-                                                <button onclick="ShowModalEditchildCategory()" type="button" class="btn btn-primary"><i class="fa fa-edit"></i> ویرایش</button>
-                                                <button onclick="DeleteParent()" class="btn btn-danger"><i class="fa fa-trash"></i> حذف</button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                }
-                            }
+                        }
                         </tbody>
                     </table>
                 </div>
@@ -83,3 +83,113 @@
         </div>
     </div>
 </div>
+@section Scripts
+    {
+    <link rel="stylesheet" href="~/admin/dist/Sweetalert2/sweetalert2.min.css" />
+    <script src="~/admin/dist/Sweetalert2/sweetalert2.min.js"></script>
+
+    <script>
+        function DeleteChild(childId, title) {
+            swal.fire({
+                title: 'حذف دسته بندی ' + ' ( ' + title + ' )',
+                text: "کاربر گرامی  مطمئن هستید؟",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#7cacbe',
+                confirmButtonText: 'بله ',
+                cancelButtonText: 'خیر'
+            }).then((result) => {
+                if (result.value) {
+
+                    var postData = {
+                        'id': childId
+                    };
+
+                    $.ajax({
+                        contentType: 'application/x-www-form-urlencoded',
+                        dataType: 'json',
+                        type: "POST",
+                        url: "/Admin/Category/RemoveChildCategory/",
+                        data: postData,
+                        success: function (data) {
+                            if (data.isSuccess == true) {
+                                swal.fire(
+                                    'موفق!',
+                                    data.message,
+                                    'success'
+                                ).then(function (isConfirm) {
+                                    location.reload();
+                                });
+                            } else {
+
+                                swal.fire(
+                                    'هشدار!',
+                                    data.message,
+                                    'warning'
+                                );
+
+                            }
+                        },
+                        error: function (request, status, error) {
+                            alert(request.responseText);
+                        }
+
+                    });
+
+                }
+            });
+        }
+        function ShowModalEditParentCategory(id, title, slug, diplayOrder) {
+            $('#edit_parent_id').val(id);
+            $('#edit_parent_title').val(title);
+            $('#edit_parent_slug').val(slug);
+            $('#edit_parent_displayOrder').val(diplayOrder);
+            $('#EditParent').modal('show');
+        }
+
+    </script>
+}
+    @section Modals
+    {
+    <div class="modal" id="EditParent" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-warning">
+                    <h5 class="modal-title text-white">ویرایش دسته بندی والد</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="/Admin/Category/EditParentCategory" enctype=multipart/form-data>
+                        <input type="hidden" name="Id" id="edit_parent_id" />
+                        <div class="input-group mb-3">
+                            <span class="input-group-text bg-light" id="basic-addon1">عنوان دسته پدر</span>
+                            <input id="edit_parent_title" name="ParentTitle" type="text" class="form-control" aria-label="Parent Category Title" aria-describedby="basic-addon1">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text bg-light" id="basic-addon1">Slug</span>
+                            <input id="edit_parent_slug" name="ParentTitleSlug" type="text" class="form-control" aria-label="Parent Category Slug" aria-describedby="basic-addon1">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text bg-light" id="basic-addon1">ترتیب نمایش </span>
+                            <select id="edit_parent_displayOrder" name="DisplayOrder" class="form-select form-control" aria-label="Default select example">
+                                @for (int i = 1; i <= 100; i++)
+                                {
+                                    <option value="@i">@i</option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="row justify-content-around">
+                            <button type="submit" class="btn btn-primary "><i class="fa fa-edit"></i>&nbsp;بروزرسانی </button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-arrow-left"></i>&nbsp;برگشت</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    }

@@ -71,4 +71,14 @@ public class FsdPatternCategory : IFSDPatternCategory
             return _childCategoryInformation = _childCategoryInformation ?? new ChildCategoryInformation(_db);
         }
     }
+
+
+    private IRemoveChildCategory _removeChildCategory;
+    public IRemoveChildCategory RemoveChildCategory
+    {
+        get
+        {
+            return _removeChildCategory= _removeChildCategory ?? new RemoveChildCategory(_db);
+        }
+    }
 }

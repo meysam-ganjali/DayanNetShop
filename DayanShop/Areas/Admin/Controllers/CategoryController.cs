@@ -97,5 +97,21 @@ namespace DayanShop.Areas.Admin.Controllers
             TempData["error"] = result.Message;
             return Redirect("/Admin/Category/Index");
         }
+
+        [HttpPost]
+        public async Task<IActionResult> RemoveChildCategory(int id)
+        {
+            var result = await _category.RemoveChildCategory.RemoveChildCategoryAsync(id);
+            if (result.IsSuccess)
+            {
+                TempData["success"] = result.Message;
+                return Json(result);
+            }
+            else
+            {
+                TempData["error"] = result.Message;
+                return Json(result);
+            }
+        }
     }
 }
