@@ -69,5 +69,21 @@ namespace DayanShop.Areas.Admin.Controllers
                 return Json(result);
             }
         }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateChildCategory(ChildCategory childCategory)
+        {
+            var result = await _category.CreateChildCategory.CreateChildCategoryAsync(childCategory);
+            if (result.IsSuccess)
+            {
+                TempData["success"] = result.Message;
+                return Json(result);
+            }
+            else
+            {
+                TempData["error"] = result.Message;
+                return Json(result);
+            }
+        }
     }
 }

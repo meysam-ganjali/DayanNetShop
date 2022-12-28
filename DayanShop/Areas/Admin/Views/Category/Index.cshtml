@@ -72,8 +72,8 @@
                                         <td>
                                             <div class="btn-group-sm">
                                                 <button onclick="ShowModalEditParentCategory('@parentCat.Id','@parentCat.ParentTitle','@parentCat.ParentTitleSlug','@parentCat.DisplayOrder')" type="button" class="btn btn-primary"><i class="fa fa-edit"></i> ویرایش</button>
-                                                <button  onclick="DeleteParent('@parentCat.Id','@parentCat.ParentTitle')" class="btn btn-danger"><i class="fa fa-trash"></i> حذف</button>
-                                                <button type="button" class="btn btn-success"><i class="fa fa-plus"></i> افزودن زیردسته</button>
+                                                <button onclick="DeleteParent('@parentCat.Id','@parentCat.ParentTitle')" class="btn btn-danger"><i class="fa fa-trash"></i> حذف</button>
+                                                <button onclick="ShowModalAddChildCategory('@parentCat.Id','@parentCat.ParentTitle')" type="button" class="btn btn-success"><i class="fa fa-plus"></i> افزودن زیردسته</button>
                                                 @if (parentCat.ChildCategories.Count > 0)
                                                 {
                                                     <button type="button" class="btn btn-primary"><i class="fa fa-eye"></i> مشاهده فرزندان</button>
@@ -98,7 +98,7 @@
     <script>
         function DeleteParent(parentId, title) {
             swal.fire({
-                title: 'حذف دسته بندی '+' ( ' + title +' )',
+                title: 'حذف دسته بندی ' + ' ( ' + title + ' )',
                 text: "کاربر گرامی  مطمئن هستید؟",
                 icon: 'warning',
                 showCancelButton: true,
@@ -157,7 +157,12 @@
             $('#edit_parent_displayOrder').val(diplayOrder);
             $('#EditParent').modal('show');
         }
-
+        function ShowModalAddChildCategory(parentId,title) {
+        
+            $('#parent_id').val(parentId);
+            $('#parent_title').html(title);
+            $('#AddChild').modal('show');
+        }
 
 
     </script>
@@ -241,6 +246,47 @@
                     </form>
 
                 </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal" id="AddChild" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h5 class="modal-title text-white">ثبت زیر دسته برای <span id="parent_title"></span></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="/Admin/Category/CreateChildCategory" enctype=multipart/form-data>
+                        <input type="hidden" name="ParentCategoryId" id="parent_id" />
+                        <div class="input-group mb-3">
+                            <span class="input-group-text bg-light" id="basic-addon1">عنوان زیر دسته</span>
+                            <input name="ChildTitle" type="text" class="form-control" aria-label="Parent Category Title" aria-describedby="basic-addon1">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text bg-light" id="basic-addon1">Slug</span>
+                            <input name="ChildTitleSlug" type="text" class="form-control" aria-label="Parent Category Slug" aria-describedby="basic-addon1">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text bg-light" id="basic-addon1">ترتیب نمایش </span>
+                            <select name="DisplayOrder" class="form-select form-control" aria-label="Default select example">
+                                @for (int i = 1; i <= 100; i++)
+                                {
+                                    <option value="@i">@i</option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="row justify-content-around">
+                            <button type="submit" class="btn btn-success "><i class="fa fa-check"></i>&nbsp;ثبت </button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-arrow-left"></i>&nbsp;برگشت</button>
+                        </div>
+                    </form>
+
+                </div>
+
             </div>
         </div>
     </div>

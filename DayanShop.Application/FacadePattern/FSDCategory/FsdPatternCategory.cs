@@ -51,4 +51,13 @@ public class FsdPatternCategory : IFSDPatternCategory
             return _removeParentCategory = _removeParentCategory ?? new RemoveParentCategory(_db);
         }
     }
+
+    private ICreateChildCategory _createChildCategory;
+    public ICreateChildCategory CreateChildCategory
+    {
+        get
+        {
+            return _createChildCategory = _createChildCategory ?? new CreateChildCategory(_db);
+        }
+    }
 }

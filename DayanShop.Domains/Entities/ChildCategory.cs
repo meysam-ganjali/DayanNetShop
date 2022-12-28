@@ -10,10 +10,10 @@ public class ChildCategory
     [Display(Name = "عنوان دسته فرزند")]
     [Required(ErrorMessage = "عنوان دسته بندی مشخص نشده است")]
     [MaxLength(300)]
-    public string ParentTitle { get; set; }
+    public string ChildTitle { get; set; }
     [Display(Name = "عنوان دسته فرزند لاتین")]
     [MaxLength(300)]
-    public string? ParentTitleSlug { get; set; }
+    public string? ChildTitleSlug { get; set; }
     [Range(1, 100)]
     public int DisplayOrder { get; set; }
     public int ParentCategoryId { get; set; }

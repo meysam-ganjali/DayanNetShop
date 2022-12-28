@@ -5,24 +5,24 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DayanShop.Application.StoreServices.Commands.Category;
 
-public interface ICreateParentCategory
+public interface ICreateChildCategory
 {
-    Task<ResultDto> CreateCategoryAsync(ParentCategory parentCategory);
+    Task<ResultDto> CreateChildCategoryAsync(ChildCategory childCategory);
 }
 
-public  class CreateParentCategory : ICreateParentCategory
+public class CreateChildCategory : ICreateChildCategory
 {
     private readonly DayanShopContext _db;
 
-    public CreateParentCategory(DayanShopContext db)
+    public CreateChildCategory(DayanShopContext db)
     {
         _db = db;
     }
 
-    public async Task<ResultDto> CreateCategoryAsync(ParentCategory parentCategory)
+    public async Task<ResultDto> CreateChildCategoryAsync(ChildCategory childCategory)
     {
-        var categoryIsExist = await _db.ParentCategories.FirstOrDefaultAsync(c =>
-            c.ParentTitle.Equals(parentCategory.ParentTitle));
+        var categoryIsExist = await _db.ChildCategories.FirstOrDefaultAsync(c =>
+            c.ChildTitle.Equals(childCategory.ChildTitle));
         if (categoryIsExist != null)
         {
             return new ResultDto
@@ -34,11 +34,11 @@ public  class CreateParentCategory : ICreateParentCategory
 
         try
         {
-            var result = _db.ParentCategories.Add(parentCategory);
+            var result = _db.ChildCategories.Add(childCategory);
             await _db.SaveChangesAsync();
             return new ResultDto
             {
-                Message = $"تبریک دسته {parentCategory.ParentTitle} با موفقیت اضافه شد",
+                Message = $"تبریک دسته {childCategory.ChildTitle} با موفقیت اضافه شد",
                 IsSuccess = true
             };
         }
