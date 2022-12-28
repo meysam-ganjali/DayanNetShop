@@ -89,6 +89,7 @@ namespace DayanShop.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> ChildList(int id, string? searchKey)// id => ParentCategory Id
         {
+            ViewBag.ParentCat = id;
             var result = await _category.ChildCategoryInformation.GetChildCategoryAsync(id, searchKey);
             if (result.IsSuccess)
             {

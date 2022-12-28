@@ -28,10 +28,10 @@
             <div class="card">
                 <div class="card-body d-flex justify-content-between flex-wrap">
                     <div class="card-title">
-                        <div class="input-group mb-3">
-                            <input type="text" class="form-control" placeholder="دنبال چی می گردی؟" aria-label="Search For Parent Category" aria-describedby="basic-addon2">
-                            <button class="input-group-text bg-primary text-white" id="basic-addon2"><i class="fa fa-search"></i></button>
-                        </div>
+                        <form action="/Admin/Category/Index" class="input-group mb-3">
+                            <input name="searchKey" type="text" class="form-control" placeholder="دنبال چی می گردی؟" aria-label="Search For Parent Category" aria-describedby="basic-addon2">
+                            <button type="submit" class="input-group-text bg-primary text-white" id="basic-addon2"><i class="fa fa-search"></i></button>
+                        </form>
                     </div>
                     <div class="card-subtitle">
                         <button onclick="ShowModalAddParentCategory()" class="btn btn-success"><i class="fa fa-plus"></i>&nbsp;ثبت دسته بندی پدر</button>
