@@ -72,7 +72,7 @@
                                         <td>
                                             <div class="btn-group-sm">
                                                 <button onclick="ShowModalEditParentCategory('@parentCat.Id','@parentCat.ParentTitle','@parentCat.ParentTitleSlug','@parentCat.DisplayOrder')" type="button" class="btn btn-primary"><i class="fa fa-edit"></i> ویرایش</button>
-                                                <button type="button" class="btn btn-danger"><i class="fa fa-trash"></i> حذف</button>
+                                                <button  onclick="DeleteParent('@parentCat.Id','@parentCat.ParentTitle')" class="btn btn-danger"><i class="fa fa-trash"></i> حذف</button>
                                                 <button type="button" class="btn btn-success"><i class="fa fa-plus"></i> افزودن زیردسته</button>
                                                 @if (parentCat.ChildCategories.Count > 0)
                                                 {
@@ -92,7 +92,61 @@
 </div>
 @section Scripts
     {
+    <link rel="stylesheet" href="~/admin/dist/Sweetalert2/sweetalert2.min.css" />
+    <script src="~/admin/dist/Sweetalert2/sweetalert2.min.js"></script>
+
     <script>
+        function DeleteParent(parentId, title) {
+            swal.fire({
+                title: 'حذف دسته بندی '+' ( ' + title +' )',
+                text: "کاربر گرامی  مطمئن هستید؟",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#7cacbe',
+                confirmButtonText: 'بله ',
+                cancelButtonText: 'خیر'
+            }).then((result) => {
+                if (result.value) {
+
+                    var postData = {
+                        'id': parentId
+                    };
+
+                    $.ajax({
+                        contentType: 'application/x-www-form-urlencoded',
+                        dataType: 'json',
+                        type: "POST",
+                        url: "/Admin/Category/RemoveParentCategory/",
+                        data: postData,
+                        success: function (data) {
+                            if (data.isSuccess == true) {
+                                swal.fire(
+                                    'موفق!',
+                                    data.message,
+                                    'success'
+                                ).then(function (isConfirm) {
+                                    location.reload();
+                                });
+                            } else {
+
+                                swal.fire(
+                                    'هشدار!',
+                                    data.message,
+                                    'warning'
+                                );
+
+                            }
+                        },
+                        error: function (request, status, error) {
+                            alert(request.responseText);
+                        }
+
+                    });
+
+                }
+            });
+        }
         function ShowModalAddParentCategory() {
             $('#AddParent').modal('show');
         }
@@ -103,6 +157,9 @@
             $('#edit_parent_displayOrder').val(diplayOrder);
             $('#EditParent').modal('show');
         }
+
+
+
     </script>
 }
     @section Modals
@@ -147,7 +204,6 @@
             </div>
         </div>
     </div>
-
     <div class="modal" id="EditParent" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">

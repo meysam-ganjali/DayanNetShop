@@ -8,4 +8,5 @@ public interface IFSDPatternCategory
     ICreateParentCategory CreateParentCategory { get; }
     IParentCategoryInformation CategoryInformation { get; }
     IEditParentCategory EditParentCategory { get; }
+    IRemoveParentCategory RemoveParentCategory { get; }
 }

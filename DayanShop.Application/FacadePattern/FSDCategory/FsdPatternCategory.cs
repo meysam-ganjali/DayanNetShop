@@ -21,8 +21,8 @@ public class FsdPatternCategory : IFSDPatternCategory
             return _createParentCategory = _createParentCategory ?? new CreateParentCategory(_db);
         }
     }
+    
 
-    /*=============================================================================*/
     private IParentCategoryInformation _parentCategoryInformation;
     public IParentCategoryInformation CategoryInformation
     {
@@ -32,12 +32,23 @@ public class FsdPatternCategory : IFSDPatternCategory
         }
     }
 
+
     private IEditParentCategory _editParentCategory;
     public IEditParentCategory EditParentCategory
     {
         get
         {
             return _editParentCategory = _editParentCategory ?? new EditParentCategory(_db);
+        }
+    }
+
+
+    private IRemoveParentCategory _removeParentCategory;
+    public IRemoveParentCategory RemoveParentCategory
+    {
+        get
+        {
+            return _removeParentCategory = _removeParentCategory ?? new RemoveParentCategory(_db);
         }
     }
 }
