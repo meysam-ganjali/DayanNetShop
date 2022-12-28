@@ -69,7 +69,7 @@
                                     </td>
                                     <td>
                                         <div class="btn-group-sm">
-                                            <button onclick="ShowModalEditchildCategory()" type="button" class="btn btn-primary"><i class="fa fa-edit"></i> ویرایش</button>
+                                                <button onclick="ShowModalEditChildCategory('@childCat.Id','@childCat.ChildTitle', '@childCat.ChildTitleSlug','@childCat.DisplayOrder','@childCat.ParentCategoryId')"  class="btn btn-primary"><i class="fa fa-edit"></i> ویرایش</button>
                                                 <button onclick="DeleteChild('@childCat.Id','@childCat.ChildTitle')" class="btn btn-danger"><i class="fa fa-trash"></i> حذف</button>
                                         </div>
                                     </td>
@@ -140,19 +140,20 @@
                 }
             });
         }
-        function ShowModalEditParentCategory(id, title, slug, diplayOrder) {
-            $('#edit_parent_id').val(id);
-            $('#edit_parent_title').val(title);
-            $('#edit_parent_slug').val(slug);
-            $('#edit_parent_displayOrder').val(diplayOrder);
-            $('#EditParent').modal('show');
+        function ShowModalEditChildCategory(id, title, slug, diplayOrder,parentId) {
+            $('#edit_child_id').val(id);
+            $('#parent_id').val(parentId);
+            $('#edit_child_title').val(title);
+            $('#edit_child_slug').val(slug);
+            $('#edit_child_displayOrder').val(diplayOrder);
+            $('#EditChild').modal('show');
         }
 
     </script>
 }
     @section Modals
     {
-    <div class="modal" id="EditParent" tabindex="-1" role="dialog">
+    <div class="modal" id="EditChild" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-warning">
@@ -162,19 +163,20 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form method="post" action="/Admin/Category/EditParentCategory" enctype=multipart/form-data>
-                        <input type="hidden" name="Id" id="edit_parent_id" />
+                    <form method="post" action="/Admin/Category/EditChildCategory" enctype=multipart/form-data>
+                        <input type="hidden" name="Id" id="edit_child_id" />
+                        <input type="hidden" name="ParentCategoryId" id="parent_id" />
                         <div class="input-group mb-3">
-                            <span class="input-group-text bg-light" id="basic-addon1">عنوان دسته پدر</span>
-                            <input id="edit_parent_title" name="ParentTitle" type="text" class="form-control" aria-label="Parent Category Title" aria-describedby="basic-addon1">
+                            <span class="input-group-text bg-light" id="basic-addon1">عنوان زیردسته</span>
+                            <input id="edit_child_title" name="ChildTitle" type="text" class="form-control" aria-label="Parent Category Title" aria-describedby="basic-addon1">
                         </div>
                         <div class="input-group mb-3">
                             <span class="input-group-text bg-light" id="basic-addon1">Slug</span>
-                            <input id="edit_parent_slug" name="ParentTitleSlug" type="text" class="form-control" aria-label="Parent Category Slug" aria-describedby="basic-addon1">
+                            <input id="edit_child_slug" name="ChildTitleSlug" type="text" class="form-control" aria-label="Parent Category Slug" aria-describedby="basic-addon1">
                         </div>
                         <div class="input-group mb-3">
                             <span class="input-group-text bg-light" id="basic-addon1">ترتیب نمایش </span>
-                            <select id="edit_parent_displayOrder" name="DisplayOrder" class="form-select form-control" aria-label="Default select example">
+                            <select id="edit_child_displayOrder" name="DisplayOrder" class="form-select form-control" aria-label="Default select example">
                                 @for (int i = 1; i <= 100; i++)
                                 {
                                     <option value="@i">@i</option>

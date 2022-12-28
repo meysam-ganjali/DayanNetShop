@@ -113,5 +113,20 @@ namespace DayanShop.Areas.Admin.Controllers
                 return Json(result);
             }
         }
+
+        public async Task<IActionResult> EditChildCategory(ChildCategory childCategory)
+        {
+            var result = await _category.EditChildCatrgory.EditChildCategoryAsync(childCategory);
+            if (result.IsSuccess)
+            {
+                TempData["success"] = result.Message;
+                return Redirect($"/Admin/Category/ChildList/{childCategory.ParentCategoryId}");
+            }
+            else
+            {
+                TempData["error"] = result.Message;
+                return Redirect($"/Admin/Category/ChildList/{childCategory.ParentCategoryId}");
+            }
+        }
     }
 }

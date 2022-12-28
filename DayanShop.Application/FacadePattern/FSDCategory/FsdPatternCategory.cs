@@ -21,7 +21,7 @@ public class FsdPatternCategory : IFSDPatternCategory
             return _createParentCategory = _createParentCategory ?? new CreateParentCategory(_db);
         }
     }
-    
+
 
     private IParentCategoryInformation _parentCategoryInformation;
     public IParentCategoryInformation CategoryInformation
@@ -78,7 +78,17 @@ public class FsdPatternCategory : IFSDPatternCategory
     {
         get
         {
-            return _removeChildCategory= _removeChildCategory ?? new RemoveChildCategory(_db);
+            return _removeChildCategory = _removeChildCategory ?? new RemoveChildCategory(_db);
+        }
+    }
+
+
+    private IEditChildCatrgory _editChildCategory;
+    public IEditChildCatrgory EditChildCatrgory
+    {
+        get
+        {
+            return _editChildCategory = _editChildCategory ?? new EditChildCatrgory(_db);
         }
     }
 }
