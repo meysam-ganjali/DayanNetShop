@@ -38,5 +38,20 @@ namespace DayanShop.Areas.Admin.Controllers
                 return Redirect("/Admin/Category/Index");
             }
         }
+        [HttpPost]
+        public async Task<IActionResult> EditParentCategory(ParentCategory parentCategory)
+        {
+            var result = await _category.EditParentCategory.EditParentCategoryAsync(parentCategory);
+            if (result.IsSuccess)
+            {
+                TempData["success"] = result.Message;
+                return Redirect("/Admin/Category/Index");
+            }
+            else
+            {
+                TempData["error"] = result.Message;
+                return Redirect("/Admin/Category/Index");
+            }
+        }
     }
 }

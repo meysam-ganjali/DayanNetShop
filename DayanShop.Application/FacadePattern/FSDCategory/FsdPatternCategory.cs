@@ -31,4 +31,13 @@ public class FsdPatternCategory : IFSDPatternCategory
             return _parentCategoryInformation = _parentCategoryInformation ?? new ParentCategoryInformation(_db);
         }
     }
+
+    private IEditParentCategory _editParentCategory;
+    public IEditParentCategory EditParentCategory
+    {
+        get
+        {
+            return _editParentCategory = _editParentCategory ?? new EditParentCategory(_db);
+        }
+    }
 }

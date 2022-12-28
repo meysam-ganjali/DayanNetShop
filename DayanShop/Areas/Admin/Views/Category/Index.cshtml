@@ -71,7 +71,7 @@
                                         <td>@parentCat.ChildCategories.Count()</td>
                                         <td>
                                             <div class="btn-group-sm">
-                                                <button type="button" class="btn btn-primary"><i class="fa fa-edit"></i> ویرایش</button>
+                                                <button onclick="ShowModalEditParentCategory('@parentCat.Id','@parentCat.ParentTitle','@parentCat.ParentTitleSlug','@parentCat.DisplayOrder')" type="button" class="btn btn-primary"><i class="fa fa-edit"></i> ویرایش</button>
                                                 <button type="button" class="btn btn-danger"><i class="fa fa-trash"></i> حذف</button>
                                                 <button type="button" class="btn btn-success"><i class="fa fa-plus"></i> افزودن زیردسته</button>
                                                 @if (parentCat.ChildCategories.Count > 0)
@@ -96,6 +96,13 @@
         function ShowModalAddParentCategory() {
             $('#AddParent').modal('show');
         }
+        function ShowModalEditParentCategory(id, title, slug, diplayOrder) {
+            $('#edit_parent_id').val(id);
+            $('#edit_parent_title').val(title);
+            $('#edit_parent_slug').val(slug);
+            $('#edit_parent_displayOrder').val(diplayOrder);
+            $('#EditParent').modal('show');
+        }
     </script>
 }
     @section Modals
@@ -103,8 +110,8 @@
     <div class="modal" id="AddParent" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">ثبت دسته بندی والد</h5>
+                <div class="modal-header bg-primary">
+                    <h5 class="modal-title text-white">ثبت دسته بندی والد</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -129,17 +136,56 @@
                             </select>
                         </div>
 
-                        <div class="row">
-                            <button type="submit" class="btn btn-primary">ثبت </button>
+                        <div class="row justify-content-around">
+                            <button type="submit" class="btn btn-success "><i class="fa fa-check"></i>&nbsp;ثبت </button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-arrow-left"></i>&nbsp;برگشت</button>
                         </div>
                     </form>
 
                 </div>
-                <div class="modal-footer">
 
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">انصراف</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="EditParent" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-warning">
+                    <h5 class="modal-title text-white">ویرایش دسته بندی والد</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="/Admin/Category/EditParentCategory" enctype=multipart/form-data>
+                        <input type="hidden" name="Id" id="edit_parent_id" />
+                        <div class="input-group mb-3">
+                            <span class="input-group-text bg-light" id="basic-addon1">عنوان دسته پدر</span>
+                            <input id="edit_parent_title" name="ParentTitle" type="text" class="form-control" aria-label="Parent Category Title" aria-describedby="basic-addon1">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text bg-light" id="basic-addon1">Slug</span>
+                            <input id="edit_parent_slug" name="ParentTitleSlug" type="text" class="form-control" aria-label="Parent Category Slug" aria-describedby="basic-addon1">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text bg-light" id="basic-addon1">ترتیب نمایش </span>
+                            <select id="edit_parent_displayOrder" name="DisplayOrder" class="form-select form-control" aria-label="Default select example">
+                                @for (int i = 1; i <= 100; i++)
+                                {
+                                    <option value="@i">@i</option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="row justify-content-around">
+                            <button type="submit" class="btn btn-primary "><i class="fa fa-edit"></i>&nbsp;بروزرسانی </button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-arrow-left"></i>&nbsp;برگشت</button>
+                        </div>
+                    </form>
+
                 </div>
             </div>
         </div>
     </div>
- }
+    }
