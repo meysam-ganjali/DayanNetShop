@@ -1,4 +1,5 @@
-﻿@{
+﻿@model IEnumerable<DayanShop.Domains.Entities.ParentCategory>
+@{
     ViewData["Title"] = "لیست دسته بندی های فروشگاه";
 }
 <partial name="_Notification" />
@@ -39,16 +40,49 @@
                 <div class="table-responsive p-1">
                     <table class="table table-bordered table-hover table-striped">
                         <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>عنوان دسته</th>
-                            <th>تعداد زیر دسته</th>
-                            <th>
-                                <i class=" mdi mdi-settings"></i>
-                            </th>
-                        </tr>
+                            <tr>
+                                <th>#</th>
+                                <th>عنوان دسته</th>
+                                <th>تعداد زیر دسته</th>
+                                <th>
+                                    <i class=" mdi mdi-settings"></i>
+                                </th>
+                            </tr>
                         </thead>
                         <tbody>
+                            @if (!Model.Any())
+                            {
+                                <tr>
+                                    <td colspan="4">
+                                        <p class="text-danger text-center">دسته بندی برای نمایش وجود ندارد. ابتدا یک دسته ثبت کنید!</p>
+                                    </td>
+                                </tr>
+                            }
+                            else
+                            {
+                                foreach (var parentCat in Model)
+                                {
+                                    <tr>
+                                        <td>کد :@parentCat.Id</td>
+                                        <td>
+
+                                            <p title="@parentCat.ParentTitleSlug">@parentCat.ParentTitle</p>
+                                        </td>
+                                        <td>@parentCat.ChildCategories.Count()</td>
+                                        <td>
+                                            <div class="btn-group-sm">
+                                                <button type="button" class="btn btn-primary"><i class="fa fa-edit"></i> ویرایش</button>
+                                                <button type="button" class="btn btn-danger"><i class="fa fa-trash"></i> حذف</button>
+                                                <button type="button" class="btn btn-success"><i class="fa fa-plus"></i> افزودن زیردسته</button>
+                                                @if (parentCat.ChildCategories.Count > 0)
+                                                {
+                                                    <button type="button" class="btn btn-primary"><i class="fa fa-eye"></i> مشاهده فرزندان</button>
+                                                }
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            }
                         </tbody>
                     </table>
                 </div>
@@ -57,55 +91,55 @@
     </div>
 </div>
 @section Scripts
-{
+    {
     <script>
-        function ShowModalAddParentCategory(){
+        function ShowModalAddParentCategory() {
             $('#AddParent').modal('show');
-            }
+        }
     </script>
 }
- @section Modals
- {
+    @section Modals
+    {
     <div class="modal" id="AddParent" tabindex="-1" role="dialog">
-         <div class="modal-dialog" role="document">
-             <div class="modal-content">
-                 <div class="modal-header">
-                     <h5 class="modal-title">ثبت دسته بندی والد</h5>
-                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                         <span aria-hidden="true">&times;</span>
-                     </button>
-                 </div>
-                 <div class="modal-body">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">ثبت دسته بندی والد</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
                     <form method="post" action="/Admin/Category/CreateParentCategory" enctype=multipart/form-data>
-                         <div class="input-group mb-3">
-                             <span class="input-group-text bg-light" id="basic-addon1">عنوان دسته پدر</span>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text bg-light" id="basic-addon1">عنوان دسته پدر</span>
                             <input name="ParentTitle" type="text" class="form-control" aria-label="Parent Category Title" aria-describedby="basic-addon1">
-                         </div>
-                         <div class="input-group mb-3">
-                             <span class="input-group-text bg-light" id="basic-addon1">Slug</span>
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text bg-light" id="basic-addon1">Slug</span>
                             <input name="ParentTitleSlug" type="text" class="form-control" aria-label="Parent Category Slug" aria-describedby="basic-addon1">
-                         </div>
-                         <div class="input-group mb-3">
-                             <span class="input-group-text bg-light" id="basic-addon1">ترتیب نمایش </span>
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text bg-light" id="basic-addon1">ترتیب نمایش </span>
                             <select name="DisplayOrder" class="form-select form-control" aria-label="Default select example">
-                                 @for (int i = 1; i <= 100; i++)
-                                 {
-                                     <option value="@i">@i</option>
-                                 }
-                             </select>
-                         </div>
-                        
-                         <div class="row">
-                             <button type="submit" class="btn btn-primary">ثبت </button>
-                         </div>
-                     </form>
+                                @for (int i = 1; i <= 100; i++)
+                                {
+                                    <option value="@i">@i</option>
+                                }
+                            </select>
+                        </div>
 
-                 </div>
-                 <div class="modal-footer">
+                        <div class="row">
+                            <button type="submit" class="btn btn-primary">ثبت </button>
+                        </div>
+                    </form>
 
-                     <button type="button" class="btn btn-secondary" data-dismiss="modal">انصراف</button>
-                 </div>
-             </div>
-         </div>
-     </div>
+                </div>
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">انصراف</button>
+                </div>
+            </div>
+        </div>
+    </div>
  }

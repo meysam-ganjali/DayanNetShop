@@ -13,9 +13,15 @@ namespace DayanShop.Areas.Admin.Controllers
         {
             _category = category;
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? searchKey)
         {
-            return View();
+            var result = await _category.CategoryInformation.GetAllParentCategoryAsync(searchKey);
+            if (result.IsSuccess)
+            {
+                return View(result.Data);
+            }
+            TempData["error"] = result.Message;
+            return Redirect("/Admin/Category/Index");
         }
         [HttpPost]
         public async Task<IActionResult> CreateParentCategory(ParentCategory parentCategory)

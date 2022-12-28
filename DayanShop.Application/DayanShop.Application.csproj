@@ -10,7 +10,6 @@
     <Folder Include="FacadePattern\FSDCategory\" />
     <Folder Include="IOC\" />
     <Folder Include="StoreServices\Commands\Category\" />
-    <Folder Include="StoreServices\Queries\" />
   </ItemGroup>
 
   <ItemGroup>
