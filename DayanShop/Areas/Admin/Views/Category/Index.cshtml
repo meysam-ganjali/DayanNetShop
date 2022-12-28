@@ -40,60 +40,63 @@
                 <div class="table-responsive p-1">
                     <table class="table table-bordered table-hover table-striped">
                         <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>عنوان دسته</th>
-                                <th>تعداد زیر دسته</th>
-                                <th>
-                                    <i class=" mdi mdi-settings"></i>
-                                </th>
-                            </tr>
+                        <tr>
+                            <th>#</th>
+                            <th>عنوان دسته</th>
+                            <th>تعداد زیر دسته</th>
+                            <th>
+                                <i class=" mdi mdi-settings"></i>
+                            </th>
+                        </tr>
                         </thead>
                         <tbody>
-                            @if (!Model.Any())
+                        @if (!Model.Any())
+                        {
+                            <tr>
+                                <td colspan="4">
+                                    <p class="text-danger text-center">دسته بندی برای نمایش وجود ندارد. ابتدا یک دسته ثبت کنید!</p>
+                                </td>
+                            </tr>
+                        }
+                        else
+                        {
+                            foreach (var parentCat in Model)
                             {
                                 <tr>
-                                    <td colspan="4">
-                                        <p class="text-danger text-center">دسته بندی برای نمایش وجود ندارد. ابتدا یک دسته ثبت کنید!</p>
+                                    <td>کد :@parentCat.Id</td>
+                                    <td>
+
+                                            <p data-toggle="tooltip" data-placement="top" title data-original-title="@parentCat.ParentTitleSlug">@parentCat.ParentTitle</p>
+                                    </td>
+                                    <td>@parentCat.ChildCategories.Count()</td>
+                                    <td>
+                                        <div class="btn-group-sm">
+                                            <button onclick="ShowModalEditParentCategory('@parentCat.Id','@parentCat.ParentTitle','@parentCat.ParentTitleSlug','@parentCat.DisplayOrder')" type="button" class="btn btn-primary"><i class="fa fa-edit"></i> ویرایش</button>
+                                            <button onclick="DeleteParent('@parentCat.Id','@parentCat.ParentTitle')" class="btn btn-danger"><i class="fa fa-trash"></i> حذف</button>
+                                            <button onclick="ShowModalAddChildCategory('@parentCat.Id','@parentCat.ParentTitle')" type="button" class="btn btn-success"><i class="fa fa-plus"></i> افزودن زیردسته</button>
+                                            @if (parentCat.ChildCategories.Count > 0)
+                                            {
+                                                <a href="/Admin/Category/ChildList/@parentCat.Id" class="btn btn-primary"><i class="fa fa-eye"></i> مشاهده فرزندان</a>
+                                            }
+                                        </div>
                                     </td>
                                 </tr>
                             }
-                            else
-                            {
-                                foreach (var parentCat in Model)
-                                {
-                                    <tr>
-                                        <td>کد :@parentCat.Id</td>
-                                        <td>
-
-                                            <p title="@parentCat.ParentTitleSlug">@parentCat.ParentTitle</p>
-                                        </td>
-                                        <td>@parentCat.ChildCategories.Count()</td>
-                                        <td>
-                                            <div class="btn-group-sm">
-                                                <button onclick="ShowModalEditParentCategory('@parentCat.Id','@parentCat.ParentTitle','@parentCat.ParentTitleSlug','@parentCat.DisplayOrder')" type="button" class="btn btn-primary"><i class="fa fa-edit"></i> ویرایش</button>
-                                                <button onclick="DeleteParent('@parentCat.Id','@parentCat.ParentTitle')" class="btn btn-danger"><i class="fa fa-trash"></i> حذف</button>
-                                                <button onclick="ShowModalAddChildCategory('@parentCat.Id','@parentCat.ParentTitle')" type="button" class="btn btn-success"><i class="fa fa-plus"></i> افزودن زیردسته</button>
-                                                @if (parentCat.ChildCategories.Count > 0)
-                                                {
-                                                    <a href="/Admin/Category/ChildList/@parentCat.Id" class="btn btn-primary"><i class="fa fa-eye"></i> مشاهده فرزندان</a>
-                                                }
-                                            </div>
-                                        </td>
-                                    </tr>
-                                }
-                            }
+                        }
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
     </div>
+    <button id="ts-success"> test</button>
 </div>
 @section Scripts
     {
     <link rel="stylesheet" href="~/admin/dist/Sweetalert2/sweetalert2.min.css" />
     <script src="~/admin/dist/Sweetalert2/sweetalert2.min.js"></script>
+
+
 
     <script>
         function DeleteParent(parentId, title) {
@@ -165,6 +168,7 @@
         }
 
 
+    
     </script>
 }
     @section Modals
