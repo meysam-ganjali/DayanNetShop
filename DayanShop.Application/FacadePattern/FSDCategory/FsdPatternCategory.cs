@@ -52,12 +52,23 @@ public class FsdPatternCategory : IFSDPatternCategory
         }
     }
 
+
     private ICreateChildCategory _createChildCategory;
     public ICreateChildCategory CreateChildCategory
     {
         get
         {
             return _createChildCategory = _createChildCategory ?? new CreateChildCategory(_db);
+        }
+    }
+
+
+    private IChildCategoryInformation _childCategoryInformation;
+    public IChildCategoryInformation ChildCategoryInformation
+    {
+        get
+        {
+            return _childCategoryInformation = _childCategoryInformation ?? new ChildCategoryInformation(_db);
         }
     }
 }

@@ -77,13 +77,25 @@ namespace DayanShop.Areas.Admin.Controllers
             if (result.IsSuccess)
             {
                 TempData["success"] = result.Message;
-                return Json(result);
+                return Redirect("/Admin/Category/Index");
             }
             else
             {
                 TempData["error"] = result.Message;
-                return Json(result);
+                return Redirect("/Admin/Category/Index");
             }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ChildList(int id, string? searchKey)// id => ParentCategory Id
+        {
+            var result = await _category.ChildCategoryInformation.GetChildCategoryAsync(id, searchKey);
+            if (result.IsSuccess)
+            {
+                return View(result.Data);
+            }
+            TempData["error"] = result.Message;
+            return Redirect("/Admin/Category/Index");
         }
     }
 }

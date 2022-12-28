@@ -76,7 +76,7 @@
                                                 <button onclick="ShowModalAddChildCategory('@parentCat.Id','@parentCat.ParentTitle')" type="button" class="btn btn-success"><i class="fa fa-plus"></i> افزودن زیردسته</button>
                                                 @if (parentCat.ChildCategories.Count > 0)
                                                 {
-                                                    <button type="button" class="btn btn-primary"><i class="fa fa-eye"></i> مشاهده فرزندان</button>
+                                                    <a href="/Admin/Category/ChildList/@parentCat.Id" class="btn btn-primary"><i class="fa fa-eye"></i> مشاهده فرزندان</a>
                                                 }
                                             </div>
                                         </td>
