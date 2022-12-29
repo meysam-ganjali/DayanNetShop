@@ -16,6 +16,7 @@ namespace DayanShop.Areas.Admin.Controllers
         public async Task<IActionResult> Index(int id, string? searchKey) // id => Child Category Id For Show Attr
         {
             var result = await _categoryAttr.CategoryAttributeInformation.GetCategoryAttrAsync(id, searchKey);
+            ViewBag.CategoryId = id;
             if (result.IsSuccess)
             {
                 return View(result.Data);
