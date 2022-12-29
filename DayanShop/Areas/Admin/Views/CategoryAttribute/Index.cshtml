@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<DayanShop.Domains.Entities.CategoryAttribute>
 @{
-    ViewData["Title"] = "لیست زیردسته ها";
+    ViewData["Title"] = "لیست ویژگی ها";
 }
 <partial name="_Notification" />
 <div class="page-breadcrumb">
@@ -15,7 +15,7 @@
                         <li class="breadcrumb-item">
                             <a href="/Admin/Home">داشبورد</a>
                         </li>
-                        <li class="breadcrumb-item active" aria-current="page">دسته بندی فرزند</li>
+                        <li class="breadcrumb-item active" aria-current="page">ویژگی ها</li>
                     </ol>
                 </nav>
             </div>
@@ -69,7 +69,7 @@
                                     </td>
                                     <td>
                                         <div class="btn-group-sm">
-                                            <button onclick="ShowModalEditattregory()" class="btn btn-primary"><i class="fa fa-edit"></i> ویرایش</button>
+                                            <button onclick="ShowModalEditCategoryAttr('@attr.Id','@attr.AttributeTitle','@attr.ChildCategoryId')" class="btn btn-primary"><i class="fa fa-edit"></i> ویرایش</button>
                                             <button onclick="DeleteAttr('@attr.Id','@attr.AttributeTitle')" class="btn btn-danger"><i class="fa fa-trash"></i> حذف</button>
                                         </div>
                                     </td>
@@ -140,47 +140,36 @@
                 }
             });
         }
-        function ShowModalAddAttr(catId, pId, childTitle) {
+        function ShowModalEditCategoryAttr(Id, Title, catId) {
 
-            $('#child_id').val(catId);
-            $('#P_Id').val(y);
-            $('#cat_title').html(childTitle);
-            $('#AddAttr').modal('show');
+            $('#edit_attr_id').val(Id);
+            $('#edit_attr_title').val(Title);
+            $('#edit_attr_catId').val(catId);
+            $('#header_attr_title').html(Title);
+            $('#EditAttr').modal('show');
         }
 
     </script>
 }
     @section Modals
     {
-    <div class="modal" id="EditChild" tabindex="-1" role="dialog">
+    <div class="modal" id="EditAttr" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-warning">
-                    <h5 class="modal-title text-white">ویرایش دسته بندی </h5>
+                    <h5 class="modal-title text-white">ویرایش ویژگی &nbsp;<i class="badge bg-primary" id="header_attr_title"></i></h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form method="post" action="/Admin/Category/Editattregory" enctype=multipart/form-data>
-                        <input type="hidden" name="Id" id="edit_child_id" />
-                        <input type="hidden" name="ParentCategoryId" id="parent_id" />
+                    <form method="post" action="/Admin/CategoryAttribute/EditCategoryAttribute" enctype=multipart/form-data>
+                        <input type="hidden" name="Id" id="edit_attr_id" />
+                        <input type="hidden" name="ChildCategoryId" id="edit_attr_catId" />
+                    
                         <div class="input-group mb-3">
-                            <span class="input-group-text bg-light" id="basic-addon1">عنوان زیردسته</span>
-                            <input id="edit_child_title" name="ChildTitle" type="text" class="form-control" aria-label="Parent Category Title" aria-describedby="basic-addon1">
-                        </div>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text bg-light" id="basic-addon1">Slug</span>
-                            <input id="edit_child_slug" name="ChildTitleSlug" type="text" class="form-control" aria-label="Parent Category Slug" aria-describedby="basic-addon1">
-                        </div>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text bg-light" id="basic-addon1">ترتیب نمایش </span>
-                            <select id="edit_child_displayOrder" name="DisplayOrder" class="form-select form-control" aria-label="Default select example">
-                                @for (int i = 1; i <= 100; i++)
-                                {
-                                    <option value="@i">@i</option>
-                                }
-                            </select>
+                            <span class="input-group-text bg-light" id="basic-addon1">عنوان ویژگی</span>
+                            <input id="edit_attr_title" name="AttributeTitle" type="text" class="form-control" aria-label="Parent Category Title" aria-describedby="basic-addon1">
                         </div>
 
                         <div class="row justify-content-around">

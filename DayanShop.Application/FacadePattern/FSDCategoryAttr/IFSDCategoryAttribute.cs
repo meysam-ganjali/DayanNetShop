@@ -8,4 +8,5 @@ public interface IFSDCategoryAttribute
     ICreateCategoryAttribute CreateCategoryAttribute { get; }
     ICategoryAttributeInformation CategoryAttributeInformation { get; }
     IRemoveCategoryAttribute RemoveCategoryAttribute { get; }
+    IEditCategoryAttribute EditCategoryAttribute { get; }
 }

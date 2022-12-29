@@ -13,6 +13,7 @@ namespace DayanShop.Areas.Admin.Controllers
         {
             _categoryAttr = categoryAttr;
         }
+
         public async Task<IActionResult> Index(int id, string? searchKey) // id => Child Category Id For Show Attr
         {
             var result = await _categoryAttr.CategoryAttributeInformation.GetCategoryAttrAsync(id, searchKey);
@@ -21,12 +22,13 @@ namespace DayanShop.Areas.Admin.Controllers
             {
                 return View(result.Data);
             }
+
             TempData["error"] = result.Message;
             return Redirect($"/Admin/CategoryAttribute/Index/{id}");
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateCategoryAttr(CategoryAttribute attr,int ParentCatId)
+        public async Task<IActionResult> CreateCategoryAttr(CategoryAttribute attr, int ParentCatId)
         {
             var result = await _categoryAttr.CreateCategoryAttribute.CreateCategoryAttrAsync(attr);
             if (result.IsSuccess)
@@ -54,6 +56,21 @@ namespace DayanShop.Areas.Admin.Controllers
             {
                 TempData["error"] = result.Message;
                 return Json(result);
+            }
+        }
+        [HttpPost]
+        public async Task<IActionResult> EditCategoryAttribute(CategoryAttribute categoryAttribute)
+        {
+            var result = await _categoryAttr.EditCategoryAttribute.EditCategoryAttrAsync(categoryAttribute);
+            if (result.IsSuccess)
+            {
+                TempData["success"] = result.Message;
+                return Redirect($"/Admin/CategoryAttribute/Index/{categoryAttribute.ChildCategoryId}");
+            }
+            else
+            {
+                TempData["error"] = result.Message;
+                return Redirect($"/Admin/CategoryAttribute/Index/{categoryAttribute.ChildCategoryId}");
             }
         }
     }
