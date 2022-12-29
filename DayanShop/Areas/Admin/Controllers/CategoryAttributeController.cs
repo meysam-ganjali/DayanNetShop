@@ -40,5 +40,21 @@ namespace DayanShop.Areas.Admin.Controllers
                 return Redirect($"/Admin/Category/ChildList/{ParentCatId}");
             }
         }
+
+        [HttpPost]
+        public async Task<IActionResult> RemoveCategoryAttr(int id)
+        {
+            var result = await _categoryAttr.RemoveCategoryAttribute.RemoveCategoryAttrAsync(id);
+            if (result.IsSuccess)
+            {
+                TempData["success"] = result.Message;
+                return Json(result);
+            }
+            else
+            {
+                TempData["error"] = result.Message;
+                return Json(result);
+            }
+        }
     }
 }

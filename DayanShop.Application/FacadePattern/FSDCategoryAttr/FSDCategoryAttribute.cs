@@ -32,4 +32,14 @@ public class FSDCategoryAttribute : IFSDCategoryAttribute
                 _categoryAttributeInformation ?? new CategoryAttributeInformation(_db);
         }
     }
+
+
+    private IRemoveCategoryAttribute _removeCategoryAttribute;
+    public IRemoveCategoryAttribute RemoveCategoryAttribute
+    {
+        get
+        {
+            return _removeCategoryAttribute = _removeCategoryAttribute ?? new RemoveCategoryAttribute(_db);
+        }
+    }
 }

@@ -70,7 +70,7 @@
                                     <td>
                                         <div class="btn-group-sm">
                                             <button onclick="ShowModalEditattregory()" class="btn btn-primary"><i class="fa fa-edit"></i> ویرایش</button>
-                                            <button onclick="DeleteChild()" class="btn btn-danger"><i class="fa fa-trash"></i> حذف</button>
+                                            <button onclick="DeleteAttr('@attr.Id','@attr.AttributeTitle')" class="btn btn-danger"><i class="fa fa-trash"></i> حذف</button>
                                         </div>
                                     </td>
                                 </tr>
@@ -89,9 +89,9 @@
     <script src="~/admin/dist/Sweetalert2/sweetalert2.min.js"></script>
 
     <script>
-        function DeleteChild(childId, title) {
+        function DeleteAttr(childId, title) {
             swal.fire({
-                title: 'حذف دسته بندی ' + ' ( ' + title + ' )',
+                title: 'حذف  ویژگی با عنوان ' + ' ( ' + title + ' )',
                 text: "کاربر گرامی  مطمئن هستید؟",
                 icon: 'warning',
                 showCancelButton: true,
@@ -110,7 +110,7 @@
                         contentType: 'application/x-www-form-urlencoded',
                         dataType: 'json',
                         type: "POST",
-                        url: "/Admin/Category/Removeattregory/",
+                        url: "/Admin/CategoryAttribute/RemoveCategoryAttr/",
                         data: postData,
                         success: function (data) {
                             if (data.isSuccess == true) {
