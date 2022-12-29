@@ -13,9 +13,15 @@ namespace DayanShop.Areas.Admin.Controllers
         {
             _categoryAttr = categoryAttr;
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int id, string? searchKey) // id => Child Category Id For Show Attr
         {
-            return View();
+            var result = await _categoryAttr.CategoryAttributeInformation.GetCategoryAttrAsync(id, searchKey);
+            if (result.IsSuccess)
+            {
+                return View(result.Data);
+            }
+            TempData["error"] = result.Message;
+            return Redirect($"/Admin/CategoryAttribute/Index/{id}");
         }
 
         [HttpPost]

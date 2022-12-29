@@ -1,4 +1,5 @@
 ﻿using DayanShop.Application.StoreServices.Commands.CategoryAttr;
+using DayanShop.Application.StoreServices.Queries.CategoryAttr;
 using DayanShop.Core.Data;
 
 namespace DayanShop.Application.FacadePattern.FSDCategoryAttr;
@@ -18,6 +19,17 @@ public class FSDCategoryAttribute : IFSDCategoryAttribute
         get
         {
             return _createCategoryAttribute = _createCategoryAttribute ?? new CreateCategoryAttribute(_db);
+        }
+    }
+
+
+    private ICategoryAttributeInformation _categoryAttributeInformation;
+    public ICategoryAttributeInformation CategoryAttributeInformation
+    {
+        get
+        {
+            return _categoryAttributeInformation =
+                _categoryAttributeInformation ?? new CategoryAttributeInformation(_db);
         }
     }
 }
