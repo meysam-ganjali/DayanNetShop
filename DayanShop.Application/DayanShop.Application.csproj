@@ -8,8 +8,11 @@
 
   <ItemGroup>
     <Folder Include="FacadePattern\FSDCategory\" />
+    <Folder Include="FacadePattern\FSDCategoryAttr\" />
     <Folder Include="IOC\" />
     <Folder Include="StoreServices\Commands\Category\" />
+    <Folder Include="StoreServices\Commands\CategoryAttr\" />
+    <Folder Include="StoreServices\Queries\CategoryAttr\" />
   </ItemGroup>
 
   <ItemGroup>
