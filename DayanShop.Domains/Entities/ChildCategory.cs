@@ -19,4 +19,6 @@ public class ChildCategory
     public int ParentCategoryId { get; set; }
     [ForeignKey("ParentCategoryId")]
     public ParentCategory ParentCategory { get; set; }
+
+    public ICollection<CategoryAttribute> CategoryAttributes { get; set; }
 }
