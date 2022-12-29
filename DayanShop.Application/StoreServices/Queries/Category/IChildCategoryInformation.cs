@@ -21,7 +21,9 @@ public class ChildCategoryInformation : IChildCategoryInformation
 
     public async Task<ResultDto<IEnumerable<ChildCategory>>> GetChildCategoryAsync(int parentId, string? searchKey)
     {
-        var getChildCategory = _db.ChildCategories.Include(i => i.ParentCategory)
+        var getChildCategory = _db.ChildCategories
+            .Include(i => i.ParentCategory)
+            .Include(c=>c.CategoryAttributes)
             .Where(c => c.ParentCategoryId.Equals(parentId))
             .AsQueryable();
         if (getChildCategory == null)

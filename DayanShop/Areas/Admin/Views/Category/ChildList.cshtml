@@ -38,42 +38,46 @@
                 <div class="table-responsive p-1">
                     <table class="table table-bordered table-hover table-striped">
                         <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>عنوان دسته</th>
-                            <th>
-                                <i class=" mdi mdi-settings"></i>
-                            </th>
-                        </tr>
+                            <tr>
+                                <th>#</th>
+                                <th>عنوان دسته</th>
+                                <th>
+                                    <i class=" mdi mdi-settings"></i>
+                                </th>
+                            </tr>
                         </thead>
                         <tbody>
-                        @if (!Model.Any())
-                        {
-                            <tr>
-                                <td colspan="4">
-                                    <p class="text-danger text-center">دسته بندی برای نمایش وجود ندارد. ابتدا یک دسته ثبت کنید!</p>
-                                </td>
-                            </tr>
-                        }
-                        else
-                        {
-                            foreach (var childCat in Model)
+                            @if (!Model.Any())
                             {
                                 <tr>
-                                    <td>کد :@childCat.Id</td>
-                                    <td>
-
-                                            <p data-toggle="tooltip" data-placement="top" title data-original-title="@childCat.ChildTitleSlug">@childCat.ChildTitle</p>
-                                    </td>
-                                    <td>
-                                        <div class="btn-group-sm">
-                                                <button onclick="ShowModalEditChildCategory('@childCat.Id','@childCat.ChildTitle', '@childCat.ChildTitleSlug','@childCat.DisplayOrder','@childCat.ParentCategoryId')"  class="btn btn-primary"><i class="fa fa-edit"></i> ویرایش</button>
-                                                <button onclick="DeleteChild('@childCat.Id','@childCat.ChildTitle')" class="btn btn-danger"><i class="fa fa-trash"></i> حذف</button>
-                                        </div>
+                                    <td colspan="4">
+                                        <p class="text-danger text-center">دسته بندی برای نمایش وجود ندارد. ابتدا یک دسته ثبت کنید!</p>
                                     </td>
                                 </tr>
                             }
-                        }
+                            else
+                            {
+                                foreach (var childCat in Model)
+                                {
+                                    <tr>
+                                        <td>کد :@childCat.Id</td>
+                                        <td>
+
+                                            <p data-toggle="tooltip" data-placement="top" title data-original-title="@childCat.ChildTitleSlug">
+                                                @childCat.ChildTitle &nbsp;<span class="text-info">دارای @childCat.CategoryAttributes.Count() ویژگی</span>
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <div class="btn-group-sm">
+                                                <button onclick="ShowModalEditChildCategory('@childCat.Id','@childCat.ChildTitle', '@childCat.ChildTitleSlug','@childCat.DisplayOrder','@childCat.ParentCategoryId')" class="btn btn-primary"><i class="fa fa-edit"></i> ویرایش</button>
+                                                <button onclick="DeleteChild('@childCat.Id','@childCat.ChildTitle')" class="btn btn-danger"><i class="fa fa-trash"></i> حذف</button>
+                                                <button onclick="ShowModalAddAttr('@childCat.Id','@childCat.ParentCategoryId','@childCat.ChildTitle')" class="btn btn-success"><i class="fa fa-plus"></i>&nbsp;افزودن ویژگی</button>
+                                                <a href="/Admin/CategoryAttribute/Index/@childCat.Id" class="btn btn-info text-white"><i class="fa fa-info"></i>&nbsp;مشاهده ویژگی ها</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            }
                         </tbody>
                     </table>
                 </div>
@@ -138,13 +142,20 @@
                 }
             });
         }
-        function ShowModalEditChildCategory(id, title, slug, diplayOrder,parentId) {
+        function ShowModalEditChildCategory(id, title, slug, diplayOrder, parentId) {
             $('#edit_child_id').val(id);
             $('#parent_id').val(parentId);
             $('#edit_child_title').val(title);
             $('#edit_child_slug').val(slug);
             $('#edit_child_displayOrder').val(diplayOrder);
             $('#EditChild').modal('show');
+        }
+        function ShowModalAddAttr(catId, pId, childTitle) {
+            
+            $('#child_id').val(catId);
+            $('#P_Id').val(y);
+            $('#cat_title').html(childTitle);
+            $('#AddAttr').modal('show');
         }
 
     </script>
@@ -155,7 +166,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-warning">
-                    <h5 class="modal-title text-white">ویرایش دسته بندی والد</h5>
+                    <h5 class="modal-title text-white">ویرایش دسته بندی </h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -184,6 +195,36 @@
 
                         <div class="row justify-content-around">
                             <button type="submit" class="btn btn-primary "><i class="fa fa-edit"></i>&nbsp;بروزرسانی </button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-arrow-left"></i>&nbsp;برگشت</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="AddAttr" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-success">
+                    <h5 class="modal-title text-white">
+                        افزودن ویژگی برای دسته <span id="cat_title" class="badge bg-primary"></span>
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="/Admin/CategoryAttribute/CreateCategoryAttr" enctype=multipart/form-data>
+                        <input type="hidden" name="ChildCategoryId" id="child_id" />
+                        <input type="hidden" name="ParentCatId" id="P_Id" />
+                        <div class="input-group mb-3">
+                            <span class="input-group-text bg-light" id="basic-addon1">عنوان ویژگی</span>
+                            <input name="AttributeTitle" type="text" class="form-control" aria-label="Parent Category Title" aria-describedby="basic-addon1">
+                        </div>
+                        <div class="row justify-content-around">
+                            <button type="submit" class="btn btn-success "><i class="fa fa-check"></i>&nbsp;ثبت </button>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-arrow-left"></i>&nbsp;برگشت</button>
                         </div>
                     </form>
