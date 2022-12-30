@@ -1,5 +1,6 @@
 ﻿using DayanShop.Application.StoreServices.Commands.Product;
 using DayanShop.Application.StoreServices.Queries.Category;
+using DayanShop.Application.StoreServices.Queries.Product;
 using DayanShop.Core.Data;
 using Microsoft.AspNetCore.Hosting;
 
@@ -26,13 +27,22 @@ public class FSDProduct : IFSDProduct
     }
 
 
-
     private IGetAllChildCategory _getAllChildCategpry;
     public IGetAllChildCategory GetChildCategory
     {
         get
         {
             return _getAllChildCategpry = _getAllChildCategpry ?? new GetAllChildCategory(_db);
+        }
+    }
+
+
+    private IProductInformation _productInformation;
+    public IProductInformation GetAllProduct
+    {
+        get
+        {
+            return _productInformation= _productInformation ?? new ProductInformation(_db);
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿@model IEnumerable<DayanShop.Domains.Entities.Product>
+﻿@addTagHelper *, LazZiya.TagHelpers
+@using DayanShop.Application.StoreServices.Queries.Product
+@model ReslutGetProductDto
 @{
     ViewData["Title"] = "لیست محصولات فروشگاه";
 }
@@ -28,13 +30,13 @@
             <div class="card">
                 <div class="card-body d-flex justify-content-between flex-wrap">
                     <div class="card-title">
-                        <form action="/Admin/Category/Index" class="input-group mb-3">
+                        <form action="/Admin/Product/Index" class="input-group mb-3">
                             <input name="searchKey" type="text" class="form-control" placeholder="دنبال چی می گردی؟" aria-label="Search For Parent Category" aria-describedby="basic-addon2">
                             <button type="submit" class="input-group-text bg-primary text-white" id="basic-addon2"><i class="fa fa-search"></i></button>
                         </form>
                     </div>
                     <div class="card-subtitle">
-                        <a href="/Admin/Product/CreateProduct"  class="btn btn-success"><i class="fa fa-plus"></i>&nbsp;ثبت محصول جدید</a>
+                        <a href="/Admin/Product/CreateProduct" class="btn btn-success"><i class="fa fa-plus"></i>&nbsp;ثبت محصول جدید</a>
                     </div>
                 </div>
                 <div class="table-responsive p-1">
@@ -42,33 +44,86 @@
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>عنوان دسته</th>
-                                <th>تعداد زیر دسته</th>
+                                <th>نام محصول</th>
+                                <th>امتیاز</th>
+                                <th>تعداد بازدید</th>
+                                <th>قیمت</th>
+                                <th>تخفیفات</th>
                                 <th>
                                     <i class=" mdi mdi-settings"></i>
                                 </th>
                             </tr>
                         </thead>
                         <tbody>
-                            @if (false)
+                            @if (!Model.Products.Any())
                             {
                                 <tr>
                                     <td colspan="4">
-                                        <p class="text-danger text-center">دسته بندی برای نمایش وجود ندارد. ابتدا یک دسته ثبت کنید!</p>
+                                        <p class="text-danger text-center">محصولی برای نمایش یافت نشد. ابتدا یک دسته ثبت کنید!</p>
                                     </td>
                                 </tr>
                             }
                             else
                             {
-                                <tr>
-                                    <td>تست</td>
-                                    <td>تست</td>
-                                    <td>تست</td>
-                                    <td>تست</td>
-                                </tr>
+                                @foreach (var p in Model.Products)
+                                {
+                                    <tr>
+                                        <td>@p.Id</td>
+                                        <td>
+                                            <p data-toggle="tooltip" data-placement="top" title data-original-title="@p.Slug">@p.Name</p>
+                                        </td>
+                                        @if (p.Rate > 0)
+                                        {
+                                            <td>
+                                                @for (int i = 0; i < p.Rate; i++)
+                                                {
+                                                    <i class="fa fa-star text-warning"></i>
+                                                }
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td>
+                                                امتیاز ثبت نشده!
+                                            </td>
+                                        }
+                                        <td>@p.ShowCount عدد</td>
+                                        <td>@p.Price.ToString("n0") تومان</td>
+                                        @if (p.OldPrice > 0 || p.ShowDiscountLable)
+                                        {
+                                            <td>
+                                                <ul class="list-style-none">
+                                                    <li><small>درصد تخفیف :</small> @p.Percentage &nbsp;<i class="fas fa-percent"></i></li>
+                                                    <li><small>قیمت قبل :</small>@(p.OldPrice > 0 ? p.OldPrice : "مشخص نشده")</li>
+                                                </ul>
+                                            </td>
+                                        }
+                                        <td>
+                                        </td>
+                                    </tr>
+                                }
                             }
                         </tbody>
                     </table>
+                    <div class="row justify-content-center">
+                        <div class="btn-group-sm">
+                            <nav aria-label="Page navigation example">
+                                <paging total-records="@Model.RowCount"
+                                        page-no="@Model.CurrentPage"
+                                        page-size="@Model.PageSize"
+                                        show-prev-next="true"
+                                        show-total-pages="false"
+                                        show-total-records="false"
+                                        show-page-size-nav="true"
+                                        show-first-numbered-page="true"
+                                        show-last-numbered-page="true"
+                                        query-string-key-page-no="Page"
+                                        query-string-key-page-size="PageSize"
+                                        gap-size="2">
+                                </paging>
+                            </nav>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

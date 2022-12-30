@@ -1,5 +1,6 @@
 ﻿using DayanShop.Application.FacadePattern.FSDCategory;
 using DayanShop.Application.FacadePattern.FSDProduct;
+using DayanShop.Application.StoreServices.Queries.Product;
 using DayanShop.Core.Data;
 using DayanShop.Domains.Entities;
 using Microsoft.AspNetCore.Mvc;
@@ -20,9 +21,15 @@ namespace DayanShop.Areas.Admin.Controllers
             _environment = environment;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? searchKey, int pageSize = 50, int page = 1)
         {
-            return View();
+            var products =  _productService.GetAllProduct.GetAllProductAsync(new RequestGetProductDto
+            {
+                Page = page,
+                PageSize = pageSize,
+                SearchKey = searchKey
+            });
+            return View(products);
         }
 
         public async Task<IActionResult> CreateProduct()

@@ -25,7 +25,7 @@ public class CreateProduct : ICreateProduct
             await _db.SaveChangesAsync();
             return new ResultDto
             {
-                IsSuccess = false,
+                IsSuccess = true,
                 Message = $"کالای {product.Name} با موفقیت ثبت شد"
             };
         }
