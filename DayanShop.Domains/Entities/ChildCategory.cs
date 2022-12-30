@@ -21,4 +21,5 @@ public class ChildCategory
     public ParentCategory ParentCategory { get; set; }
 
     public ICollection<CategoryAttribute> CategoryAttributes { get; set; }
+    public ICollection<Product> Products { get; set; }
 }

@@ -16,6 +16,7 @@ public class DayanShopContext : IdentityDbContext<IdentityUser>
     public DbSet<ParentCategory> ParentCategories { get; set; }
     public DbSet<ChildCategory> ChildCategories { get; set; }
     public DbSet<CategoryAttribute> CategoryAttributes { get; set; }
+    public DbSet<Product> Products { get; set; }
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
