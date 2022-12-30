@@ -19,6 +19,7 @@ public class Product
     [ForeignKey("ChildCategoryId")]
     public ChildCategory ChildCategory { get; set; }
     public string ModelName { get; set; }
+    public string Description { get; set; }
     public ICollection<ProductImage> ProductImages { get; set; }
     public ICollection<ProductReviw> ProductReviws { get; set; }
     public ICollection<ProductAttribute> ProductAttributes { get; set; }

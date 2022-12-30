@@ -9,10 +9,13 @@
   <ItemGroup>
     <Folder Include="FacadePattern\FSDCategory\" />
     <Folder Include="FacadePattern\FSDCategoryAttr\" />
+    <Folder Include="FacadePattern\FSDProduct\" />
     <Folder Include="IOC\" />
     <Folder Include="StoreServices\Commands\Category\" />
     <Folder Include="StoreServices\Commands\CategoryAttr\" />
+    <Folder Include="StoreServices\Commands\Product\" />
     <Folder Include="StoreServices\Queries\CategoryAttr\" />
+    <Folder Include="StoreServices\Queries\Product\" />
   </ItemGroup>
 
   <ItemGroup>
