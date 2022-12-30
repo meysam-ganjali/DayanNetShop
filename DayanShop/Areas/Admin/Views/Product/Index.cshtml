@@ -40,92 +40,222 @@
                     </div>
                 </div>
                 <div class="table-responsive p-1">
-                    <table class="table table-bordered table-hover table-striped">
+                    <table class="table table-bordered table-hover table-striped" style="overflow: scroll">
                         <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>نام محصول</th>
-                                <th>امتیاز</th>
-                                <th>تعداد بازدید</th>
-                                <th>قیمت</th>
-                                <th>تخفیفات</th>
-                                <th>
-                                    <i class=" mdi mdi-settings"></i>
-                                </th>
-                            </tr>
+                        <tr>
+                            <th>#</th>
+                            <th>نام محصول</th>
+                            <th>امتیاز</th>
+                            <th>تعداد بازدید</th>
+                            <th>قیمت</th>
+                            <th>تخفیفات</th>
+                            <th>
+                                <i class=" mdi mdi-settings"></i>
+                            </th>
+                        </tr>
                         </thead>
                         <tbody>
-                            @if (!Model.Products.Any())
+                        @if (!Model.Products.Any())
+                        {
+                            <tr>
+                                <td colspan="4">
+                                    <p class="text-danger text-center">محصولی برای نمایش یافت نشد. ابتدا یک دسته ثبت کنید!</p>
+                                </td>
+                            </tr>
+                        }
+                        else
+                        {
+                            @foreach (var p in Model.Products)
                             {
                                 <tr>
-                                    <td colspan="4">
-                                        <p class="text-danger text-center">محصولی برای نمایش یافت نشد. ابتدا یک دسته ثبت کنید!</p>
+                                    <td>@p.Id</td>
+                                    <td>
+                                        <p data-toggle="tooltip" data-placement="top" title data-original-title="@p.Slug">@p.Name</p>
+                                    </td>
+                                    @if (p.Rate > 0)
+                                    {
+                                        <td>
+                                            @for (int i = 0; i < p.Rate; i++)
+                                            {
+                                                <i class="fa fa-star text-warning"></i>
+                                            }
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td>
+                                            امتیاز ثبت نشده!
+                                        </td>
+                                    }
+                                    <td>@p.ShowCount عدد</td>
+                                    <td>@p.Price.ToString("n0") تومان</td>
+                                    @if (p.OldPrice > 0 || p.ShowDiscountLable)
+                                    {
+                                        <td>
+                                            <ul class="list-style-none">
+                                                <li><small>درصد تخفیف :</small> @p.Percentage &nbsp;<i class="fas fa-percent"></i></li>
+                                                <li><small>قیمت قبل :</small>@(p.OldPrice > 0 ? p.OldPrice : "مشخص نشده")</li>
+                                            </ul>
+                                        </td>
+                                    }
+                                    <td>
+                                        <div class="btn-group-sm">
+                                            <button class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title data-original-title="ویرایش محصول"><i class="fa fa-edit"></i></button>
+                                            <button class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title data-original-title="حذف محصول"><i class="fa fa-trash"></i></button>
+                                            <button class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title data-original-title="جزئیات محصول"><i class="fa fa-eye"></i></button>
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-dark dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <i class="ti-settings "></i>
+                                                </button>
+                                                <div class="dropdown-menu animated slideInUp">
+                                                    <a class="dropdown-item" href="javascript:void(0)">
+                                                        <i class="fa fa-image"></i>&nbsp;افزودن تصویر
+                                                    </a>
+                                                    <div class="dropdown-divider"></div>
+                                                    <a class="dropdown-item" href="javascript:void(0)">
+                                                        <i class="m-r-10 mdi mdi-book-open"></i>&nbsp;افزودن ویژگی
+                                                    </a>
+                                                    <a class="dropdown-item" href="javascript:void(0)">
+                                                        <i class="fa fa-list"></i>&nbsp;افزودن بررسی
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                             }
-                            else
-                            {
-                                @foreach (var p in Model.Products)
-                                {
-                                    <tr>
-                                        <td>@p.Id</td>
-                                        <td>
-                                            <p data-toggle="tooltip" data-placement="top" title data-original-title="@p.Slug">@p.Name</p>
-                                        </td>
-                                        @if (p.Rate > 0)
-                                        {
-                                            <td>
-                                                @for (int i = 0; i < p.Rate; i++)
-                                                {
-                                                    <i class="fa fa-star text-warning"></i>
-                                                }
-                                            </td>
-                                        }
-                                        else
-                                        {
-                                            <td>
-                                                امتیاز ثبت نشده!
-                                            </td>
-                                        }
-                                        <td>@p.ShowCount عدد</td>
-                                        <td>@p.Price.ToString("n0") تومان</td>
-                                        @if (p.OldPrice > 0 || p.ShowDiscountLable)
-                                        {
-                                            <td>
-                                                <ul class="list-style-none">
-                                                    <li><small>درصد تخفیف :</small> @p.Percentage &nbsp;<i class="fas fa-percent"></i></li>
-                                                    <li><small>قیمت قبل :</small>@(p.OldPrice > 0 ? p.OldPrice : "مشخص نشده")</li>
-                                                </ul>
-                                            </td>
-                                        }
-                                        <td>
-                                        </td>
-                                    </tr>
-                                }
-                            }
+                        }
                         </tbody>
                     </table>
                     <div class="row justify-content-center">
-                        <div class="btn-group-sm">
-                            <nav aria-label="Page navigation example">
-                                <paging total-records="@Model.RowCount"
-                                        page-no="@Model.CurrentPage"
-                                        page-size="@Model.PageSize"
-                                        show-prev-next="true"
-                                        show-total-pages="false"
-                                        show-total-records="false"
-                                        show-page-size-nav="true"
-                                        show-first-numbered-page="true"
-                                        show-last-numbered-page="true"
-                                        query-string-key-page-no="Page"
-                                        query-string-key-page-size="PageSize"
-                                        gap-size="2">
-                                </paging>
-                            </nav>
-                        </div>
+
+                        <nav aria-label="Page navigation example">
+                            <paging total-records="@Model.RowCount"
+                                    page-no="@Model.CurrentPage"
+                                    page-size="@Model.PageSize"
+                                    show-prev-next="true"
+                                    show-total-pages="false"
+                                    show-total-records="false"
+                                    show-page-size-nav="true"
+                                    show-first-numbered-page="true"
+                                    show-last-numbered-page="true"
+                                    query-string-key-page-no="Page"
+                                    query-string-key-page-size="PageSize"
+                                    gap-size="2">
+                            </paging>
+                        </nav>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+@section Scripts
+{
+    <link rel="stylesheet" href="~/admin/dist/Sweetalert2/sweetalert2.min.css" />
+    <script src="~/admin/dist/Sweetalert2/sweetalert2.min.js"></script>
+    <script>
+        function DeleteChild(childId, title) {
+            swal.fire({
+                title: 'حذف دسته بندی ' + ' ( ' + title + ' )',
+                text: "کاربر گرامی  مطمئن هستید؟",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#7cacbe',
+                confirmButtonText: 'بله ',
+                cancelButtonText: 'خیر'
+            }).then((result) => {
+                if (result.value) {
+
+                    var postData = {
+                        'id': childId
+                    };
+
+                    $.ajax({
+                        contentType: 'application/x-www-form-urlencoded',
+                        dataType: 'json',
+                        type: "POST",
+                        url: "/Admin/Category/RemoveChildCategory/",
+                        data: postData,
+                        success: function (data) {
+                            if (data.isSuccess == true) {
+                                swal.fire(
+                                    'موفق!',
+                                    data.message,
+                                    'success'
+                                ).then(function (isConfirm) {
+                                    location.reload();
+                                });
+                            } else {
+
+                                swal.fire(
+                                    'هشدار!',
+                                    data.message,
+                                    'warning'
+                                );
+
+                            }
+                        },
+                        error: function (request, status, error) {
+                            alert(request.responseText);
+                        }
+
+                    });
+
+                }
+            });
+        }
+        function ShowModalAddAttr(catId, pId, childTitle) {
+
+            $('#child_id').val(catId);
+            $('#P_Id').val(pId);
+            $('#cat_title').html(childTitle);
+            $('#AddAttr').modal('show');
+        }
+    </script>
+}
+@section Modals
+{
+    <div class="modal" id="EditChild" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-warning">
+                    <h5 class="modal-title text-white">ویرایش دسته بندی </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="/Admin/Category/EditChildCategory" enctype=multipart/form-data>
+                        <input type="hidden" name="Id" id="edit_child_id" />
+                        <input type="hidden" name="ParentCategoryId" id="parent_id" />
+                        <div class="input-group mb-3">
+                            <span class="input-group-text bg-light" id="basic-addon1">عنوان زیردسته</span>
+                            <input id="edit_child_title" name="ChildTitle" type="text" class="form-control" aria-label="Parent Category Title" aria-describedby="basic-addon1">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text bg-light" id="basic-addon1">Slug</span>
+                            <input id="edit_child_slug" name="ChildTitleSlug" type="text" class="form-control" aria-label="Parent Category Slug" aria-describedby="basic-addon1">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text bg-light" id="basic-addon1">ترتیب نمایش </span>
+                            <select id="edit_child_displayOrder" name="DisplayOrder" class="form-select form-control" aria-label="Default select example">
+                                @for (int i = 1; i <= 100; i++)
+                                {
+                                    <option value="@i">@i</option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="row justify-content-around">
+                            <button type="submit" class="btn btn-primary "><i class="fa fa-edit"></i>&nbsp;بروزرسانی </button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-arrow-left"></i>&nbsp;برگشت</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+}
