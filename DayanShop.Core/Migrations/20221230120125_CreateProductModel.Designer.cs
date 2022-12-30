@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DayanShop.Core.Migrations
 {
     [DbContext(typeof(DayanShopContext))]
-    [Migration("20221230112543_CreateProductModel")]
+    [Migration("20221230120125_CreateProductModel")]
     partial class CreateProductModel
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -113,6 +113,9 @@ namespace DayanShop.Core.Migrations
                     b.Property<int>("ChildCategoryId")
                         .HasColumnType("int");
 
+                    b.Property<int>("Count")
+                        .HasColumnType("int");
+
                     b.Property<string>("ModelName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -124,17 +127,128 @@ namespace DayanShop.Core.Migrations
                     b.Property<long?>("OldPrice")
                         .HasColumnType("bigint");
 
+                    b.Property<int?>("Percentage")
+                        .HasColumnType("int");
+
                     b.Property<long>("Price")
                         .HasColumnType("bigint");
 
+                    b.Property<bool>("ProductSpecial")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("Rate")
+                        .HasColumnType("int");
+
                     b.Property<int>("ShowCount")
                         .HasColumnType("int");
+
+                    b.Property<bool>("ShowDiscountLable")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Slug")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ChildCategoryId");
 
                     b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("DayanShop.Domains.Entities.ProductAttribute", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("AttrVal")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("CategoryAttributeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryAttributeId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ProductAttributes");
+                });
+
+            modelBuilder.Entity("DayanShop.Domains.Entities.ProductImage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("AltAttr")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("Height")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ImagePath")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TitleAttr")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("width")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ProductImages");
+                });
+
+            modelBuilder.Entity("DayanShop.Domains.Entities.ProductReviw", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("Height")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ImagePath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("width")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ProductReviws");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -365,7 +479,7 @@ namespace DayanShop.Core.Migrations
                     b.HasOne("DayanShop.Domains.Entities.ChildCategory", "ChildCategory")
                         .WithMany("CategoryAttributes")
                         .HasForeignKey("ChildCategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("ChildCategory");
@@ -376,7 +490,7 @@ namespace DayanShop.Core.Migrations
                     b.HasOne("DayanShop.Domains.Entities.ParentCategory", "ParentCategory")
                         .WithMany("ChildCategories")
                         .HasForeignKey("ParentCategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("ParentCategory");
@@ -387,10 +501,51 @@ namespace DayanShop.Core.Migrations
                     b.HasOne("DayanShop.Domains.Entities.ChildCategory", "ChildCategory")
                         .WithMany("Products")
                         .HasForeignKey("ChildCategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("ChildCategory");
+                });
+
+            modelBuilder.Entity("DayanShop.Domains.Entities.ProductAttribute", b =>
+                {
+                    b.HasOne("DayanShop.Domains.Entities.CategoryAttribute", "CategoryAttribute")
+                        .WithMany("ProductAttributes")
+                        .HasForeignKey("CategoryAttributeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("DayanShop.Domains.Entities.Product", "Product")
+                        .WithMany("ProductAttributes")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("CategoryAttribute");
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("DayanShop.Domains.Entities.ProductImage", b =>
+                {
+                    b.HasOne("DayanShop.Domains.Entities.Product", "Product")
+                        .WithMany("ProductImages")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("DayanShop.Domains.Entities.ProductReviw", b =>
+                {
+                    b.HasOne("DayanShop.Domains.Entities.Product", "Product")
+                        .WithMany("ProductReviws")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -444,6 +599,11 @@ namespace DayanShop.Core.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("DayanShop.Domains.Entities.CategoryAttribute", b =>
+                {
+                    b.Navigation("ProductAttributes");
+                });
+
             modelBuilder.Entity("DayanShop.Domains.Entities.ChildCategory", b =>
                 {
                     b.Navigation("CategoryAttributes");
@@ -454,6 +614,15 @@ namespace DayanShop.Core.Migrations
             modelBuilder.Entity("DayanShop.Domains.Entities.ParentCategory", b =>
                 {
                     b.Navigation("ChildCategories");
+                });
+
+            modelBuilder.Entity("DayanShop.Domains.Entities.Product", b =>
+                {
+                    b.Navigation("ProductAttributes");
+
+                    b.Navigation("ProductImages");
+
+                    b.Navigation("ProductReviws");
                 });
 #pragma warning restore 612, 618
         }

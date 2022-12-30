@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Emit;
 
 namespace DayanShop.Core.Data;
 
@@ -17,8 +18,15 @@ public class DayanShopContext : IdentityDbContext<IdentityUser>
     public DbSet<ChildCategory> ChildCategories { get; set; }
     public DbSet<CategoryAttribute> CategoryAttributes { get; set; }
     public DbSet<Product> Products { get; set; }
+    public DbSet<ProductImage> ProductImages { get; set; }
+    public DbSet<ProductReviw> ProductReviws { get; set; }
+    public DbSet<ProductAttribute> ProductAttributes { get; set; }
     protected override void OnModelCreating(ModelBuilder builder)
     {
+        foreach (var relationship in builder.Model.GetEntityTypes().SelectMany(s => s.GetForeignKeys()))
+        {
+            relationship.DeleteBehavior = DeleteBehavior.Restrict;
+        }
         base.OnModelCreating(builder);
         // Customize the ASP.NET Identity model and override the defaults if needed.
         // For example, you can rename the ASP.NET Identity table names and more.

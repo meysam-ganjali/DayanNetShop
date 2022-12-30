@@ -13,4 +13,6 @@ public class CategoryAttribute
     [Required(ErrorMessage ="وارد کردن عنوان ویژگی اجباری است")]
     [MaxLength(500,ErrorMessage = "تعداد حروف مجاز 500 کاراکتر کی باشد")]
     public string AttributeTitle { get; set; }
+
+    public ICollection<ProductAttribute> ProductAttributes { get; set; }
 }
