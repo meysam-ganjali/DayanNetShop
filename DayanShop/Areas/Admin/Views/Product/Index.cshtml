@@ -38,7 +38,13 @@
                     <div class="card-subtitle">
                         <a href="/Admin/Product/CreateProduct" class="btn btn-success"><i class="fa fa-plus"></i>&nbsp;ثبت محصول جدید</a>
                     </div>
+                    <div class="row w-100 justify-content-center">
+                        <p class="text-center text-primary">
+                            برای ویرایش ، حذف، افزودن عکس و افزودن بررسی به قسمت جزئیات محصول مراجعه کنید
+                        </p>
+                    </div>
                 </div>
+               
                 <div class="table-responsive p-1">
                     <table class="table table-bordered table-hover table-striped" style="overflow: scroll">
                         <thead>
@@ -100,9 +106,8 @@
                                         }
                                         <td>
                                             <div class="btn-group-sm">
-                                                <button class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title data-original-title="ویرایش محصول"><i class="fa fa-edit"></i></button>
                                                 <button onclick="DeleteProduct('@p.Id', '@p.Name')" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title data-original-title="حذف محصول"><i class="fa fa-trash"></i></button>
-                                                <button class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title data-original-title="جزئیات محصول"><i class="fa fa-eye"></i></button>
+                                                <a href="/Admin/Product/ProductDetails/@p.Id" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title data-original-title="جزئیات محصول"><i class="fa fa-eye"></i></a>
                                                 <div class="btn-group">
                                                     <button type="button" class="btn btn-dark dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                         <i class="ti-settings "></i>
@@ -206,56 +211,5 @@
                 }
             });
         }
-        function ShowModalAddAttr(catId, pId, childTitle) {
-
-            $('#child_id').val(catId);
-            $('#P_Id').val(pId);
-            $('#cat_title').html(childTitle);
-            $('#AddAttr').modal('show');
-        }
     </script>
-}
-    @section Modals
-    {
-    <div class="modal" id="EditChild" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header bg-warning">
-                    <h5 class="modal-title text-white">ویرایش دسته بندی </h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form method="post" action="/Admin/Category/EditChildCategory" enctype=multipart/form-data>
-                        <input type="hidden" name="Id" id="edit_child_id" />
-                        <input type="hidden" name="ParentCategoryId" id="parent_id" />
-                        <div class="input-group mb-3">
-                            <span class="input-group-text bg-light" id="basic-addon1">عنوان زیردسته</span>
-                            <input id="edit_child_title" name="ChildTitle" type="text" class="form-control" aria-label="Parent Category Title" aria-describedby="basic-addon1">
-                        </div>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text bg-light" id="basic-addon1">Slug</span>
-                            <input id="edit_child_slug" name="ChildTitleSlug" type="text" class="form-control" aria-label="Parent Category Slug" aria-describedby="basic-addon1">
-                        </div>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text bg-light" id="basic-addon1">ترتیب نمایش </span>
-                            <select id="edit_child_displayOrder" name="DisplayOrder" class="form-select form-control" aria-label="Default select example">
-                                @for (int i = 1; i <= 100; i++)
-                                {
-                                    <option value="@i">@i</option>
-                                }
-                            </select>
-                        </div>
-
-                        <div class="row justify-content-around">
-                            <button type="submit" class="btn btn-primary "><i class="fa fa-edit"></i>&nbsp;بروزرسانی </button>
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-arrow-left"></i>&nbsp;برگشت</button>
-                        </div>
-                    </form>
-
-                </div>
-            </div>
-        </div>
-    </div>
 }

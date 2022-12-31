@@ -21,7 +21,7 @@ namespace DayanShop.Areas.Admin.Controllers
             _environment = environment;
         }
 
-        public async Task<IActionResult> Index(string? searchKey, int pageSize =1, int page = 1)
+        public async Task<IActionResult> Index(string? searchKey, int pageSize  = 50, int page = 1)
         {
             var products =  _productService.GetAllProduct.GetAllProductAsync(new RequestGetProductDto
             {
@@ -68,6 +68,21 @@ namespace DayanShop.Areas.Admin.Controllers
             {
                 TempData["error"] = result.Message;
                 return Json(result);
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ProductDetails(int id)
+        {
+            var result = await _productService.GetProductDetails.ProductDetailesAsync(id);
+            if (result.IsSuccess)
+            {
+                return View(result.Data);
+            }
+            else
+            {
+                TempData["error"] = result.Message;
+                return Redirect("/Admin/Product/Index");
             }
         }
     }

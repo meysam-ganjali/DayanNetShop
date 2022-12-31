@@ -55,4 +55,14 @@ public class FSDProduct : IFSDProduct
             return _removeProduct = _removeProduct ?? new RemoveProduct(_db);
         }
     }
+
+
+    private IProductDetails _productDetails;
+    public IProductDetails GetProductDetails
+    {
+        get
+        {
+            return _productDetails = _productDetails ?? new ProductDetails(_db);
+        }
+    }
 }

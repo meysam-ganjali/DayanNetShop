@@ -10,4 +10,5 @@ public interface IFSDProduct
     IGetAllChildCategory GetChildCategory { get; }
     IProductInformation GetAllProduct { get; }
     IRemoveProduct RemoveProduct { get; }
+    IProductDetails GetProductDetails { get; }
 }
