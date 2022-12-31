@@ -63,7 +63,10 @@
                                         @foreach (var pic in Model.ProductImages)
                                         {
                                             <div class="item">
-                                                <img src="~/@pic.ImagePath" class="img-responsive" width="@pic.width" height="@pic.Height">
+                                                <div class="row flex-column justify-content-center">
+                                                    <img src="~/@pic.ImagePath" class="img-responsive" alt="@pic.AltAttr" data-toggle="tooltip" data-placement="top" title data-original-title="@pic.TitleAttr">
+                                                    <button class="btn btn-danger "><i class="fa fa-trash"></i></button>
+                                                </div>
                                             </div>
                                         }
 
@@ -87,7 +90,7 @@
                             <h1 class="box-title m-t-40 h5">عملیات مجاز</h1>
                             <div class="btn-group-sm">
                                 <button onclick="ShowModalAddImage('@Model.Id','@Model.Name')" class="btn btn-outline-primary btn-sm"><i class="fa fa-image"></i>&nbsp;افزودن عکس</button>
-                                <button class="btn btn-outline-success btn-sm"><i class="fas fa-list-ol"></i>&nbsp;افزودن ویژگی</button>
+                                <button onclick="ShowModalAddFeature('@Model.Id','@Model.Name')" class="btn btn-outline-success btn-sm"><i class="fas fa-list-ol"></i>&nbsp;افزودن ویژگی</button>
                                 <button class="btn btn-outline-info btn-sm"><i class="fa fa-list-ul"></i>&nbsp;افزودن بررسی</button>
                             </div>
                         </div>
@@ -224,16 +227,67 @@
                 $('#product_title').html(productTitle);
                 $('#AddImage').modal('show');
             }
+
+            function ShowModalAddFeature(productId, productTitle) {
+                $('#product_id').val(productId);
+                $('#product_title').html(productTitle);
+                $('#AddFeature').modal('show');
+            }
         </script>
     }
         @section Modals
         {
-        <div class="modal" id="AddImage" tabindex="-1" role="dialog">
+            <div class="modal" id="AddImage" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header bg-success">
+                            <h5 class="modal-title text-white">
+                                افزودن تصویر <span id="product_title" class="badge bg-primary"></span>
+                            </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form method="post" action="/Admin/Product/CreateImage" enctype=multipart/form-data>
+                                <input type="hidden" name="ProductId" id="product_id" />
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text bg-light" id="basic-addon1">تصویر</span>
+                                    <input name="file" type="file" class="form-control" accept="image/*">
+                                </div>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text bg-light" id="basic-addon1">alt Attribute</span>
+                                    <input name="AltAttr" type="text" class="form-control" placeholder="برای سئو سایت موثر می باشد">
+                                </div>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text bg-light" id="basic-addon1">title Attribute</span>
+                                    <input name="TitleAttr" type="text" class="form-control" placeholder="برای سئو سایت موثر می باشد">
+                                </div>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text bg-light" id="basic-addon1">ارتفاع</span>
+                                    <input name="Height" type="number" class="form-control" placeholder="ارتفاع تصویر">
+                                </div>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text bg-light" id="basic-addon1">عرض</span>
+                                    <input name="width" type="number" class="form-control" placeholder="عرض تصویر">
+                                </div>
+                                <div class="row justify-content-around">
+                                    <button type="submit" class="btn btn-success "><i class="fa fa-check"></i>&nbsp;ثبت </button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-arrow-left"></i>&nbsp;برگشت</button>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        <div class="modal" id="AddFeature" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header bg-success">
                         <h5 class="modal-title text-white">
-                            افزودن تصویر <span id="product_title" class="badge bg-primary"></span>
+                            افزودن ویژگی <span id="product_title" class="badge bg-primary"></span>
                         </h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
@@ -243,25 +297,14 @@
                         <form method="post" action="/Admin/Product/CreateImage" enctype=multipart/form-data>
                             <input type="hidden" name="ProductId" id="product_id" />
                             <div class="input-group mb-3">
-                                <span class="input-group-text bg-light" id="basic-addon1">تصویر</span>
-                                <input name="file" type="file" class="form-control" accept="image/*">
+                                <span class="input-group-text bg-light" id="basic-addon1">عنوان ویژگی</span>
+                                <select name="CategoryAttributeId" asp-items="@ViewBag.attr" class="form-control"></select>
                             </div>
                             <div class="input-group mb-3">
-                                <span class="input-group-text bg-light" id="basic-addon1">alt Attribute</span>
-                                <input name="AltAttr" type="text" class="form-control" placeholder="برای سئو سایت موثر می باشد">
+                                <span class="input-group-text bg-light" id="basic-addon1">مقدار ویژگی</span>
+                                <input name="AttrVal" type="text" class="form-control" placeholder="16 GB">
                             </div>
-                            <div class="input-group mb-3">
-                                <span class="input-group-text bg-light" id="basic-addon1">title Attribute</span>
-                                <input name="TitleAttr" type="text" class="form-control" placeholder="برای سئو سایت موثر می باشد">
-                            </div>
-                            <div class="input-group mb-3">
-                                <span class="input-group-text bg-light" id="basic-addon1">ارتفاع</span>
-                                <input name="Height" type="number" class="form-control" placeholder="ارتفاع تصویر">
-                            </div>
-                            <div class="input-group mb-3">
-                                <span class="input-group-text bg-light" id="basic-addon1">عرض</span>
-                                <input name="width" type="number" class="form-control" placeholder="عرض تصویر">
-                            </div>
+                          
                             <div class="row justify-content-around">
                                 <button type="submit" class="btn btn-success "><i class="fa fa-check"></i>&nbsp;ثبت </button>
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-arrow-left"></i>&nbsp;برگشت</button>
@@ -272,5 +315,5 @@
                 </div>
             </div>
         </div>
-    }
+        }
 

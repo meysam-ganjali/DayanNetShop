@@ -74,6 +74,8 @@ namespace DayanShop.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> ProductDetails(int id)
         {
+            var attr = await _productService.AttributeInfo.GetProductAttrAsync(id);
+            ViewBag.attr = new SelectList(attr.Data, "Id", "AttributeTitle");
             var result = await _productService.GetProductDetails.ProductDetailesAsync(id);
             if (result.IsSuccess)
             {

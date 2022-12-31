@@ -75,4 +75,14 @@ public class FSDProduct : IFSDProduct
             return _addProductPicture = _addProductPicture ?? new AddProductPicture(_db, _environment);
         }
     }
+
+
+    private IAttributInfo _attributInfo;
+    public IAttributInfo AttributeInfo
+    {
+        get
+        {
+            return _attributInfo = _attributInfo ?? new AttributInfo(_db);
+        }
+    }
 }
