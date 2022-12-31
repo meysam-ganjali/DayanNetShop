@@ -76,6 +76,7 @@ namespace DayanShop.Areas.Admin.Controllers
         {
             var attr = await _productService.AttributeInfo.GetProductAttrAsync(id);
             ViewBag.attr = new SelectList(attr.Data, "Id", "AttributeTitle");
+
             var result = await _productService.GetProductDetails.ProductDetailesAsync(id);
             if (result.IsSuccess)
             {
@@ -101,6 +102,22 @@ namespace DayanShop.Areas.Admin.Controllers
             {
                 TempData["error"] = result.Message;
                 return Redirect($"/Admin/Product/ProductDetails/{productImage.ProductId}");
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RemoveProductPicture(int id)
+        {
+            var result = await _productService.RemoveProductPicture.DeleteAsync(id);
+            if (result.IsSuccess)
+            {
+                TempData["success"] = result.Message;
+                return Json(result);
+            }
+            else
+            {
+                TempData["error"] = result.Message;
+                return Json(result);
             }
         }
     }

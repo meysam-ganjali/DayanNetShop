@@ -85,4 +85,14 @@ public class FSDProduct : IFSDProduct
             return _attributInfo = _attributInfo ?? new AttributInfo(_db);
         }
     }
+
+
+    private IRemoveProductPicture _removeProductPicture;
+    public IRemoveProductPicture RemoveProductPicture
+    {
+        get
+        {
+            return _removeProductPicture = _removeProductPicture ?? new RemoveProductPicture(_db,_environment);
+        }
+    }
 }

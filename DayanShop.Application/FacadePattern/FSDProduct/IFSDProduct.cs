@@ -13,4 +13,5 @@ public interface IFSDProduct
     IProductDetails GetProductDetails { get; }
     IAddProductPicture AddProductPicture { get; }
     IAttributInfo AttributeInfo { get; }
+    IRemoveProductPicture RemoveProductPicture { get; } 
 }

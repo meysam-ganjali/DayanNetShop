@@ -65,7 +65,7 @@
                                             <div class="item">
                                                 <div class="row flex-column justify-content-center">
                                                     <img src="~/@pic.ImagePath" class="img-responsive" alt="@pic.AltAttr" data-toggle="tooltip" data-placement="top" title data-original-title="@pic.TitleAttr">
-                                                    <button class="btn btn-danger "><i class="fa fa-trash"></i></button>
+                                                    <button onclick="DeleteImage('@pic.Id')" class="btn btn-danger "><i class="fa fa-trash"></i></button>
                                                 </div>
                                             </div>
                                         }
@@ -169,10 +169,9 @@
                     }
                 }
             });
-
-            function DeleteProduct(productId, productName) {
+            function DeleteImage(picId) {
                 swal.fire({
-                    title: 'حذف محصول  ' + ' ( ' + productName + ' )',
+                    title: 'حذف تصویر',
                     text: "کاربر گرامی  مطمئن هستید؟",
                     icon: 'warning',
                     showCancelButton: true,
@@ -184,14 +183,14 @@
                     if (result.value) {
 
                         var postData = {
-                            'id': productId
+                            'id': picId
                         };
 
                         $.ajax({
                             contentType: 'application/x-www-form-urlencoded',
                             dataType: 'json',
                             type: "POST",
-                            url: "/Admin/Product/RemoveProduct/",
+                            url: "/Admin/Product/RemoveProductPicture/",
                             data: postData,
                             success: function (data) {
                                 if (data.isSuccess == true) {
