@@ -9,4 +9,5 @@ public interface IFSDProduct
     ICreateProduct CreateProduct { get; }
     IGetAllChildCategory GetChildCategory { get; }
     IProductInformation GetAllProduct { get; }
+    IRemoveProduct RemoveProduct { get; }
 }

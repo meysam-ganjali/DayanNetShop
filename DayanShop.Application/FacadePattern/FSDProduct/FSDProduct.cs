@@ -42,7 +42,17 @@ public class FSDProduct : IFSDProduct
     {
         get
         {
-            return _productInformation= _productInformation ?? new ProductInformation(_db);
+            return _productInformation = _productInformation ?? new ProductInformation(_db);
+        }
+    }
+
+
+    private IRemoveProduct _removeProduct;
+    public IRemoveProduct RemoveProduct
+    {
+        get
+        {
+            return _removeProduct = _removeProduct ?? new RemoveProduct(_db);
         }
     }
 }
