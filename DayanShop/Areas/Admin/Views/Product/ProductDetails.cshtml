@@ -109,16 +109,20 @@
                                             <div class="tab-content" id="v-pills-tabContent">
                                                 <div class="tab-pane fade active show" id="p_feature" role="tabpanel" aria-labelledby="v-pills-home-tab">
                                                     <ul class="list-style-none d-flex feature flex-wrap">
-                                                        <li>Ram</li>
-                                                        <li>512 GB</li>
-                                                        <li>Ram</li>
-                                                        <li>512 GB</li>
-                                                        <li>Ram</li>
-                                                        <li>512 GB</li>
-                                                        <li>Ram</li>
-                                                        <li>512 GB</li>
-                                                        <li>Ram</li>
-                                                        <li>512 GB</li>
+                                                        @if (!Model.ProductAttributes.Any())
+                                                        {
+                                                            <li class="text-primary text-center">ویژگی برای نمایش یافت نشد</li>
+                                                        }
+                                                        else
+                                                        {
+                                                            foreach (var feature in Model.ProductAttributes)
+                                                            {
+                                                                <li>@feature.CategoryAttribute.AttributeTitle</li>
+                                                                <li>@feature.AttrVal</li>
+                                                            }
+                                                        }
+
+
                                                     </ul>
                                                 </div>
                                                 <div class="tab-pane fade" id="p_review" role="tabpanel" aria-labelledby="v-pills-profile-tab">
