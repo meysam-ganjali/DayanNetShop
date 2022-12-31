@@ -120,5 +120,21 @@ namespace DayanShop.Areas.Admin.Controllers
                 return Json(result);
             }
         }
+
+        [HttpPost]
+        public async Task<IActionResult> AddProductAttribute(ProductAttribute attr)
+        {
+
+            var result = await _productService.AddProductFeature.AddFeatureAsync(attr);
+            if (result.IsSuccess)
+            {
+                return Redirect($"/Admin/Product/ProductDetails/{attr.ProductId}");
+            }
+            else
+            {
+                TempData["error"] = result.Message;
+                return Redirect($"/Admin/Product/ProductDetails/{attr.ProductId}");
+            }
+        }
     }
 }
