@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = $"جزئیات محصول {Model.Name}";
 }
+<partial name="_Notification" />
 <style>
     .feature li {
         background: #F3E9DD;
@@ -62,7 +63,7 @@
                                         @foreach (var pic in Model.ProductImages)
                                         {
                                             <div class="item">
-                                                <img src="../../assets/images/gallery/chair.jpg" class="img-responsive">
+                                                <img src="~/@pic.ImagePath" class="img-responsive" width="@pic.width" height="@pic.Height">
                                             </div>
                                         }
 

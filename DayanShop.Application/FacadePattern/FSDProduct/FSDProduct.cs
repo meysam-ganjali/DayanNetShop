@@ -65,4 +65,14 @@ public class FSDProduct : IFSDProduct
             return _productDetails = _productDetails ?? new ProductDetails(_db);
         }
     }
+
+
+    private IAddProductPicture _addProductPicture;
+    public IAddProductPicture AddProductPicture
+    {
+        get
+        {
+            return _addProductPicture = _addProductPicture ?? new AddProductPicture(_db, _environment);
+        }
+    }
 }

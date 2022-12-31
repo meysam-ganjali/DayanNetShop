@@ -85,5 +85,21 @@ namespace DayanShop.Areas.Admin.Controllers
                 return Redirect("/Admin/Product/Index");
             }
         }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateImage(ProductImage productImage)
+        {
+            var file = HttpContext.Request.Form.Files.FirstOrDefault();
+            var result = await _productService.AddProductPicture.AddPictureAsync(productImage,file);
+            if (result.IsSuccess)
+            {
+                return Redirect($"/Admin/Product/ProductDetails/{productImage.ProductId}");
+            }
+            else
+            {
+                TempData["error"] = result.Message;
+                return Redirect($"/Admin/Product/ProductDetails/{productImage.ProductId}");
+            }
+        }
     }
 }

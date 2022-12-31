@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Http;
 
 namespace DayanShop.Utilities.Helpers;
 
-
 public class UploadHelper
 {
     private IHostingEnvironment _environment;
@@ -18,7 +17,7 @@ public class UploadHelper
     /// <param name="file">IFromFile</param>
     /// <param name="path">$@"images\Cost\"</param>
     /// <returns></returns>
-    public UploadDto UploadFile(IFormFile file, string path)
+    public  UploadDto UploadFile(IFormFile file, string path)
     {
         if (file != null)
         {
