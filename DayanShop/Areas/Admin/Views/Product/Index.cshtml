@@ -44,7 +44,7 @@
                         </p>
                     </div>
                 </div>
-               
+
                 <div class="table-responsive p-1">
                     <table class="table table-bordered table-hover table-striped" style="overflow: scroll">
                         <thead>
@@ -64,7 +64,7 @@
                             @if (!Model.Products.Any())
                             {
                                 <tr>
-                                    <td colspan="4">
+                                    <td colspan="7">
                                         <p class="text-danger text-center">محصولی برای نمایش یافت نشد. ابتدا یک دسته ثبت کنید!</p>
                                     </td>
                                 </tr>
@@ -95,15 +95,17 @@
                                         }
                                         <td>@p.ShowCount عدد</td>
                                         <td>@p.Price.ToString("n0") تومان</td>
-                                        @if (p.OldPrice > 0 || p.ShowDiscountLable)
-                                        {
-                                            <td>
+                                        <td>
+                                            @if (p.OldPrice > 0 || p.ShowDiscountLable)
+                                            {
+
                                                 <ul class="list-style-none">
                                                     <li><small>درصد تخفیف :</small> @p.Percentage &nbsp;<i class="fas fa-percent"></i></li>
                                                     <li><small>قیمت قبل :</small>@(p.OldPrice > 0 ? p.OldPrice : "مشخص نشده")</li>
                                                 </ul>
-                                            </td>
-                                        }
+
+                                            }
+
                                         <td>
                                             <div class="btn-group-sm">
                                                 <button onclick="DeleteProduct('@p.Id', '@p.Name')" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title data-original-title="حذف محصول"><i class="fa fa-trash"></i></button>

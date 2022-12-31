@@ -61,8 +61,12 @@
                                         {
                                             <div class="item">
                                                 <div class="row flex-column justify-content-center">
-                                                    <img src="~/@pic.ImagePath" class="img-responsive" alt="@pic.AltAttr" data-toggle="tooltip" data-placement="top" title data-original-title="@pic.TitleAttr">
-                                                    <button onclick="DeleteImage('@pic.Id')" class="btn btn-danger "><i class="fa fa-trash"></i></button>
+                                                    <div>
+                                                        <img src="~/@pic.ImagePath" class="img-responsive" alt="@pic.AltAttr" data-toggle="tooltip" data-placement="top" title data-original-title="@pic.TitleAttr">
+                                                    </div>
+                                                    <div>
+                                                        <button onclick="DeleteImage('@pic.Id')"  class="btn btn-danger text-center"><i class="fa fa-trash"></i>&nbsp; حذف این تصویر</button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         }
@@ -117,12 +121,10 @@
                                                         {
                                                             foreach (var feature in Model.ProductAttributes)
                                                             {
-                                                                <li>@feature.CategoryAttribute.AttributeTitle</li>
+                                                                <li><i class="btn btn-xs btn-danger"><i class="fa fa-trash"></i></i> @feature.CategoryAttribute.AttributeTitle</li>
                                                                 <li>@feature.AttrVal</li>
                                                             }
                                                         }
-
-
                                                     </ul>
                                                 </div>
                                                 <div class="tab-pane fade" id="p_review" role="tabpanel" aria-labelledby="v-pills-profile-tab">

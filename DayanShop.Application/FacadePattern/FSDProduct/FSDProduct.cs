@@ -52,7 +52,7 @@ public class FSDProduct : IFSDProduct
     {
         get
         {
-            return _removeProduct = _removeProduct ?? new RemoveProduct(_db);
+            return _removeProduct = _removeProduct ?? new RemoveProduct(_db,_environment);
         }
     }
 
