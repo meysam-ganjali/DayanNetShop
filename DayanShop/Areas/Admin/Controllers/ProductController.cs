@@ -186,7 +186,23 @@ namespace DayanShop.Areas.Admin.Controllers
                 TempData["error"] = result.Message;
                 return Json(result);
             }
+            
         }
-
+        [HttpPost]
+        public async Task<IActionResult> RemoveProductReview(int id)
+        {
+            var result = await _productService.RemoveProductReview.RemoveAsync(id);
+            if (result.IsSuccess)
+            {
+                TempData["success"] = result.Message;
+                return Json(result);
+            }
+            else
+            {
+                TempData["error"] = result.Message;
+                return Json(result);
+            }
+            
+        }
     }
 }

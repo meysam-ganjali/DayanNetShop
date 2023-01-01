@@ -158,7 +158,7 @@
                                                                         <td>
                                                                             <div class="btn-group-sm">
                                                                                 <a class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title data-original-title="جزئیات محصول"><i class="fa fa-edit"></i></a>
-                                                                                <button onclick="DeleteProduct()" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title data-original-title="حذف محصول"><i class="fa fa-trash"></i></button>
+                                                                                <button onclick="DeleteProductreview('@review.Id','@review.Product.Name')" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title data-original-title="حذف محصول"><i class="fa fa-trash"></i></button>
                                                                             </div>
                                                                         </td>
                                                                     </tr>
@@ -304,6 +304,57 @@
                         dataType: 'json',
                         type: "POST",
                         url: "/Admin/Product/RemoveProductAttr/",
+                        data: postData,
+                        success: function (data) {
+                            if (data.isSuccess == true) {
+                                swal.fire(
+                                    'موفق!',
+                                    data.message,
+                                    'success'
+                                ).then(function (isConfirm) {
+                                    location.reload();
+                                });
+                            } else {
+
+                                swal.fire(
+                                    'هشدار!',
+                                    data.message,
+                                    'warning'
+                                );
+
+                            }
+                        },
+                        error: function (request, status, error) {
+                            alert(request.responseText);
+                        }
+
+                    });
+
+                }
+            });
+        }
+        function DeleteProductreview(reviewId, productTitle) {
+            swal.fire({
+                title: 'حذف بررسی مربوط به محصول  ' + productTitle,
+                text: "کاربر گرامی  مطمئن هستید؟",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#7cacbe',
+                confirmButtonText: 'بله ',
+                cancelButtonText: 'خیر'
+            }).then((result) => {
+                if (result.value) {
+
+                    var postData = {
+                        'id': reviewId
+                    };
+
+                    $.ajax({
+                        contentType: 'application/x-www-form-urlencoded',
+                        dataType: 'json',
+                        type: "POST",
+                        url: "/Admin/Product/RemoveProductReview/",
                         data: postData,
                         success: function (data) {
                             if (data.isSuccess == true) {

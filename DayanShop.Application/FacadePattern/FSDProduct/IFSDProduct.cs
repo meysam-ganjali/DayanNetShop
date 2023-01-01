@@ -18,4 +18,5 @@ public interface IFSDProduct
     IAddProductReview AddProductReview { get; }
     IEditProductAttribute EditProductAttribute { get; }
     IRemoveProductFeature RemoveProductFeature { get; }
+    IRemoveProductReview RemoveProductReview { get; }
 }
