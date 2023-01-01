@@ -1,6 +1,7 @@
 ﻿using DayanShop.Core.Data;
 using DayanShop.Domains.Entities;
 using DayanShop.Utilities.DTOs;
+using Microsoft.EntityFrameworkCore;
 
 namespace DayanShop.Application.StoreServices.Commands.Category;
 
@@ -20,8 +21,11 @@ public class RemoveParentCategory : IRemoveParentCategory
 
     public async Task<ResultDto> RemoveParentCategoryAsync(int id)
     {
-        var perentCategoryInDb = await _db.ParentCategories.FindAsync(id);
-        if (perentCategoryInDb == null)
+        var parentCategoryInDb = await _db.ParentCategories
+            .Include(p => p.ChildCategories)
+            .ThenInclude(p => p.CategoryAttributes)
+            .FirstOrDefaultAsync(p => p.Id == id);
+        if (parentCategoryInDb == null)
         {
             return new ResultDto
             {
@@ -32,11 +36,23 @@ public class RemoveParentCategory : IRemoveParentCategory
 
         try
         {
-            var result = _db.ParentCategories.Remove(perentCategoryInDb);
+            //if (parentCategoryInDb.ChildCategories.Any())
+            //{
+            //    foreach (var child in parentCategoryInDb.ChildCategories)
+            //    {
+            //        if (child.CategoryAttributes)
+            //        {
+                        
+            //        }
+            //        _db.ChildCategories.Remove(child);
+            //    }
+            //}
+            var result = _db.ParentCategories.Remove(parentCategoryInDb);
+
             await _db.SaveChangesAsync();
             return new ResultDto
             {
-                Message = $"دسته بندی #{perentCategoryInDb.Id} از سیستم حذف گردید.",
+                Message = $"دسته بندی #{parentCategoryInDb.Id} از سیستم حذف گردید.",
                 IsSuccess = true
             };
         }

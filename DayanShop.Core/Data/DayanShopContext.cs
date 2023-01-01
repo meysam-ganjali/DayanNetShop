@@ -23,10 +23,10 @@ public class DayanShopContext : IdentityDbContext<IdentityUser>
     public DbSet<ProductAttribute> ProductAttributes { get; set; }
     protected override void OnModelCreating(ModelBuilder builder)
     {
-        foreach (var relationship in builder.Model.GetEntityTypes().SelectMany(s => s.GetForeignKeys()))
-        {
-            relationship.DeleteBehavior = DeleteBehavior.Restrict;
-        }
+        //foreach (var relationship in builder.Model.GetEntityTypes().SelectMany(s => s.GetForeignKeys()))
+        //{
+        //    relationship.DeleteBehavior = DeleteBehavior.Restrict;
+        //}
         base.OnModelCreating(builder);
         // Customize the ASP.NET Identity model and override the defaults if needed.
         // For example, you can rename the ASP.NET Identity table names and more.
