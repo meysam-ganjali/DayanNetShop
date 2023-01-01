@@ -13,7 +13,8 @@
         width: 50%;
         margin-bottom: .5rem;
     }
-    .feature li:nth-child(even) {
+
+        .feature li:nth-child(even) {
             background: #DAB88B;
         }
 </style>
@@ -120,7 +121,10 @@
                                                         {
                                                             foreach (var feature in Model.ProductAttributes)
                                                             {
-                                                                <li><i class="btn btn-xs btn-danger"><i class="fa fa-trash"></i></i> @feature.CategoryAttribute.AttributeTitle</li>
+                                                                <li>
+                                                                    <i class="btn btn-xs btn-primary" onclick="ShowModalEditFeature('@feature.Id','@feature.AttrVal','@feature.CategoryAttribute.AttributeTitle','@feature.ProductId')"><i class="fa fa-edit"></i></i>
+                                                                    <i class="btn btn-xs btn-danger"><i class="fa fa-trash"></i></i> @feature.CategoryAttribute.AttributeTitle
+                                                                </li>
                                                                 <li>@feature.AttrVal</li>
                                                             }
                                                         }
@@ -271,6 +275,13 @@
             $('#productId_Review').val(productId);
             $('#AddReview').modal('show');
         }
+        function ShowModalEditFeature(featureId, featureVal, featureTitle,productId) {
+            $('#edit_feature_id').val(featureId);
+            $('#edit_feature_val').val(featureVal);
+            $('#edit_feature_productId').val(productId);
+            $('#edit_feature_title').html(featureTitle);
+            $('#EditFeature').modal('show');
+        }
     </script>
     }
     @section Modals
@@ -341,6 +352,38 @@
                         <div class="input-group mb-3">
                             <span class="input-group-text bg-light" id="basic-addon1">مقدار ویژگی</span>
                             <input name="AttrVal" type="text" class="form-control" placeholder="16 GB">
+                        </div>
+
+                        <div class="row justify-content-around">
+                            <button type="submit" class="btn btn-success "><i class="fa fa-check"></i>&nbsp;ثبت </button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-arrow-left"></i>&nbsp;برگشت</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="EditFeature" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-success">
+                    <h5 class="modal-title text-white">
+                        بروزرسانی مقدار ویژگی <span id="edit_feature_title" class="badge bg-primary"></span>
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="/Admin/Product/EditProductFeatureValue" enctype=multipart/form-data>
+                        <input type="hidden" name="Id" id="edit_feature_id" />
+                        <input type="hidden" name="ProductId" id="edit_feature_productId" />
+
+                        <div class="input-group mb-3">
+                            <span class="input-group-text bg-light" id="basic-addon1">مقدار ویژگی</span>
+                            <input name="AttrVal" id="edit_feature_val" type="text" class="form-control" placeholder="16 GB">
                         </div>
 
                         <div class="row justify-content-around">

@@ -115,4 +115,14 @@ public class FSDProduct : IFSDProduct
             return _addProductReview = _addProductReview ?? new AddProductReview(_db, _environment);
         }
     }
+
+
+    private IEditProductAttribute _editProductAttribute;
+    public IEditProductAttribute EditProductAttribute
+    {
+        get
+        {
+            return _editProductAttribute= _editProductAttribute ?? new EditProductAttribute(_db);
+        }
+    }
 }

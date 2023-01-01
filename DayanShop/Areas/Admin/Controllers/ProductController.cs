@@ -128,6 +128,7 @@ namespace DayanShop.Areas.Admin.Controllers
             var result = await _productService.AddProductFeature.AddFeatureAsync(attr);
             if (result.IsSuccess)
             {
+                TempData["success"] = result.Message;
                 return Redirect($"/Admin/Product/ProductDetails/{attr.ProductId}");
             }
             else
@@ -144,12 +145,30 @@ namespace DayanShop.Areas.Admin.Controllers
             var result = await _productService.AddProductReview.AddReviewAsync(review_file, review);
             if (result.IsSuccess)
             {
+                TempData["success"] = result.Message;
                 return Redirect($"/Admin/Product/ProductDetails/{review.ProductId}");
             }
             else
             {
                 TempData["error"] = result.Message;
                 return Redirect($"/Admin/Product/ProductDetails/{review.ProductId}");
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditProductFeatureValue(ProductAttribute attr)
+        {
+
+            var result = await _productService.EditProductAttribute.UpdataAttrValueasync(attr);
+            if (result.IsSuccess)
+            {
+                TempData["success"] = result.Message;
+                return Redirect($"/Admin/Product/ProductDetails/{attr.ProductId}");
+            }
+            else
+            {
+                TempData["error"] = result.Message;
+                return Redirect($"/Admin/Product/ProductDetails/{attr.ProductId}");
             }
         }
     }
