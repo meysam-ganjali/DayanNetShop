@@ -1,48 +1,46 @@
 ﻿using DayanShop.Core.Data;
-using DayanShop.Domains.Entities;
 using DayanShop.Utilities.DTOs;
+using System;
 using Microsoft.EntityFrameworkCore;
 
 namespace DayanShop.Application.StoreServices.Commands.Product;
 
-public interface IEditProductAttribute
+public interface IRemoveProductFeature
 {
-    Task<ResultDto> UpdataAttrValueasync(ProductAttribute attr);
+    Task<ResultDto> RemoveAsync(int id);
 }
 
-public class EditProductAttribute : IEditProductAttribute
+public class RemoveProductFeature : IRemoveProductFeature
 {
     private readonly DayanShopContext _db;
 
-    public EditProductAttribute(DayanShopContext db)
+    public RemoveProductFeature(DayanShopContext db)
     {
         _db = db;
     }
 
-    public async Task<ResultDto> UpdataAttrValueasync(ProductAttribute attr)
+    public async Task<ResultDto> RemoveAsync(int id)
     {
         var productAttrInDb = await _db.ProductAttributes
+            .Include(p => p.CategoryAttribute)
             .Include(p => p.Product)
-            .Include(p=>p.CategoryAttribute)
-            .FirstOrDefaultAsync(p => p.Id == attr.Id);
+            .FirstOrDefaultAsync(p => p.Id == id);
         if (productAttrInDb == null)
         {
             return new ResultDto
             {
                 IsSuccess = false,
-                Message = $"محصول {attr.Product.Name} فاقد این ویژگی می باشد"
+                Message = "نتوانستم چیزی پیدا کنم"
             };
         }
 
-        productAttrInDb.AttrVal = attr.AttrVal;
-
-
         try
         {
+            var result = _db.ProductAttributes.Remove(productAttrInDb);
             await _db.SaveChangesAsync();
             return new ResultDto
             {
-                Message = $"مقدار ویژگی {productAttrInDb.CategoryAttribute.AttributeTitle} برای محصول {productAttrInDb.Product.Name} بروز شد",
+                Message = $"ویژگی {productAttrInDb.CategoryAttribute.AttributeTitle} از لیست مشخصات محصول {productAttrInDb.Product.Name} حذف شد",
                 IsSuccess = true
             };
         }

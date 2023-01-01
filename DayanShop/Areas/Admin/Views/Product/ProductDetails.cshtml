@@ -123,7 +123,7 @@
                                                             {
                                                                 <li>
                                                                     <i class="btn btn-xs btn-primary" onclick="ShowModalEditFeature('@feature.Id','@feature.AttrVal','@feature.CategoryAttribute.AttributeTitle','@feature.ProductId')"><i class="fa fa-edit"></i></i>
-                                                                    <i class="btn btn-xs btn-danger"><i class="fa fa-trash"></i></i> @feature.CategoryAttribute.AttributeTitle
+                                                                    <i onclick="DeleteProductFeature('@feature.Id','@feature.CategoryAttribute.AttributeTitle')" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i></i> @feature.CategoryAttribute.AttributeTitle
                                                                 </li>
                                                                 <li>@feature.AttrVal</li>
                                                             }
@@ -281,6 +281,57 @@
             $('#edit_feature_productId').val(productId);
             $('#edit_feature_title').html(featureTitle);
             $('#EditFeature').modal('show');
+        }
+        function DeleteProductFeature(attrId, attrTitle) {
+            swal.fire({
+                title: 'حذف ویژگی '+ attrTitle  ,
+                text: "کاربر گرامی  مطمئن هستید؟",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#7cacbe',
+                confirmButtonText: 'بله ',
+                cancelButtonText: 'خیر'
+            }).then((result) => {
+                if (result.value) {
+
+                    var postData = {
+                        'id': attrId
+                    };
+
+                    $.ajax({
+                        contentType: 'application/x-www-form-urlencoded',
+                        dataType: 'json',
+                        type: "POST",
+                        url: "/Admin/Product/RemoveProductAttr/",
+                        data: postData,
+                        success: function (data) {
+                            if (data.isSuccess == true) {
+                                swal.fire(
+                                    'موفق!',
+                                    data.message,
+                                    'success'
+                                ).then(function (isConfirm) {
+                                    location.reload();
+                                });
+                            } else {
+
+                                swal.fire(
+                                    'هشدار!',
+                                    data.message,
+                                    'warning'
+                                );
+
+                            }
+                        },
+                        error: function (request, status, error) {
+                            alert(request.responseText);
+                        }
+
+                    });
+
+                }
+            });
         }
     </script>
     }

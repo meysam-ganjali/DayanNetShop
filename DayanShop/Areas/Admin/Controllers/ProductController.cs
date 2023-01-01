@@ -171,5 +171,22 @@ namespace DayanShop.Areas.Admin.Controllers
                 return Redirect($"/Admin/Product/ProductDetails/{attr.ProductId}");
             }
         }
+
+        [HttpPost]
+        public async Task<IActionResult> RemoveProductAttr(int id)
+        {
+            var result = await _productService.RemoveProductFeature.RemoveAsync(id);
+            if (result.IsSuccess)
+            {
+                TempData["success"] = result.Message;
+                return Json(result);
+            }
+            else
+            {
+                TempData["error"] = result.Message;
+                return Json(result);
+            }
+        }
+
     }
 }
