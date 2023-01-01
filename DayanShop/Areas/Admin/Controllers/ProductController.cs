@@ -204,5 +204,21 @@ namespace DayanShop.Areas.Admin.Controllers
             }
             
         }
+        [HttpPost]
+        public async Task<IActionResult> EditProductReviw(ProductReviw review)
+        {
+            var edit_review_file = HttpContext.Request.Form.Files.FirstOrDefault();
+            var result = await _productService.EditProductReview.EditAsync(edit_review_file, review);
+            if (result.IsSuccess)
+            {
+                TempData["success"] = result.Message;
+                return Redirect($"/Admin/Product/ProductDetails/{review.ProductId}");
+            }
+            else
+            {
+                TempData["error"] = result.Message;
+                return Redirect($"/Admin/Product/ProductDetails/{review.ProductId}");
+            }
+        }
     }
 }
