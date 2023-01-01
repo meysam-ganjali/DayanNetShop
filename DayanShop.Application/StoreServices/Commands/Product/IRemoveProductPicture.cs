@@ -2,7 +2,7 @@
 using DayanShop.Utilities.DTOs;
 using Microsoft.AspNetCore.Hosting;
 
-namespace DayanShop.Application.StoreServices.Queries.Product;
+namespace DayanShop.Application.StoreServices.Commands.Product;
 
 public interface IRemoveProductPicture
 {
@@ -37,9 +37,9 @@ public class RemoveProductPicture : IRemoveProductPicture
             var result = _db.ProductImages.Remove(imageInDb);
             string webRootPath = _environment.WebRootPath;
             var oldImagePath = Path.Combine(webRootPath, imageInDb.ImagePath.TrimStart('\\'));
-            if (System.IO.File.Exists(oldImagePath))
+            if (File.Exists(oldImagePath))
             {
-                System.IO.File.Delete(oldImagePath);
+                File.Delete(oldImagePath);
             }
             await _db.SaveChangesAsync();
             return new ResultDto

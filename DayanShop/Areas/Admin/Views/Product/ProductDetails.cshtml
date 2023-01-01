@@ -13,8 +13,7 @@
         width: 50%;
         margin-bottom: .5rem;
     }
-
-        .feature li:nth-child(even) {
+    .feature li:nth-child(even) {
             background: #DAB88B;
         }
 </style>
@@ -65,7 +64,7 @@
                                                         <img src="~/@pic.ImagePath" class="img-responsive" alt="@pic.AltAttr" data-toggle="tooltip" data-placement="top" title data-original-title="@pic.TitleAttr">
                                                     </div>
                                                     <div>
-                                                        <button onclick="DeleteImage('@pic.Id')"  class="btn btn-danger text-center"><i class="fa fa-trash"></i>&nbsp; حذف این تصویر</button>
+                                                        <button onclick="DeleteImage('@pic.Id')" class="btn btn-danger text-center"><i class="fa fa-trash"></i>&nbsp; حذف این تصویر</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -92,7 +91,7 @@
                             <div class="btn-group-sm">
                                 <button onclick="ShowModalAddImage('@Model.Id','@Model.Name')" class="btn btn-outline-primary btn-sm"><i class="fa fa-image"></i>&nbsp;افزودن عکس</button>
                                 <button onclick="ShowModalAddFeature('@Model.Id','@Model.Name')" class="btn btn-outline-success btn-sm"><i class="fas fa-list-ol"></i>&nbsp;افزودن ویژگی</button>
-                                <button class="btn btn-outline-info btn-sm"><i class="fa fa-list-ul"></i>&nbsp;افزودن بررسی</button>
+                                <button onclick="ShowModalAddReview('@Model.Id')" class="btn btn-outline-info btn-sm"><i class="fa fa-list-ul"></i>&nbsp;افزودن بررسی</button>
                             </div>
                         </div>
                         <div class="col-lg-12 col-md-12 col-sm-12">
@@ -128,9 +127,42 @@
                                                     </ul>
                                                 </div>
                                                 <div class="tab-pane fade" id="p_review" role="tabpanel" aria-labelledby="v-pills-profile-tab">
-                                                    .
-                                                    <p> Probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. </p>
-                                                    <p> Probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. </p>
+                                                    @if (!Model.ProductReviws.Any())
+                                                    {
+                                                        <p class="text-danger">بررسی محصول یافت نشد</p>
+                                                    }
+                                                    else
+                                                    {
+                                                        <table class="table table-hover table-striped table-bordered">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>#</th>
+                                                                    <th>عنوان بررسی</th>
+                                                                    <th>متن بررسی</th>
+                                                                    <th>
+                                                                        <i class="mdi mdi-settings"></i>
+                                                                    </th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @foreach (var review in Model.ProductReviws)
+                                                                {
+                                                                    <tr>
+                                                                        <td>@review.Id</td>
+                                                                        <td>@review.Title</td>
+                                                                        <td>@review.Description</td>
+                                                                        <td>
+                                                                            <div class="btn-group-sm">
+                                                                                <a class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title data-original-title="جزئیات محصول"><i class="fa fa-edit"></i></a>
+                                                                                <button onclick="DeleteProduct()" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title data-original-title="حذف محصول"><i class="fa fa-trash"></i></button>
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                }
+                                                            </tbody>
+                                                        </table>
+
+                                                    }
                                                 </div>
 
                                             </div>
@@ -235,6 +267,10 @@
             $('#product_title').html(productTitle);
             $('#AddFeature').modal('show');
         }
+        function ShowModalAddReview(productId) {
+            $('#productId_Review').val(productId);
+            $('#AddReview').modal('show');
+        }
     </script>
     }
     @section Modals
@@ -307,6 +343,51 @@
                             <input name="AttrVal" type="text" class="form-control" placeholder="16 GB">
                         </div>
 
+                        <div class="row justify-content-around">
+                            <button type="submit" class="btn btn-success "><i class="fa fa-check"></i>&nbsp;ثبت </button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-arrow-left"></i>&nbsp;برگشت</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="AddReview" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-success">
+                    <h5 class="modal-title text-white">
+                        افزودن بررسی <span id="product_title" class="badge bg-primary"></span>
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="/Admin/Product/AddProductReview" enctype=multipart/form-data>
+                        <input type="hidden" name="ProductId" id="productId_Review" />
+                        <div class="input-group mb-3">
+                            <span class="input-group-text bg-light" id="basic-addon1">عنوان بررسی &nbsp;<i class="text-danger">*</i></span>
+                            <input name="Title" type="text" class="form-control" placeholder="16 GB">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text bg-light" id="basic-addon1">تصویر</span>
+                            <input name="review_file" type="file" class="form-control" accept="image/*">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text bg-light" id="basic-addon1">توضیحات &nbsp;<i class="text-danger">*</i></span>
+                            <textarea class="form-control" name="Description"></textarea>
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text bg-light" id="basic-addon1">ارتفاع تصویر</span>
+                            <input name="Height" type="text" class="form-control" placeholder="اگر تصویر انتخاب کده اید این فیلد را مقدار بدهید">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text bg-light" id="basic-addon1">عرض تصویر</span>
+                            <input name="width" type="text" class="form-control" placeholder="اگر تصویر انتخاب کده اید این فیلد را مقدار بدهید">
+                        </div>
                         <div class="row justify-content-around">
                             <button type="submit" class="btn btn-success "><i class="fa fa-check"></i>&nbsp;ثبت </button>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-arrow-left"></i>&nbsp;برگشت</button>

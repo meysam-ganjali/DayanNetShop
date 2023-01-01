@@ -136,5 +136,21 @@ namespace DayanShop.Areas.Admin.Controllers
                 return Redirect($"/Admin/Product/ProductDetails/{attr.ProductId}");
             }
         }
+
+        [HttpPost]
+        public async Task<IActionResult> AddProductReview(ProductReviw review)
+        {
+            var review_file = HttpContext.Request.Form.Files.FirstOrDefault();
+            var result = await _productService.AddProductReview.AddReviewAsync(review_file, review);
+            if (result.IsSuccess)
+            {
+                return Redirect($"/Admin/Product/ProductDetails/{review.ProductId}");
+            }
+            else
+            {
+                TempData["error"] = result.Message;
+                return Redirect($"/Admin/Product/ProductDetails/{review.ProductId}");
+            }
+        }
     }
 }
