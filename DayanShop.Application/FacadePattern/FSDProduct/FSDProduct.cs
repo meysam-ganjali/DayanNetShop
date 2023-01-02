@@ -157,4 +157,12 @@ public class FSDProduct : IFSDProduct
     }
 
 
+    private IEditProduct _editProduct;
+    public IEditProduct EditProduct
+    {
+        get
+        {
+            return _editProduct = _editProduct ?? new EditProduct(_db);
+        }
+    }
 }
