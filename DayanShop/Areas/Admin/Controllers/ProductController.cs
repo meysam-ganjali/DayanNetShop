@@ -3,13 +3,17 @@ using DayanShop.Application.FacadePattern.FSDProduct;
 using DayanShop.Application.StoreServices.Queries.Product;
 using DayanShop.Core.Data;
 using DayanShop.Domains.Entities;
+using DayanShop.Utilities.DTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Data;
 using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 
 namespace DayanShop.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = SD.ManagerRole)]
     public class ProductController : Controller
     {
         private readonly IFSDProduct _productService;

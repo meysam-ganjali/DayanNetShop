@@ -1,10 +1,13 @@
 ﻿using DayanShop.Application.FacadePattern.FSDCategoryAttr;
 using DayanShop.Domains.Entities;
+using DayanShop.Utilities.DTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DayanShop.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = SD.ManagerRole)]
     public class CategoryAttributeController : Controller
     {
         private readonly IFSDCategoryAttribute _categoryAttr;
