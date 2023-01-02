@@ -18,6 +18,12 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(option =>
     })
     .AddEntityFrameworkStores<DayanShopContext>();
 DependencyContainer.RegisterServices(builder.Services,builder.Configuration);
+builder.Services.ConfigureApplicationCookie(option =>
+{
+    option.LoginPath = "/Identity/Account/Login";
+    option.LogoutPath = "/Identity/Account/Logout";
+    option.AccessDeniedPath = "/Identity/Account/AccessDenied";
+});
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();

@@ -1,27 +1,54 @@
 ﻿@using Microsoft.AspNetCore.Identity
+@using DayanShop.Utilities.DTOs
 
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
+@{
+    string uri = "";
+    if (User.IsInRole(SD.ManagerRole))
+    {
+        uri = "/Admin/";
+    }
+    else if (User.IsInRole(SD.ManagerRole))
+    {
+        uri = "~/";
+    }
+}
+<div class="col-12 col-md-7 col-lg-6 text-center" id="btn-login-register">
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <div class="dropdown">
+            <a class="btn btn-sm btn-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                <small>دسترسی کاربر</small>
+            </a>
 
-<ul class="navbar-nav">
-@if (SignInManager.IsSignedIn(User))
-{
-    <li class="nav-item">
-        <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
-    </li>
-    <li class="nav-item">
-        <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-            <button id="logout" type="submit" class="nav-link btn btn-link text-dark">Logout</button>
-        </form>
-    </li>
-}
-else
-{
-    <li class="nav-item">
-        <a class="nav-link text-dark" id="register" asp-area="Identity" asp-page="/Account/Register">Register</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link text-dark" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
-    </li>
-}
-</ul>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                
+               
+                <li class="dropdown-item"><a href="@uri">پنل کاربری</a></li>
+                <li>
+                    <form id="logoutForm" class="dropdown-item" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                        <button id="logout" type="submit" class="nav-link btn btn-link text-dark"><small>خروج</small></button>
+                    </form>
+                </li>
+
+            </ul>
+        </div>
+
+
+    }
+    else
+    {
+        <div class="dropdown">
+            <a class="btn btn-sm btn-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                <small> ثبت نام/ورود</small>
+            </a>
+
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <li><a class="dropdown-item" id="register" asp-area="Identity" asp-page="/Account/Register"><small>ثبت نام</small></a></li>
+                <li><a class="dropdown-item" id="login" asp-area="Identity" asp-page="/Account/Login"><small>ورود</small></a></li>
+            </ul>
+        </div>
+      
+    }
+</div>
