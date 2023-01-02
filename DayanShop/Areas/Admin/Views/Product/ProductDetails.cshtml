@@ -84,7 +84,7 @@
                             </p>
                             <h3 class="m-t-40">
                                 @Model.Price.ToString("#,##") تومان
-                                <small class="text-success">(@(Model.Percentage > 0 ? Model.Price +" -- " + Model.Percentage + "%Off" : "فاقد تخفیف"))</small>
+                                <small class="text-success">(@(Model.Percentage > 0 ?  Model.Percentage + "%Off" : "فاقد تخفیف"))</small>
                             </h3>
                             <button class="btn btn-dark btn-rounded m-r-5" data-toggle="tooltip" title="" data-original-title="Add to cart"><i class="ti-shopping-cart"></i> </button>
                             <button class="btn btn-primary btn-rounded"> Buy Now </button>
