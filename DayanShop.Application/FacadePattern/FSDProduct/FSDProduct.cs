@@ -165,4 +165,14 @@ public class FSDProduct : IFSDProduct
             return _editProduct = _editProduct ?? new EditProduct(_db);
         }
     }
+
+
+    private IGetProduct _getProduct;
+    public IGetProduct GetProduct
+    {
+        get
+        {
+            return _getProduct = _getProduct ?? new GetProduct(_db);
+        }
+    }
 }

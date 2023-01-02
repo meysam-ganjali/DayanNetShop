@@ -1,0 +1,134 @@
+﻿@model DayanShop.Domains.Entities.Product
+@{
+    ViewData["Title"] = "ویرایش جدید";
+}
+<div class="page-breadcrumb">
+    <div class="row">
+        <div class="col-5 align-self-center">
+            <h4 class="page-title">@ViewData["Title"]</h4>
+        </div>
+        <div class="col-7 align-self-center">
+            <div class="d-flex align-items-center justify-content-end">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="/Admin/Home">داشبورد</a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">ویرایش محصول</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body d-flex justify-content-between">
+                    <h4 class="card-title">@ViewData["Title"]</h4>
+                    <h1 class="card-subtitle h6 text-primary">
+                        برای ثبت ویژگی ، عکس و بررسی به ردیف محصول در جدول لیست محصولات قسمت عملیات مراجعه کنید
+                    </h1>
+                </div>
+                <hr>
+                <form class="form-horizontal" method="post" action="/Admin/Product/EditProduct">
+                    <input type="hidden" asp-for="Id"/>
+                    <div class="card-body">
+                        <h4 class="card-title">Personal Info</h4>
+                        <div class="form-group row">
+                            <label for="fname" class="col-sm-3 text-right control-label col-form-label">نام محصول &nbsp;<i class="text-danger">*</i></label>
+                            <div class="col-sm-9">
+                                <input type="text" asp-for="Name" class="form-control" placeholder="عنوان محصول">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="fname" class="col-sm-3 text-right control-label col-form-label">Slug </label>
+                            <div class="col-sm-9">
+                                <input type="text" asp-for="Slug" class="form-control" placeholder="نامی لاتین محصول">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="fname" class="col-sm-3 text-right control-label col-form-label">قیمت قدیم</label>
+                            <div class="col-sm-9">
+                                <input type="number" asp-for="OldPrice" class="form-control" placeholder="قیمت قدیم برای محصول تخفیف دار">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="fname" class="col-sm-3 text-right control-label col-form-label">قیمت اصلی &nbsp;<i class="text-danger">*</i></label>
+                            <div class="col-sm-9">
+                                <input type="number" asp-for="Price" class="form-control" placeholder="قیمتی که محصول به فروش میرسد">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="fname" class="col-sm-3 text-right control-label col-form-label">نمایش برچسب تخفیف</label>
+                            <div class="col-sm-9">
+                                <select asp-for="ShowDiscountLable" class="form-control">
+                                    <option value="true">نمایش بده</option>
+                                    <option value="false">نمایش نده</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="fname" class="col-sm-3 text-right control-label col-form-label">دصد تخفیف</label>
+                            <div class="col-sm-9">
+                                <input type="number" asp-for="Percentage" class="form-control" placeholder="اگر محصول دارای تخفیف است درصد آن را مشخص کنید">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="fname" class="col-sm-3 text-right control-label col-form-label">محصول ویژه &nbsp;<i class="text-danger">*</i></label>
+                            <div class="col-sm-9">
+                                <select asp-for="ProductSpecial" class="form-control">
+                                    <option value="false">محصول ویژه نیست</option>
+                                    <option value="true">محصول ویژه است</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="fname" class="col-sm-3 text-right control-label col-form-label">تعداد محصول &nbsp;<i class="text-danger">*</i></label>
+                            <div class="col-sm-9">
+                                <input type="number" asp-for="Count" class="form-control" placeholder="تعداد دارایی محصول">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="fname" class="col-sm-3 text-right control-label col-form-label">مدل محصول &nbsp;<i class="text-danger">*</i></label>
+                            <div class="col-sm-9">
+                                <input type="text" asp-for="ModelName" class="form-control" placeholder="گلکسی A50">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="fname" class="col-sm-3 text-right control-label col-form-label">توضیحات &nbsp;<i class="text-danger">*</i></label>
+                            <div class="col-sm-9">
+                                <textarea asp-for="Description" style="width: 750px; height: 100px;"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr>
+                    <div class="card-body">
+                        <div class="form-group m-b-0 text-right">
+                            <button type="submit" class="btn btn-success waves-effect waves-light"><i class="fa fa-check"></i>&nbsp;ثبت محصول</button>
+                            <a href="/Admin/Product/Index" class="btn btn-secondary waves-effect waves-light"><i class="fa fa-arrow-left"></i>&nbsp; لیست محصولات</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .nicEdit-panelContain {
+        width: 100%;
+    }
+</style>
+@section Scripts
+    {
+    <link rel="stylesheet" type="text/css" href="~/admin/assets/libs/select2/dist/css/select2.min.css">
+    <script src="~/admin/assets/libs/select2/dist/js/select2.full.min.js"></script>
+    <script src="~/admin/assets/libs/nicEdit/nicejs.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        bkLib.onDomLoaded(nicEditors.allTextAreas);
+        $(".select2").select2();
+    </script>
+}

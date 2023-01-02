@@ -224,5 +224,36 @@ namespace DayanShop.Areas.Admin.Controllers
                 return Redirect($"/Admin/Product/ProductDetails/{review.ProductId}");
             }
         }
+
+        [HttpGet]
+        public async Task<IActionResult> EditProduct(int id)
+        {
+            var productModel = await _productService.GetProduct.GetAsync(id);
+            if (productModel.IsSuccess)
+            {
+
+                return View(productModel.Data);
+            }
+            else
+            {
+                TempData["error"] = productModel.Message;
+                return Redirect($"/Admin/Product/ProductDetails/{id}");
+            }
+        }
+        [HttpPost]
+        public async Task<IActionResult> EditProduct(Product product)
+        {
+            var result = await _productService.EditProduct.EditAsync(product);
+            if (result.IsSuccess)
+            {
+                TempData["success"] = result.Message;
+                return Redirect($"/Admin/Product/ProductDetails/{product.Id}");
+            }
+            else
+            {
+                TempData["error"] = result.Message;
+                return Redirect($"/Admin/Product/ProductDetails/{product.Id}");
+            }
+        }
     }
 }
