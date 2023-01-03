@@ -3,7 +3,10 @@
 
 @{
     ViewData["Title"] = "فروشگاه دایان نت";
-
+    int pageNumber = 1;
+    int pageSize = 50;
+    int.TryParse(Context.Request.Query["page"], out pageNumber);
+    int.TryParse(Context.Request.Query["pageSize"], out pageSize);
 }
 
 <section class="inner-page" id="products-page">
@@ -71,13 +74,16 @@
                                         {
                                             <div class="col" style="display: block;">
                                                 <!-- Product Box -->
-                                                <div class="encode4326654321vfb">
-                                                    <a href="./product.html">
-
+                                                <div class="encode4326654321vfb shadow-sm border-0">
+                                                    <a asp-controller="Shop" asp-action="ProductDetaile" asp-route-id="@p.Id">
+                                                        <div class="btn btn-group-sm">
+                                                            <a asp-controller="Cart" asp-action="CartList" asp-route-id="@p.Id" class="btn btn-success"><i class="fa fa-shopping-basket"></i></a>
+                                                        </div>
                                                         <div class="w-100" style="height: 10%;">
                                                             <div class="owl-carousel owl-theme">
                                                                 @foreach (var pic in p.ProductImages)
                                                                 {
+
                                                                     <div class="item">
                                                                         <div class="row flex-column justify-content-center">
                                                                             <img src="~/@pic.ImagePath" class="img-responsive" alt="@pic.AltAttr" data-toggle="tooltip" data-placement="top" title data-original-title="@pic.TitleAttr" height="75">
@@ -90,22 +96,26 @@
                                                     </a>
                                                     <div class="details p-3">
                                                         <div class="category">
-                                                            <a href="./products.html">@p.ChildCategory.ParentCategory.ParentTitle</a>
+                                                            <a asp-controller="Shop" asp-action="ProductDetaile" asp-route-id="@p.Id">@p.ChildCategory.ParentCategory.ParentTitle</a>
                                                             &nbsp;/&nbsp;
-                                                            <a href="./products.html">@p.ChildCategory.ChildTitle</a>
+                                                        <a asp-controller="Shop" asp-action="ProductDetaile" asp-route-id="@p.Id">@p.ChildCategory.ChildTitle</a>
                                                         </div>
-                                                        <a href="./product.html"><h2>@p.Name</h2></a>
+                                                        <a asp-controller="Shop" asp-action="ProductDetaile" asp-route-id="@p.Id"><h2>@p.Name</h2></a>
                                                         <div class="encode4365gbf265g43d">@p.Price.ToString("#,##") تومان</div>
                                                         <div class="rate">
-                                                           @for (int i = 0; i < p.Rate; i++)
-                                                           {
-                                                                <small><span class="fa fa-star text-warning"></span></small>
-                                                           }
+                                                            <div>
+                                                                @for (int i = 0; i < p.Rate; i++)
+                                                                {
+                                                                    <small><span class="fa fa-star text-warning"></span></small>
+                                                                }
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <!-- /Product Box -->
+
                                             </div>
+
                                         }
 
 
@@ -114,24 +124,24 @@
                                 </div>
                             </div>
                             <div class="container">
-                                <div class="row justify-content-center">
-                                    <div class="col-12">
-                                        <div id="pagination-bg">
-                                            <paging total-records="@Model.RowCount"
-                                                    page-no="@Model.CurrentPage"
-                                                    page-size="@Model.PageSize"
-                                                    show-prev-next="true"
-                                                    show-total-pages="false"
-                                                    show-total-records="false"
-                                                    show-page-size-nav="true"
-                                                    show-first-numbered-page="true"
-                                                    show-last-numbered-page="true"
-                                                    query-string-key-page-no="Page"
-                                                    query-string-key-page-size="PageSize"
-                                                    gap-size="2">
-                                            </paging>
-                                        </div>
-                                    </div>
+                                <div class="row justify-content-center border p-1 border-1">
+                                    <nav aria-label="Page navigation example">
+                                        <ul class="pagination justify-content-center">
+                                            <li class="page-item">
+                                                <a class="page-link" href="#" aria-label="Previous">
+                                                    <span aria-hidden="true">&laquo;</span>
+                                                </a>
+                                            </li>
+                                            <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                            <li class="page-item">
+                                                <a class="page-link" href="#" aria-label="Next">
+                                                    <span aria-hidden="true">&raquo;</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </nav>
                                 </div>
                             </div>
                         </div>
@@ -157,6 +167,9 @@
             margin: 10,
             rtl: true,
             nav: true,
+            autoplay: true,
+            autoplayTimeout: 5000,
+            autoplayHoverPause: true,
             responsive: {
                 0: {
                     items: 1
