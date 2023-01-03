@@ -2,7 +2,7 @@
 
 namespace DayanShop.Domains.Entities;
 
-public class ProductReviw
+public class ProductReviw 
 {
     public int Id { get; set; }
     public string Title { get; set; }

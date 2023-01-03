@@ -5,7 +5,6 @@ namespace DayanShop.Domains.Entities;
 
 public class CategoryAttribute
 {
-    [Key]
     public int Id { get; set; }
     public int ChildCategoryId { get; set; }
     [ForeignKey("ChildCategoryId")]

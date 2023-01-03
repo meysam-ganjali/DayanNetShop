@@ -25,7 +25,7 @@ public class DayanShopContext : IdentityDbContext<IdentityUser>
     {
         //foreach (var relationship in builder.Model.GetEntityTypes().SelectMany(s => s.GetForeignKeys()))
         //{
-        //    relationship.DeleteBehavior = DeleteBehavior.Restrict;
+        //    relationship.DeleteBehavior = DeleteBehavior.Cascade;
         //}
         base.OnModelCreating(builder);
         // Customize the ASP.NET Identity model and override the defaults if needed.

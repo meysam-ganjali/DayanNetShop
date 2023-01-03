@@ -2,9 +2,8 @@
 
 namespace DayanShop.Domains.Entities;
 
-public class ParentCategory
+public class ParentCategory 
 {
-    [Key]
     public int Id { get; set; }
     [Display(Name = "عنوان دسته پدر")]
     [Required(ErrorMessage = "عنوان دسته بندی مشخص نشده است")]

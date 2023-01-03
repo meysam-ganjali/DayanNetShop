@@ -10,10 +10,13 @@
     <Folder Include="FacadePattern\FSDCategory\" />
     <Folder Include="FacadePattern\FSDCategoryAttr\" />
     <Folder Include="FacadePattern\FSDProduct\" />
+    <Folder Include="FacadePattern\FSDShoping\" />
     <Folder Include="IOC\" />
     <Folder Include="StoreServices\Commands\Category\" />
     <Folder Include="StoreServices\Commands\CategoryAttr\" />
+    <Folder Include="StoreServices\Commands\Shoping\" />
     <Folder Include="StoreServices\Queries\CategoryAttr\" />
+    <Folder Include="StoreServices\Queries\Shoping\" />
     <Folder Include="StoreServices\Queries\Product\" />
   </ItemGroup>
 

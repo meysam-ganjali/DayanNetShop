@@ -1,0 +1,174 @@
+﻿@addTagHelper *, LazZiya.TagHelpers
+@model DayanShop.Application.StoreServices.Queries.Shoping.ResultProductForSiteDto
+
+@{
+    ViewData["Title"] = "فروشگاه دایان نت";
+
+}
+
+<section class="inner-page" id="products-page">
+    <div class="container-fluid" id="page-hero">
+        <div class="row">
+            <div class="col-12">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12 px-0">
+                            <h1>@ViewData["Title"]</h1>
+                            <p>هر آنچه نیاز دارید در این فروشگاه موجود است</p>
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="~/">صفحه نخست</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">محصولات</li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="content">
+                    <div class="row">
+
+                        <div class="col-12 col-lg-12 px-0 pl-lg-0 pr-lg-2 mt-2 mt-lg-0">
+                            <!-- Filters -->
+                            <div id="order-filters">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-12 col-sm-10 my-1">
+                                            <span class="d-block d-sm-inline-block">
+                                                <a class="text-reset" href="~/Shop?Searchkey=@Context.Request.Query["SearchKey"]&CatId=@Context.Request.Query["CatId"]&ordering=MostVisited" role="tab" aria-controls="Most-visited" aria-selected="true">پربازدیدترین</a>
+                                            </span>
+                                            <span class="order-filter d-block d-sm-inline-block active">
+                                                <a class="text-reset" href="~/Shop?Searchkey=@Context.Request.Query["SearchKey"]&CatId=@Context.Request.Query["CatId"]&ordering=Cheapest" role="tab" aria-controls="Most-visited" aria-selected="true">ارزانترین</a>
+                                            </span>
+                                            <span class="order-filter d-block d-sm-inline-block">
+                                                ‌
+                                                <a class="text-reset" href="~/Shop?Searchkey=@Context.Request.Query["SearchKey"]&CatId=@Context.Request.Query["CatId"]&ordering=theMostExpensive" role="tab" aria-controls="Most-visited" aria-selected="true">گرانترین</a>
+                                            </span>
+                                        </div>
+                                        <div class="col-12 col-sm-2 pt-1 text-end">
+                                            <span>
+                                                <a href="products-list.html" class="products-view-type"><svg class="svg-inline--fa fa-th-list fa-w-16" aria-hidden="true" focusable="false" data-prefix="fa" data-icon="th-list" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M149.333 216v80c0 13.255-10.745 24-24 24H24c-13.255 0-24-10.745-24-24v-80c0-13.255 10.745-24 24-24h101.333c13.255 0 24 10.745 24 24zM0 376v80c0 13.255 10.745 24 24 24h101.333c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24H24c-13.255 0-24 10.745-24 24zM125.333 32H24C10.745 32 0 42.745 0 56v80c0 13.255 10.745 24 24 24h101.333c13.255 0 24-10.745 24-24V56c0-13.255-10.745-24-24-24zm80 448H488c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24H205.333c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24zm-24-424v80c0 13.255 10.745 24 24 24H488c13.255 0 24-10.745 24-24V56c0-13.255-10.745-24-24-24H205.333c-13.255 0-24 10.745-24 24zm24 264H488c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24H205.333c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24z"></path></svg><!-- <i class="fa fa-th-list"></i> Font Awesome fontawesome.com --></a>
+                                                <a href="products.html" class="products-view-type active"><svg class="svg-inline--fa fa-th fa-w-16" aria-hidden="true" focusable="false" data-prefix="fa" data-icon="th" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M149.333 56v80c0 13.255-10.745 24-24 24H24c-13.255 0-24-10.745-24-24V56c0-13.255 10.745-24 24-24h101.333c13.255 0 24 10.745 24 24zm181.334 240v-80c0-13.255-10.745-24-24-24H205.333c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24h101.333c13.256 0 24.001-10.745 24.001-24zm32-240v80c0 13.255 10.745 24 24 24H488c13.255 0 24-10.745 24-24V56c0-13.255-10.745-24-24-24H386.667c-13.255 0-24 10.745-24 24zm-32 80V56c0-13.255-10.745-24-24-24H205.333c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24h101.333c13.256 0 24.001-10.745 24.001-24zm-205.334 56H24c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24h101.333c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24zM0 376v80c0 13.255 10.745 24 24 24h101.333c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24H24c-13.255 0-24 10.745-24 24zm386.667-56H488c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24H386.667c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24zm0 160H488c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24H386.667c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24zM181.333 376v80c0 13.255 10.745 24 24 24h101.333c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24H205.333c-13.255 0-24 10.745-24 24z"></path></svg><!-- <i class="fa fa-th"></i> Font Awesome fontawesome.com --></a>
+                                            </span>
+                                            &nbsp;|&nbsp;
+                                            <span>122 کالا</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /Filters -->
+                            <div class="mt-2" id="pager">
+                                <div class="container">
+                                    <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 gx-md-4">
+                                        <!-- Products -->
+                                        @foreach (var p in Model.Products)
+                                        {
+                                            <div class="col" style="display: block;">
+                                                <!-- Product Box -->
+                                                <div class="encode4326654321vfb">
+                                                    <a href="./product.html">
+
+                                                        <div class="w-100" style="height: 10%;">
+                                                            <div class="owl-carousel owl-theme">
+                                                                @foreach (var pic in p.ProductImages)
+                                                                {
+                                                                    <div class="item">
+                                                                        <div class="row flex-column justify-content-center">
+                                                                            <img src="~/@pic.ImagePath" class="img-responsive" alt="@pic.AltAttr" data-toggle="tooltip" data-placement="top" title data-original-title="@pic.TitleAttr" height="75">
+                                                                        </div>
+                                                                    </div>
+                                                                }
+
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                    <div class="details p-3">
+                                                        <div class="category">
+                                                            <a href="./products.html">@p.ChildCategory.ParentCategory.ParentTitle</a>
+                                                            &nbsp;/&nbsp;
+                                                            <a href="./products.html">@p.ChildCategory.ChildTitle</a>
+                                                        </div>
+                                                        <a href="./product.html"><h2>@p.Name</h2></a>
+                                                        <div class="encode4365gbf265g43d">@p.Price.ToString("#,##") تومان</div>
+                                                        <div class="rate">
+                                                           @for (int i = 0; i < p.Rate; i++)
+                                                           {
+                                                                <small><span class="fa fa-star text-warning"></span></small>
+                                                           }
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- /Product Box -->
+                                            </div>
+                                        }
+
+
+                                        <!-- /Products -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="container">
+                                <div class="row justify-content-center">
+                                    <div class="col-12">
+                                        <div id="pagination-bg">
+                                            <paging total-records="@Model.RowCount"
+                                                    page-no="@Model.CurrentPage"
+                                                    page-size="@Model.PageSize"
+                                                    show-prev-next="true"
+                                                    show-total-pages="false"
+                                                    show-total-records="false"
+                                                    show-page-size-nav="true"
+                                                    show-first-numbered-page="true"
+                                                    show-last-numbered-page="true"
+                                                    query-string-key-page-no="Page"
+                                                    query-string-key-page-size="PageSize"
+                                                    gap-size="2">
+                                            </paging>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@section Scripts
+    {
+    <link rel="stylesheet" href="~/lib/owlcarousel/dist/assets/owl.carousel.min.css">
+    <link rel="stylesheet" href="~/lib/owlcarousel/dist/assets/owl.theme.default.min.css">
+    <style>
+        .owl-nav, .owl-dots {
+            display: none;
+        }
+    </style>
+    <script src="~/lib/owlcarousel/dist/owl.carousel.min.js"></script>
+    <script>
+        $('.owl-carousel').owlCarousel({
+            loop: true,
+            margin: 10,
+            rtl: true,
+            nav: true,
+            responsive: {
+                0: {
+                    items: 1
+                },
+                600: {
+                    items: 1
+                },
+                1000: {
+                    items: 1
+                }
+            }
+        });
+    </script>
+
+}

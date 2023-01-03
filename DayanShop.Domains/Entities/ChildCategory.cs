@@ -5,8 +5,8 @@ namespace DayanShop.Domains.Entities;
 
 public class ChildCategory
 {
-    [Key]
     public int Id { get; set; }
+
     [Display(Name = "عنوان دسته فرزند")]
     [Required(ErrorMessage = "عنوان دسته بندی مشخص نشده است")]
     [MaxLength(300)]
