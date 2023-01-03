@@ -83,8 +83,8 @@
                                 @Html.Raw(Model.Description)
                             </p>
                             <h3 class="m-t-40">
-                                @Model.Price.ToString("#,##") تومان
-                                <small class="text-success">(@(Model.Percentage > 0 ?  Model.Percentage + "%Off" : "فاقد تخفیف"))</small>
+                                <small>قیمت فروش - @Model.Price.ToString("#,##") تومان</small>
+                                <small class="text-success">(@(Model.Percentage > 0 ? Model.Percentage + " %off " + $"قیمت قدیم  {Model.OldPrice} تومان " : "فاقد تخفیف"))</small>
                             </h3>
                             <button class="btn btn-dark btn-rounded m-r-5" data-toggle="tooltip" title="" data-original-title="Add to cart"><i class="ti-shopping-cart"></i> </button>
                             <button class="btn btn-primary btn-rounded"> Buy Now </button>
@@ -163,7 +163,7 @@
                                                                                 <div class="btn-group-sm">
                                                                                     <button onclick="ShowModalEditReview('@review.Id', '@review.Title','@review.Description','@review.Height','@review.width','@review.ProductId')" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title data-original-title="ویرایش بررسی"><i class="fa fa-edit"></i></button>
                                                                                     <button onclick="DeleteProductreview('@review.Id','@review.Product.Name')" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title data-original-title="حذف بررسی"><i class="fa fa-trash"></i></button>
-                                                                                    
+
                                                                                 </div>
                                                                             </td>
                                                                         </tr>
@@ -198,7 +198,7 @@
     <link rel="stylesheet" href="~/lib/owlcarousel/dist/assets/owl.theme.default.min.css">
     <script src="~/lib/owlcarousel/dist/owl.carousel.min.js"></script>
     <script>
-    
+
 
         $('.owl-carousel').owlCarousel({
             loop: true,
@@ -401,11 +401,11 @@
             $('#edit_review_img_w').val(reviwImgW);
             $('#edit_review_img').attr('src', $('#review_img_' + reviewId).attr('src'));
             $('#edit_review_img_address').val($('#review_img_' + reviewId).attr('src'));
-           
+
             $('#EditReview').modal('show');
         }
-        
-        
+
+
 
     </script>
     }
@@ -582,16 +582,16 @@
                     <form method="post" action="/Admin/Product/EditProductReviw" enctype=multipart/form-data>
                         <input type="hidden" name="Id" id="edit_review_id" />
                         <input type="hidden" name="ProductId" id="edit_productId_Review" />
-                      
+
                         <div class="input-group mb-3">
                             <span class="input-group-text bg-light" id="basic-addon1">عنوان بررسی &nbsp;<i class="text-danger">*</i></span>
-                            <input name="Title" type="text" class="form-control" id="edit_review_title" >
+                            <input name="Title" type="text" class="form-control" id="edit_review_title">
                         </div>
                         <div class="input-group mb-3">
                             <span class="input-group-text bg-light" id="basic-addon1">تصویر</span>
                             <input name="edit_review_file" type="file" class="form-control" accept="image/*">
-                            <img width="80" height="80" id="edit_review_img" class="img-thumbnail"/>
-                           
+                            <img width="80" height="80" id="edit_review_img" class="img-thumbnail" />
+
                         </div>
                         <div class="input-group mb-3">
                             <span class="input-group-text bg-light" id="basic-addon1">توضیحات &nbsp;<i class="text-danger">*</i></span>
