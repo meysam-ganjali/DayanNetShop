@@ -2,13 +2,13 @@
 @model DayanShop.Application.StoreServices.Queries.Shoping.ResultProductForSiteDto
 
 @{
+    int p0Breake = 1;
     ViewData["Title"] = "فروشگاه دایان نت";
     int pageNumber = 1;
     int pageSize = 50;
     int.TryParse(Context.Request.Query["page"], out pageNumber);
     int.TryParse(Context.Request.Query["pageSize"], out pageSize);
 }
-
 <section class="inner-page" id="products-page">
     <div class="container-fluid" id="page-hero">
         <div class="row">
@@ -36,22 +36,96 @@
             <div class="col-12">
                 <div class="content">
                     <div class="row">
+                        <div class="col-12 col-lg-3 px-3 px-lg-0">
+                            <!-- Side Panel -->
+                            <div class="accordion filters-container">
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="headingOne">
+                                        <button class="accordion-button py-2 px-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                            گروه های محصولات
+                                        </button>
+                                    </h2>
+                                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                        <div class="accordion-body">
 
-                        <div class="col-12 col-lg-12 px-0 pl-lg-0 pr-lg-2 mt-2 mt-lg-0">
+                                            @foreach (var cat in Model.ChildCategories)
+                                            {
+                                                <div class="form-group">
+                                                    <a class="text-reset" href="~/Shop?Searchkey=@Context.Request.Query["SearchKey"]&CatId=@cat.Id&ordering=MostVisited" role="tab" aria-controls="Bestselling" aria-selected="false"><small>@cat.ChildTitle</small></a>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="accordion filters-container mt-3">
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="headingFive">
+                                            <button class="accordion-button py-2 px-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="true" aria-controls="collapseFive">
+                                                جدیدترین محصولات
+                                            </button>
+                                        </h2>
+                                        <div id="collapseFive" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                            <div class="accordion-body">
+                                                <div class="row">
+                                                    <!-- Side Product -->
+                                                    @foreach (var p0 in Model.Products)
+                                                    {
+                                                        p0Breake++;
+                                                        if (p0Breake >4)
+                                                        {
+                                                            break;
+                                                        }
+                                                        <div class="col-12 col-md-4 col-lg-12 px-0 mt-2">
+                                                            <a asp-controller="Shop" asp-action="ProductDetaile" asp-route-id="@p0.Id">
+                                                                <div class="side-product">
+                                                                    <div class="row pl-3">
+                                                                        <div class="col-3 pl-2">
+                                                                            <div class="image" style="background-image: url('@p0.ProductImages.Select(i => i.ImagePath).FirstOrDefault().Replace('\\', '/')')"></div>
+                                                                        </div>
+                                                                        <div class="col-9 pr-0">
+                                                                            <h2>@p0.Name</h2>
+                                                                            <div class="row">
+                                                                                <div class="col-7 pl-0">
+                                                                                    <span class="encode4365gbf265g43d">@p0.Price.ToString("#,##") تومان</span>
+                                                                                </div>
+                                                                                <div class="col-5 pr-0 text-end">
+                                                                                    <span class="views">@p0.ShowCount بازدید</span>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </a>
+                                                        </div>
+
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /Side Panel -->
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-9 px-0 pl-lg-0 pr-lg-2 mt-2 mt-lg-0">
                             <!-- Filters -->
                             <div id="order-filters">
                                 <div class="container">
                                     <div class="row">
                                         <div class="col-12 col-sm-10 my-1">
-                                            <span class="d-block d-sm-inline-block">
-                                                <a class="text-reset" href="~/Shop?Searchkey=@Context.Request.Query["SearchKey"]&CatId=@Context.Request.Query["CatId"]&ordering=MostVisited" role="tab" aria-controls="Most-visited" aria-selected="true">پربازدیدترین</a>
-                                            </span>
+                                            <span class="d-block d-sm-inline-block">مرتب سازی بر اساس:</span>
                                             <span class="order-filter d-block d-sm-inline-block active">
-                                                <a class="text-reset" href="~/Shop?Searchkey=@Context.Request.Query["SearchKey"]&CatId=@Context.Request.Query["CatId"]&ordering=Cheapest" role="tab" aria-controls="Most-visited" aria-selected="true">ارزانترین</a>
+                                                <a class="text-reset" href="~/Shop?Searchkey=@Context.Request.Query["SearchKey"]&CatId=@Context.Request.Query["CatId"]&ordering=MostVisited" role="tab" aria-controls="Bestselling" aria-selected="false">محبوب ترین</a>
                                             </span>
                                             <span class="order-filter d-block d-sm-inline-block">
-                                                ‌
-                                                <a class="text-reset" href="~/Shop?Searchkey=@Context.Request.Query["SearchKey"]&CatId=@Context.Request.Query["CatId"]&ordering=theMostExpensive" role="tab" aria-controls="Most-visited" aria-selected="true">گرانترین</a>
+                                                <a class="text-reset" href="~/Shop?Searchkey=@Context.Request.Query["SearchKey"]&CatId=@Context.Request.Query["CatId"]&ordering=theMostExpensive" role="tab" aria-controls="Bestselling" aria-selected="false">گرانترین</a>
+
+                                            </span>
+                                            <span class="order-filter d-block d-sm-inline-block">
+                                                <a class="text-reset" href="~/Shop?Searchkey=@Context.Request.Query["SearchKey"]&CatId=@Context.Request.Query["CatId"]&ordering=Cheapest" role="tab" aria-controls="Bestselling" aria-selected="false">ارزان ترین</a>
+
                                             </span>
                                         </div>
                                         <div class="col-12 col-sm-2 pt-1 text-end">
@@ -60,7 +134,7 @@
                                                 <a href="products.html" class="products-view-type active"><svg class="svg-inline--fa fa-th fa-w-16" aria-hidden="true" focusable="false" data-prefix="fa" data-icon="th" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M149.333 56v80c0 13.255-10.745 24-24 24H24c-13.255 0-24-10.745-24-24V56c0-13.255 10.745-24 24-24h101.333c13.255 0 24 10.745 24 24zm181.334 240v-80c0-13.255-10.745-24-24-24H205.333c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24h101.333c13.256 0 24.001-10.745 24.001-24zm32-240v80c0 13.255 10.745 24 24 24H488c13.255 0 24-10.745 24-24V56c0-13.255-10.745-24-24-24H386.667c-13.255 0-24 10.745-24 24zm-32 80V56c0-13.255-10.745-24-24-24H205.333c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24h101.333c13.256 0 24.001-10.745 24.001-24zm-205.334 56H24c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24h101.333c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24zM0 376v80c0 13.255 10.745 24 24 24h101.333c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24H24c-13.255 0-24 10.745-24 24zm386.667-56H488c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24H386.667c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24zm0 160H488c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24H386.667c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24zM181.333 376v80c0 13.255 10.745 24 24 24h101.333c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24H205.333c-13.255 0-24 10.745-24 24z"></path></svg><!-- <i class="fa fa-th"></i> Font Awesome fontawesome.com --></a>
                                             </span>
                                             &nbsp;|&nbsp;
-                                            <span>122 کالا</span>
+                                            <span>@Model.RowCount کالا</span>
                                         </div>
                                     </div>
                                 </div>
@@ -74,74 +148,44 @@
                                         {
                                             <div class="col" style="display: block;">
                                                 <!-- Product Box -->
-                                                <div class="encode4326654321vfb shadow-sm border-0">
+                                                <div class="encode4326654321vfb">
+                                                    <a class="btn btn-outline-primary btn-sm m-1"><i class="fa fa-shopping-basket"></i></a>
                                                     <a asp-controller="Shop" asp-action="ProductDetaile" asp-route-id="@p.Id">
-                                                        <div class="btn btn-group-sm">
-                                                            <a asp-controller="Cart" asp-action="CartList" asp-route-id="@p.Id" class="btn btn-success"><i class="fa fa-shopping-basket"></i></a>
-                                                        </div>
-                                                        <div class="w-100" style="height: 10%;">
-                                                            <div class="owl-carousel owl-theme">
-                                                                @foreach (var pic in p.ProductImages)
-                                                                {
 
-                                                                    <div class="item">
-                                                                        <div class="row flex-column justify-content-center">
-                                                                            <img src="~/@pic.ImagePath" class="img-responsive" alt="@pic.AltAttr" data-toggle="tooltip" data-placement="top" title data-original-title="@pic.TitleAttr" height="75">
-                                                                        </div>
-                                                                    </div>
-                                                                }
-
-                                                            </div>
-                                                        </div>
+                                                        <div class="image" style="background-image: url('@p.ProductImages.Select(i => i.ImagePath).FirstOrDefault().Replace('\\', '/')')"></div>
                                                     </a>
                                                     <div class="details p-3">
                                                         <div class="category">
-                                                            <a asp-controller="Shop" asp-action="ProductDetaile" asp-route-id="@p.Id">@p.ChildCategory.ParentCategory.ParentTitle</a>
+                                                            <a href="./products.html">@p.ChildCategory.ParentCategory.ParentTitle</a>
                                                             &nbsp;/&nbsp;
-                                                        <a asp-controller="Shop" asp-action="ProductDetaile" asp-route-id="@p.Id">@p.ChildCategory.ChildTitle</a>
+                                                            <a href="./products.html">@p.ChildCategory.ChildTitle</a>
                                                         </div>
-                                                        <a asp-controller="Shop" asp-action="ProductDetaile" asp-route-id="@p.Id"><h2>@p.Name</h2></a>
+                                                        <a href="./product.html" class="text-reset"><small class="text-reset">@p.Name</small></a>
                                                         <div class="encode4365gbf265g43d">@p.Price.ToString("#,##") تومان</div>
                                                         <div class="rate">
-                                                            <div>
-                                                                @for (int i = 0; i < p.Rate; i++)
-                                                                {
-                                                                    <small><span class="fa fa-star text-warning"></span></small>
-                                                                }
-                                                            </div>
+                                                          @for (int i = 0; i < p.Rate/80; i++)
+                                                          {
+                                                              <i class="fa fa-star text-warning"></i>
+                                                          }
+                                                            <span class="encode43bf265g43d">(@p.Rate رای دهنده)</span>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <!-- /Product Box -->
-
                                             </div>
-
                                         }
-
 
                                         <!-- /Products -->
                                     </div>
                                 </div>
                             </div>
                             <div class="container">
-                                <div class="row justify-content-center border p-1 border-1">
-                                    <nav aria-label="Page navigation example">
-                                        <ul class="pagination justify-content-center">
-                                            <li class="page-item">
-                                                <a class="page-link" href="#" aria-label="Previous">
-                                                    <span aria-hidden="true">&laquo;</span>
-                                                </a>
-                                            </li>
-                                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                            <li class="page-item">
-                                                <a class="page-link" href="#" aria-label="Next">
-                                                    <span aria-hidden="true">&raquo;</span>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </nav>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div id="pagination-bg">
+                                            <ul class="pagination justify-content-center pagination-sm"><li class="page-item" id="previous-page"><a class="page-link" href="javascript:void(0)"><svg class="svg-inline--fa fa-angle-double-right fa-w-14" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="angle-double-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34zm192-34l-136-136c-9.4-9.4-24.6-9.4-33.9 0l-22.6 22.6c-9.4 9.4-9.4 24.6 0 33.9l96.4 96.4-96.4 96.4c-9.4 9.4-9.4 24.6 0 33.9l22.6 22.6c9.4 9.4 24.6 9.4 33.9 0l136-136c9.4-9.2 9.4-24.4 0-33.8z"></path></svg><!-- <i class="fas fa-angle-double-right"></i> Font Awesome fontawesome.com --></a></li><li class="page-item current-page active"><a class="page-link" href="javascript:void(0)">1</a></li><li class="page-item current-page"><a class="page-link" href="javascript:void(0)">2</a></li><li class="page-item current-page"><a class="page-link" href="javascript:void(0)">3</a></li><li class="page-item current-page"><a class="page-link" href="javascript:void(0)">4</a></li><li class="page-item" id="next-page"><a class="page-link" href="javascript:void(0)"><svg class="svg-inline--fa fa-angle-double-left fa-w-14" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="angle-double-left" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M223.7 239l136-136c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9L319.9 256l96.4 96.4c9.4 9.4 9.4 24.6 0 33.9L393.7 409c-9.4 9.4-24.6 9.4-33.9 0l-136-136c-9.5-9.4-9.5-24.6-.1-34zm-192 34l136 136c9.4 9.4 24.6 9.4 33.9 0l22.6-22.6c9.4-9.4 9.4-24.6 0-33.9L127.9 256l96.4-96.4c9.4-9.4 9.4-24.6 0-33.9L201.7 103c-9.4-9.4-24.6-9.4-33.9 0l-136 136c-9.5 9.4-9.5 24.6-.1 34z"></path></svg><!-- <i class="fas fa-angle-double-left"></i> Font Awesome fontawesome.com --></a></li></ul>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -151,37 +195,3 @@
         </div>
     </div>
 </section>
-@section Scripts
-    {
-    <link rel="stylesheet" href="~/lib/owlcarousel/dist/assets/owl.carousel.min.css">
-    <link rel="stylesheet" href="~/lib/owlcarousel/dist/assets/owl.theme.default.min.css">
-    <style>
-        .owl-nav, .owl-dots {
-            display: none;
-        }
-    </style>
-    <script src="~/lib/owlcarousel/dist/owl.carousel.min.js"></script>
-    <script>
-        $('.owl-carousel').owlCarousel({
-            loop: true,
-            margin: 10,
-            rtl: true,
-            nav: true,
-            autoplay: true,
-            autoplayTimeout: 5000,
-            autoplayHoverPause: true,
-            responsive: {
-                0: {
-                    items: 1
-                },
-                600: {
-                    items: 1
-                },
-                1000: {
-                    items: 1
-                }
-            }
-        });
-    </script>
-
-}

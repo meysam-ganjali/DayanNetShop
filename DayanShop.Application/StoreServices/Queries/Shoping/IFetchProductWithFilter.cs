@@ -1,6 +1,7 @@
 ﻿
 using DayanShop.Application.StoreServices.Queries.Product;
 using DayanShop.Core.Data;
+using DayanShop.Domains.Entities;
 using DayanShop.Utilities.DTOs;
 using DayanShop.Utilities.Helpers;
 using Microsoft.EntityFrameworkCore;
@@ -77,7 +78,8 @@ public class FetchProductWithFilter : IFetchProductWithFilter
               RowCount = totalRow,
               CurrentPage = Page,
               PageSize = pageSize,
-              Products = productQuery
+              Products = productQuery,
+              ChildCategories = _db.ChildCategories.ToList()
             },
             IsSuccess = true,
         };
@@ -87,6 +89,7 @@ public class ResultProductForSiteDto
 {
 
     public List<Domains.Entities.Product> Products { get; set; }
+    public List<ChildCategory> ChildCategories { get; set; }
     public int RowCount { get; set; }
     public int CurrentPage { get; set; }
     public int PageSize { get; set; }
