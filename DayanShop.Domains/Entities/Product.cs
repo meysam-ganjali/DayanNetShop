@@ -24,4 +24,5 @@ public class Product
     public ICollection<ProductReviw> ProductReviws { get; set; }
     public ICollection<ProductAttribute> ProductAttributes { get; set; }
     public ICollection<CartItem> CartItems { get; set; }
+    public ICollection<OrderDetaile> OrderDetailes { get; set; }
 }
