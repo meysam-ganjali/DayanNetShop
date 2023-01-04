@@ -16,6 +16,7 @@
     <Folder Include="StoreServices\Commands\CategoryAttr\" />
     <Folder Include="StoreServices\Commands\Shoping\" />
     <Folder Include="StoreServices\CartService\" />
+    <Folder Include="StoreServices\Fainances\" />
     <Folder Include="StoreServices\Queries\CategoryAttr\" />
     <Folder Include="StoreServices\Queries\Shoping\" />
     <Folder Include="StoreServices\Queries\Product\" />
