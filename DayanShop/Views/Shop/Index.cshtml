@@ -73,7 +73,7 @@
                                                     @foreach (var p0 in Model.Products)
                                                     {
                                                         p0Breake++;
-                                                        if (p0Breake >4)
+                                                        if (p0Breake > 4)
                                                         {
                                                             break;
                                                         }
@@ -149,7 +149,12 @@
                                             <div class="col" style="display: block;">
                                                 <!-- Product Box -->
                                                 <div class="encode4326654321vfb">
-                                                    <a class="btn btn-outline-primary btn-sm m-1"><i class="fa fa-shopping-basket"></i></a>
+                                                    <form method="post" asp-controller="Cart" asp-action="AddToCart" class="form-inline">
+                                                        <input type="hidden" name="Id" value="@p.Id" />
+                                                        <input type="hidden" min="1" name="Count" value="1" class="form-control">
+                                                        <button type="submit" class="btn btn-outline-primary btn-sm m-1" id="basic-addon2"><i class="fa fa-shopping-basket"></i> </button>
+                                                    </form>
+                                                    
                                                     <a asp-controller="Shop" asp-action="ProductDetaile" asp-route-id="@p.Id">
 
                                                         <div class="image" style="background-image: url('@p.ProductImages.Select(i => i.ImagePath).FirstOrDefault().Replace('\\', '/')')"></div>
@@ -163,10 +168,10 @@
                                                         <a href="./product.html" class="text-reset"><small class="text-reset">@p.Name</small></a>
                                                         <div class="encode4365gbf265g43d">@p.Price.ToString("#,##") تومان</div>
                                                         <div class="rate">
-                                                          @for (int i = 0; i < p.Rate/80; i++)
-                                                          {
-                                                              <i class="fa fa-star text-warning"></i>
-                                                          }
+                                                            @for (int i = 0; i < p.Rate / 80; i++)
+                                                            {
+                                                                <i class="fa fa-star text-warning"></i>
+                                                            }
                                                             <span class="encode43bf265g43d">(@p.Rate رای دهنده)</span>
                                                         </div>
                                                     </div>

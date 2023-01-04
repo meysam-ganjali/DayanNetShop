@@ -93,7 +93,7 @@
                                     <div class="sub-title pt-2 pb-2">تعداد</div>
                                     <input type="hidden" asp-for="Id" value="@Model.Id"/>
                                     <div class="input-group mb-3">
-                                        <input type="number" name="Count" class="form-control">
+                                        <input type="number" min="1" name="Count" value="1" class="form-control">
                                         <button type="submit" class="input-group-text btn-success" id="basic-addon2"><i class="fa fa-shopping-basket"></i> </button>
                                     </div>
                                 </form>

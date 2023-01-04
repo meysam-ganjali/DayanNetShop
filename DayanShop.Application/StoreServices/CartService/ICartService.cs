@@ -11,7 +11,7 @@ public interface ICartService
     Task<ResultDto>  AddToCart(int ProductId, Guid BrowserId,int count, string userId);
     Task<ResultDto>  RemoveFromCart(int cartitemId,string userId);
     Task<ResultDto<Cart>>  GetMyCart(Guid BrowserId, string UserId);
-
+    Task<ResultDto> RemoveCart(string userId, long CartId);
     Task<ResultDto>  Add(long CartItemId);
     Task<ResultDto>  LowOff(long CartItemId);
 }
@@ -117,6 +117,36 @@ public class CartService : ICartService
             
             IsSuccess = true,
             Data = cart
+        };
+    }
+
+    public async Task<ResultDto> RemoveCart(string userId, long CartId)
+    {
+        var cart = await _db.Carts
+            .Include(p=>p.CartItems)
+            .Include(p=>p.User).FirstOrDefaultAsync(p => p.UserId.Equals(userId) && p.Id.Equals(CartId));
+        if (cart == null)
+        {
+            return new ResultDto
+            {
+                IsSuccess = false,
+                Message = "سبد یافت نشد"
+            };
+        }
+
+        if (cart.CartItems.Any())
+        {
+            foreach (var item in cart.CartItems)
+            {
+                _db.CartItems.Remove(item);
+            }
+        }
+        var res = _db.Carts.Remove(cart);
+        await _db.SaveChangesAsync();
+        return new ResultDto
+        {
+            IsSuccess = true,
+            Message = $"{cart.User.FirstName + " " + cart.User.LastName} محترم سبد شما خلی گردید!"
         };
     }
 

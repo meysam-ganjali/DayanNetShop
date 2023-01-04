@@ -29,12 +29,12 @@ namespace DayanShop.Controllers
             return View(result.Data);
         }
         [HttpPost]
-        public async Task<IActionResult> AddToCart(int id,int Count)//id = Product Id
+        public async Task<IActionResult> AddToCart(int id, int Count)//id = Product Id
         {
             var claimIdentity = (ClaimsIdentity)User.Identity;
             var claim = claimIdentity.FindFirst(ClaimTypes.NameIdentifier);
             string userId = claim.Value;
-            var resultAdd = await _shoping.CartService.AddToCart(id, cookiesManeger.GetBrowserId(HttpContext),Count,userId);
+            var resultAdd = await _shoping.CartService.AddToCart(id, cookiesManeger.GetBrowserId(HttpContext), Count, userId);
             if (resultAdd.IsSuccess)
             {
                 TempData["success"] = "result.Message";
@@ -64,6 +64,17 @@ namespace DayanShop.Controllers
             string userId = claim.Value;
             var result = await _shoping.CartService.RemoveFromCart(id, userId);
             return Redirect("/Cart/CartList");
+        }
+
+        public async Task<IActionResult> RemoveCart(long id)//id = cartId
+        {
+            var claimIdentity = (ClaimsIdentity)User.Identity;
+            var claim = claimIdentity.FindFirst(ClaimTypes.NameIdentifier);
+            string userId = claim.Value;
+            var result = await _shoping.CartService.RemoveCart(userId, id);
+
+            return Json(result);
+
         }
     }
 }
