@@ -57,5 +57,13 @@ namespace DayanShop.Controllers
             var result = await _shoping.CartService.LowOff(id);
             return Redirect("/Cart/CartList");
         }
+        public async Task<IActionResult> RemoveItem(int id)//id = cartItemId
+        {
+            var claimIdentity = (ClaimsIdentity)User.Identity;
+            var claim = claimIdentity.FindFirst(ClaimTypes.NameIdentifier);
+            string userId = claim.Value;
+            var result = await _shoping.CartService.RemoveFromCart(id, userId);
+            return Redirect("/Cart/CartList");
+        }
     }
 }

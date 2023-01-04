@@ -9,7 +9,7 @@ namespace DayanShop.Application.StoreServices.CartService;
 public interface ICartService
 {
     Task<ResultDto>  AddToCart(int ProductId, Guid BrowserId,int count, string userId);
-    Task<ResultDto>  RemoveFromCart(long ProductId, Guid BrowserId);
+    Task<ResultDto>  RemoveFromCart(int cartitemId,string userId);
     Task<ResultDto<Cart>>  GetMyCart(Guid BrowserId, string UserId);
 
     Task<ResultDto>  Add(long CartItemId);
@@ -69,9 +69,29 @@ public class CartService : ICartService
         };
     }
 
-    public Task<ResultDto> RemoveFromCart(long ProductId, Guid BrowserId)
+    public async Task<ResultDto> RemoveFromCart(int cartitemId,string userId)
     {
-        throw new NotImplementedException();
+        var cartitem = await _db.CartItems.FirstOrDefaultAsync(p => p.Cart.UserId == userId && p.Id == cartitemId);
+        if (cartitem != null)
+        {
+           
+            _db.CartItems.Remove(cartitem);
+            await _db.SaveChangesAsync();
+            return new ResultDto
+            {
+                IsSuccess = true,
+                Message = "محصول از سبد خرید شما حذف شد"
+            };
+
+        }
+        else
+        {
+            return new ResultDto
+            {
+                IsSuccess = false,
+                Message = "محصول یافت نشد"
+            };
+        }
     }
 
     public async Task<ResultDto<Cart>> GetMyCart(Guid BrowserId, string UserId)
@@ -118,9 +138,10 @@ public class CartService : ICartService
         if (cartItem.Count <= 1)
         {
             _db.CartItems.Remove(cartItem);
+            await _db.SaveChangesAsync();
             return new ResultDto()
             {
-                IsSuccess = false,
+                IsSuccess = true,
             };
         }
         cartItem.Count--;
