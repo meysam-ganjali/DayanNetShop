@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DayanShop.Core.Migrations
 {
     [DbContext(typeof(DayanShopContext))]
-    [Migration("20230101122339_UpdateContext")]
-    partial class UpdateContext
+    [Migration("20230104122809_FixErrCartModel")]
+    partial class FixErrCartModel
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,6 +23,63 @@ namespace DayanShop.Core.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("DayanShop.Domains.Entities.Cart", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<Guid>("BrowserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("Finished")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Carts");
+                });
+
+            modelBuilder.Entity("DayanShop.Domains.Entities.CartItem", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<long>("CartId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("Count")
+                        .HasColumnType("int");
+
+                    b.Property<long>("Price")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CartId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("CartItems");
+                });
 
             modelBuilder.Entity("DayanShop.Domains.Entities.CategoryAttribute", b =>
                 {
@@ -478,6 +535,36 @@ namespace DayanShop.Core.Migrations
                     b.HasDiscriminator().HasValue("ApplicationUser");
                 });
 
+            modelBuilder.Entity("DayanShop.Domains.Entities.Cart", b =>
+                {
+                    b.HasOne("DayanShop.Domains.Entities.ApplicationUser", "User")
+                        .WithMany("Carts")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("DayanShop.Domains.Entities.CartItem", b =>
+                {
+                    b.HasOne("DayanShop.Domains.Entities.Cart", "Cart")
+                        .WithMany("CartItems")
+                        .HasForeignKey("CartId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("DayanShop.Domains.Entities.Product", "Product")
+                        .WithMany("CartItems")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Cart");
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("DayanShop.Domains.Entities.CategoryAttribute", b =>
                 {
                     b.HasOne("DayanShop.Domains.Entities.ChildCategory", "ChildCategory")
@@ -603,6 +690,11 @@ namespace DayanShop.Core.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("DayanShop.Domains.Entities.Cart", b =>
+                {
+                    b.Navigation("CartItems");
+                });
+
             modelBuilder.Entity("DayanShop.Domains.Entities.CategoryAttribute", b =>
                 {
                     b.Navigation("ProductAttributes");
@@ -622,11 +714,18 @@ namespace DayanShop.Core.Migrations
 
             modelBuilder.Entity("DayanShop.Domains.Entities.Product", b =>
                 {
+                    b.Navigation("CartItems");
+
                     b.Navigation("ProductAttributes");
 
                     b.Navigation("ProductImages");
 
                     b.Navigation("ProductReviws");
+                });
+
+            modelBuilder.Entity("DayanShop.Domains.Entities.ApplicationUser", b =>
+                {
+                    b.Navigation("Carts");
                 });
 #pragma warning restore 612, 618
         }

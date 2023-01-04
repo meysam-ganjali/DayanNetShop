@@ -13,7 +13,19 @@ public class CookieManagement
     {
         return context.Request.Cookies.ContainsKey(token);
     }
-
+    public Guid GetBrowserId(HttpContext context)
+    {
+        string browserId = GetValue(context, "BowserId");
+        if (browserId == null)
+        {
+            string value = Guid.NewGuid().ToString();
+            Add(context, "BowserId", value);
+            browserId = value;
+        }
+        Guid guidBowser;
+        Guid.TryParse(browserId, out guidBowser);
+        return guidBowser;
+    }
     public string GetValue(HttpContext context, string token)
     {
         string cookieValue;

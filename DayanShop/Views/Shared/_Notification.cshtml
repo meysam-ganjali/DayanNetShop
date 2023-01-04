@@ -1,0 +1,29 @@
+﻿@if (TempData["success"] != null)
+{
+    <script src="~/admin/assets/libs/jquery/dist/jquery.min.js"></script>
+    <script src="~/admin/assets/libs/toastr/build/toastr.min.js"></script>
+    <script>
+        toastr.success('@TempData["success"]', 'موفقیت آمیز',
+            {
+                "progressBar": true,
+                "showMethod": "slideDown",
+                "hideMethod": "slideUp",
+                timeOut: 4000,
+            });
+    </script>
+
+}
+@if (TempData["error"] != null)
+{
+    <script src="~/admin/assets/libs/jquery/dist/jquery.min.js"></script>
+    <script src="~/admin/assets/libs/toastr/build/toastr.min.js"></script>
+    <script>
+        toastr.error('@TempData["error"]', 'یک خطا رخ داده است',
+            {
+                "progressBar": true,
+                "showMethod": "slideDown",
+                "hideMethod": "slideUp",
+                timeOut: 4000
+            });
+    </script>
+}

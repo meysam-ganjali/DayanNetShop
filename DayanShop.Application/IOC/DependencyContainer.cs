@@ -2,6 +2,7 @@
 using DayanShop.Application.FacadePattern.FSDCategoryAttr;
 using DayanShop.Application.FacadePattern.FSDProduct;
 using DayanShop.Application.FacadePattern.FSDShoping;
+using DayanShop.Application.StoreServices.CartService;
 using DayanShop.Application.StoreServices.Commands.Category;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,5 +17,6 @@ public class DependencyContainer
         services.AddScoped<IFSDCategoryAttribute, FSDCategoryAttribute>();
         services.AddScoped<IFSDProduct, FSDProduct>();
         services.AddScoped<IFSDShoping, FSDShoping>();
+        services.AddScoped<ICartService, CartService>();
     }
 }

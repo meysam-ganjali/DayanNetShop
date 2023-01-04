@@ -1,5 +1,7 @@
 using DayanShop.Application.IOC;
+using DayanShop.Application.StoreServices.CartService;
 using DayanShop.Core.Data;
+using DayanShop.Utilities.Helpers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
@@ -18,6 +20,7 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(option =>
     })
     .AddEntityFrameworkStores<DayanShopContext>();
 DependencyContainer.RegisterServices(builder.Services,builder.Configuration);
+builder.Services.AddScoped<CookieManagement>();
 builder.Services.ConfigureApplicationCookie(option =>
 {
     option.LoginPath = "/Identity/Account/Login";
