@@ -42,6 +42,7 @@ public class AddNewOrder : IAddNewOrder
             RequestPay = requestPay,
             ApplicationUser = user,
             CreatedDate = DateTime.Now,
+            TootalAmount = cart.SumAmount,
 
         };
          _db.Orders.Add(order);
@@ -56,6 +57,7 @@ public class AddNewOrder : IAddNewOrder
                 Order = order,
                 ProductPrice = item.Product.Price,
                 Product = item.Product,
+                TotalRow = item.Product.Price * item.Count
             };
             orderDetails.Add(orderDetail);
 
@@ -78,6 +80,6 @@ public class AddNewOrder : IAddNewOrder
 public class RequestAddNewOrderSericeDto
 {
     public long CartId { get; set; }
-    public long RequestPayId { get; set; }
+    public int RequestPayId { get; set; }
     public string UserId { get; set; }
 }

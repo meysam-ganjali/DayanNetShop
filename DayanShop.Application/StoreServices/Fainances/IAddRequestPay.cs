@@ -26,7 +26,6 @@ public class AddRequestPay : IAddRequestPay
             Guid = Guid.NewGuid(),
             IsPay = false,
             User = user,
-
         };
         _context.RequestPays.Add(requestPay);
         await _context.SaveChangesAsync();

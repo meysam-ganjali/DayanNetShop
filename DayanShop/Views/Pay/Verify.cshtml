@@ -1,0 +1,61 @@
+﻿
+@model DayanShop.Domains.Entities.RequestPay
+@{
+    ViewData["Title"] = "نتیجه پرداخت";
+}
+<section class="inner-page" id="checkout-page">
+    <div class="container-fluid" id="page-hero">
+        <div class="row">
+            <div class="col-12">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12 px-0">
+                            <h1>@ViewData["Title"]</h1>
+                            <p>پرداخت فاکتور شماره @Model.Guid</p>
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="~/">صفحه نخست</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">نتیجه پرداخت</li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="content">
+                    <div class="row">
+                        <div class="col-12 col-lg-9">
+                           
+                            <!-- Orders List -->
+                            <section class="mt-3" id="orders">
+                                <div class="container mt-2">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="pb-1 title">سفارش شما</div>
+                                            <div class="row">
+                                              @if (Model.IsPay)
+                                              {
+                                                    <h1 class="text-success text-center h5">پرداخت فاکتور شماره @Model.Guid به مبلغ <span class="text-decoration-underline text-danger">@Model.Amount.ToString("#,##")</span> با موفقیت پرداخت شد</h1>
+                                                  <h6 class="text-success text-center">
+                                                     سفارش شما در حال پردازش می باشد
+                                                  </h6>
+                                              }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                       
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

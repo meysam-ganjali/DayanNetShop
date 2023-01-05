@@ -5,6 +5,7 @@ using DayanShop.Utilities.Helpers;
 using Dto.Payment;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using DayanShop.Application.StoreServices.Fainances;
 using Microsoft.AspNetCore.Authorization;
 using ZarinPal.Class;
 
@@ -39,11 +40,11 @@ namespace DayanShop.Controllers
             {
                 var requestPay = await _peyment.AddRequestPay.Execute(userCart.Data.SumAmount, userId);
                 // ارسال در گاه پرداخت
-
+                
                 var result = await _payment.Request(new DtoRequest()
                 {
                     Mobile = requestPay.Data.UserPhone,
-                    CallbackUrl = $"https://localhost:44360/Pay/Verify?guid={requestPay.Data.guid}",
+                    CallbackUrl = $"https://localhost:44360/Pay/Verify?guid={requestPay.Data.guid}&cartId={userCart.Data.Id}&userId={userId}",
                     Description = $"پرداخت فاکتور {requestPay.Data.RequestPayId} مربوط به کاربر {requestPay.Data.UserFullName}",
                     Email = requestPay.Data.Email,
                     Amount = (int)requestPay.Data.Amount,
@@ -59,11 +60,11 @@ namespace DayanShop.Controllers
             }
 
         }
-        public async Task<IActionResult> Verify(Guid guid, string authority, string status)
+        public async Task<IActionResult> Verify(Guid guid, string authority, string status,long cartId,string userId)
         {
 
            var requestPay = await _peyment.GetRequestPay.Execute(guid);
-
+            
             var verification = await _payment.Verification(new DtoVerification
             {
                 Amount = requestPay.Data.Amount,
@@ -73,7 +74,24 @@ namespace DayanShop.Controllers
 
             if (verification.Status == 100)
             {
-                return null;
+                var confirmRequest = await _peyment.EditRequestPay.ConfirmRequestPayAsync(guid, authority, status, verification.RefId);
+                if (confirmRequest.IsSuccess)
+                {
+                  
+                    var addOrder = await _peyment.AddNewOrder.CreateAsync(new RequestAddNewOrderSericeDto
+                    {
+                        CartId = cartId,
+                        RequestPayId = confirmRequest.Data.Id,
+                        UserId = userId
+                    });
+                    
+                    return View(confirmRequest.Data);
+                }
+                else
+                {
+                    ViewBag.Error = "err";
+                    return View();
+                }
             }
             else
             {

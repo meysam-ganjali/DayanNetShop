@@ -40,4 +40,24 @@ public class FSDFainances : IFSDFainances
             return _getGetRequestPay = _getGetRequestPay ?? new GetRequestPay(_db);
         }
     }
+
+
+    IEditRequestPay _editRequestPay;
+    public IEditRequestPay EditRequestPay
+    {
+        get
+        {
+            return _editRequestPay= _editRequestPay ?? new EditRequestPay(_db);
+        }
+    }
+
+
+    private IChangeCartStatus _changeCartStatus;
+    public IChangeCartStatus ChangeCartStatus
+    {
+        get
+        {
+            return _changeCartStatus= _changeCartStatus ?? new ChangeCartStatus(_db);
+        }
+    }
 }

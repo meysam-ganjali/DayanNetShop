@@ -101,7 +101,7 @@ public class CartService : ICartService
             .ThenInclude(p => p.Product)
             .ThenInclude(p=>p.ProductImages)
             .Include(p => p.User)
-            .FirstOrDefaultAsync(p => p.UserId == UserId);
+            .FirstOrDefaultAsync(p => p.UserId == UserId && p.Finished.Equals(false));
         if (cart == null)
         {
             return new ResultDto<Cart>
