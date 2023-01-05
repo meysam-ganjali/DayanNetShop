@@ -11,6 +11,7 @@
     <Folder Include="FacadePattern\FSDCategoryAttr\" />
     <Folder Include="FacadePattern\FSDProduct\" />
     <Folder Include="FacadePattern\FSDShoping\" />
+    <Folder Include="FacadePattern\FSDFainances\" />
     <Folder Include="IOC\" />
     <Folder Include="StoreServices\Commands\Category\" />
     <Folder Include="StoreServices\Commands\CategoryAttr\" />

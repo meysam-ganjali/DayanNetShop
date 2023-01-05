@@ -112,6 +112,8 @@ public class CartService : ICartService
             };
         }
 
+        cart.SumAmount = cart.CartItems.Sum(p => p.Price * p.Count);
+       await  _db.SaveChangesAsync();
         return new ResultDto<Cart>()
         {
             

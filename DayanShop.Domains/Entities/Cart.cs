@@ -12,6 +12,7 @@ public class Cart
     public bool Finished { get; set; }
     public DateTime CreatedDate { get; set; } = DateTime.Now;
     public ICollection<CartItem> CartItems { get; set; }
+    public long SumAmount { get; set; }
 }
 
 
