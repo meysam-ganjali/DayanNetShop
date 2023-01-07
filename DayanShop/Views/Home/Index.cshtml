@@ -45,17 +45,41 @@
                 <div class="row row-cols-1 row-cols-sm-3 row-cols-md-1 h-100 gy-2 g-sm-1 g-md-0">
                     <div class="col align-self-start" data-aos="fade-top" data-aos-duration="1000">
                         <a href="./products.html">
-                            <img src="~/siteassets/images/slider/side-slide1.jpg" alt="" width="100%">
+                            @if (Model.SliderLst.Count(p => p.Possition == SliderPossition.TOP_LEFT) > 0)
+                            {
+                                <img src="~/@Model.SliderLst.FirstOrDefault(p => p.Possition == SliderPossition.TOP_LEFT).ImagePath" alt="" width="100%">
+                            }
+                            else
+                            {
+                                <img src="~/siteassets/images/slider/side-slide1.jpg" alt="" width="100%">
+                            }
                         </a>
                     </div>
                     <div class="col align-self-center" data-aos="fade-top" data-aos-duration="1100">
                         <a href="./products.html">
-                            <img src="~/siteassets/images/slider/side-slide2.jpg" alt="" width="100%">
+                            @if (Model.SliderLst.Count(p => p.Possition == SliderPossition.TOP_LEFT_CENTER) > 0)
+                            {
+                                <img src="~/@Model.SliderLst.FirstOrDefault(p => p.Possition == SliderPossition.TOP_LEFT_CENTER).ImagePath" alt="" width="100%">
+                            }
+                            else
+                            {
+                                <img src="~/siteassets/images/slider/side-slide1.jpg" alt="" width="100%">
+                            }
+
                         </a>
                     </div>
                     <div class="col align-self-end" data-aos="fade-top" data-aos-duration="1200">
+
                         <a href="./products.html">
-                            <img src="~/siteassets/images/slider/side-slide3.jpg" alt="" width="100%">
+                            @if (Model.SliderLst.Count(p => p.Possition == SliderPossition.TOP_LEFT_BOTTOM) > 0)
+                            {
+                                <img src="~/@Model.SliderLst.FirstOrDefault(p => p.Possition == SliderPossition.TOP_LEFT_BOTTOM).ImagePath" alt="" width="100%">
+                            }
+                            else
+                            {
+                                <img src="~/siteassets/images/slider/side-slide1.jpg" alt="" width="100%">
+                            }
+
                         </a>
                     </div>
                 </div>
@@ -1532,12 +1556,28 @@
     <div class="row">
         <div class="col-12 col-md-4 pt-2 text-center">
             <a href="./products.html">
-                <img src="~/siteassets/images/promo-image1.png" alt="">
+                @if (Model.SliderLst.Count(p => p.Possition == SliderPossition.BUTTOM_RIGHT) > 0)
+                {
+                    <img src="~/@Model.SliderLst.FirstOrDefault(p => p.Possition == SliderPossition.BUTTOM_RIGHT).ImagePath" alt="" width="100%">
+                }
+                else
+                {
+ <img src="~/siteassets/images/promo-image1.png" alt="">
+                }
+               
             </a>
         </div>
         <div class="col-12 col-md-8 pt-2 text-center">
             <a href="./products.html">
-                <img src="~/siteassets/images/promo-image2.png" alt="">
+                @if (Model.SliderLst.Count(p => p.Possition == SliderPossition.BUTTOM_LEFT) > 0)
+                {
+                    <img src="~/@Model.SliderLst.FirstOrDefault(p => p.Possition == SliderPossition.BUTTOM_LEFT).ImagePath" alt="" width="100%">
+                }
+                else
+                {
+                     <img src="~/siteassets/images/promo-image2.png" alt="">
+                }
+              
             </a>
         </div>
     </div>
