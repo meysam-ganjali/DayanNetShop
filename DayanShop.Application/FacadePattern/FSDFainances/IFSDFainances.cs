@@ -9,4 +9,5 @@ public interface IFSDFainances
     IGetRequestPay GetRequestPay { get; }
     IEditRequestPay EditRequestPay { get; }
     IChangeCartStatus ChangeCartStatus { get; }
+    IUserOrderInfo UserOrderInfo { get; }
 }

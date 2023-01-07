@@ -52,12 +52,22 @@ public class FSDFainances : IFSDFainances
     }
 
 
-    private IChangeCartStatus _changeCartStatus;
+     IChangeCartStatus _changeCartStatus;
     public IChangeCartStatus ChangeCartStatus
     {
         get
         {
             return _changeCartStatus= _changeCartStatus ?? new ChangeCartStatus(_db);
+        }
+    }
+
+
+    IUserOrderInfo _userOrderInfo;
+    public IUserOrderInfo UserOrderInfo
+    {
+        get
+        {
+            return _userOrderInfo= _userOrderInfo ?? new UserOrderInfo(_db);
         }
     }
 }

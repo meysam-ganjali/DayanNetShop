@@ -29,6 +29,7 @@ public class GetRequestPay : IGetRequestPay
                 Data = new RequestPayDto()
                 {
                     Amount = requestPay.Amount,
+                    Id = requestPay.Id
                 }
             };
         }
@@ -45,5 +46,6 @@ public class GetRequestPay : IGetRequestPay
 public class RequestPayDto
 {
     public int Amount { get; set; }
+    public int Id { get; set; }
 
 }

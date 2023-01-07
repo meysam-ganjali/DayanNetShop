@@ -1,6 +1,8 @@
 ﻿@model DayanShop.Domains.Entities.Cart
 @{
     ViewData["Title"] = "پیش فاکتور";
+    long totalAmount = 0;
+    long? totalDiscount = 0;
 }
 <section class="inner-page" id="checkout-page">
     <div class="container-fluid" id="page-hero">
@@ -73,36 +75,44 @@
                                         <div class="col-12">
                                             <div class="pb-1 title">سفارشات شما</div>
                                             <div class="row">
-                                                <!-- Order Product Record -->
-                                                <span class="col-6 col-sm-4 col-lg-3 px-0">
-                                                    <a href="./product.html" target="_blank">
-                                                    </a><div class="encode4326654321vfb">
-                                                        <a href="./product.html" target="_blank">
-                                                            <div class="image" style="background-image: url(assets/images/products/p100.png)"></div>
-                                                        </a><div class="text-center px-1 px-sm-3">
-                                                            <a href="./product.html" target="_blank">
-                                                            </a><a href="./product.html" target="_blank"><h2>گوشی موبایل سامسونگ مدل Galaxy A51 دو سیم کارت</h2></a>
-                                                            <div class="number">تعداد: 2 عدد</div>
-                                                        </div>
-                                                    </div>
+                                                @if (Model == null)
+                                                {
+                                                    <p class="text-center text-danger">محصولی برای نمایش وجود ندارد</p>
+                                                }
+                                                else
+                                                {
+                                                    foreach (var item in Model.CartItems)
+                                                    {
+                                                        <!-- Order Product Record -->
+                                                        <span class="col-6 col-sm-4 col-lg-3 px-0">
+                                                            <a asp-controller="Shop" asp-action="ProductDetaile" asp-route-id="@item.ProductId" target="_blank">
+                                                            </a>
+                                                            <div class="encode4326654321vfb">
+                                                                <a asp-controller="Shop" asp-action="ProductDetaile" asp-route-id="@item.ProductId" target="_blank">
+                                                                    <div class="image" style="background-image: url('../@item.Product.ProductImages.Select(i => i.ImagePath).FirstOrDefault().Replace('\\', '/')')"></div>
+                                                                </a>
+                                                                <div class="text-center px-1 px-sm-3">
+                                                                    <a asp-controller="Shop" asp-action="ProductDetaile" asp-route-id="@item.ProductId" target="_blank">
+                                                                    </a>
+                                                                    <a asp-controller="Shop" asp-action="ProductDetaile" asp-route-id="@item.ProductId" target="_blank">
+                                                                        <h2>@item.Product.Name</h2>
+                                                                    </a>
+                                                                    <div class="number">تعداد: @item.Count عدد</div>
+                                                                </div>
+                                                            </div>
+                                                            @{
+                                                                totalAmount += item.Product.Price * item.Count;
+                                                                if (item.Product.OldPrice > 0)
+                                                                {
+                                                                    totalDiscount += ((item.Product.OldPrice - item.Product.Price) * item.Count);
+                                                                }
 
-                                                </span>
-                                                <!-- /Order Product Record -->
-                                                <!-- Order Product Record -->
-                                                <span class="col-6 col-sm-4 col-lg-3 px-0">
-                                                    <a href="./product.html" target="_blank">
-                                                    </a><div class="encode4326654321vfb">
-                                                        <a href="./product.html" target="_blank">
-                                                            <div class="image" style="background-image: url(assets/images/products/p200.png)"></div>
-                                                        </a><div class="text-center px-1 px-sm-3">
-                                                            <a href="./product.html" target="_blank">
-                                                            </a><a href="./product.html" target="_blank"><h2>لپ تاپ 15 اینچی ایسوس مدل VivoBook X543MA-DM905</h2></a>
-                                                            <div class="number">تعداد: 2 عدد</div>
-                                                        </div>
-                                                    </div>
+                                                            }
+                                                        </span>
+                                                        <!-- /Order Product Record -->
+                                                    }
+                                                }
 
-                                                </span>
-                                                <!-- /Order Product Record -->
                                             </div>
                                         </div>
                                     </div>
@@ -189,7 +199,7 @@
                                             <div>جمع کل فاکتور:</div>
                                         </div>
                                         <div class="col-6">
-                                            <div>3.200.000 تومان</div>
+                                            <div>@totalAmount.ToString("#,##") تومان</div>
                                         </div>
                                     </div>
                                     <div class="row py-2 bg-light">
@@ -197,7 +207,7 @@
                                             <div>جمع تخفیف:</div>
                                         </div>
                                         <div class="col-6">
-                                            <div>200.000 تومان</div>
+                                            <div>@totalDiscount تومان</div>
                                         </div>
                                     </div>
                                     <div class="row py-2">
@@ -213,7 +223,7 @@
                                             <div>مبلغ قابل پرداخت:</div>
                                         </div>
                                         <div class="col-6">
-                                            <div>3.000.000 تومان</div>
+                                            <div>@totalAmount.ToString("#,##") تومان</div>
                                         </div>
                                     </div>
                                 </div>
@@ -231,11 +241,7 @@
                                                     <input type="radio" class="form-check-input" name="payment_type" checked="">پرداخت آنلاین
                                                 </label>
                                             </div>
-                                            <div class="form-check">
-                                                <label class="form-check-label">
-                                                    <input type="radio" class="form-check-input" name="payment_type">ثبت فیش پرداخت/کارت به کارت
-                                                </label>
-                                            </div>
+                                           
                                         </div>
                                         <div class="col-12 pb-2" id="rules">
                                             <div class="form-check">
@@ -245,7 +251,7 @@
                                             </div>
                                         </div>
                                         <div class="col-12">
-                                            <input type="submit" value="پرداخت و تکمیل خرید" class="btn btn-success w-100">
+                                          <a asp-controller="Pay" asp-action="PaymentIndex" class="w-100 btn btn-success">پرداخت و تکمیل خرید</a>
                                         </div>
                                     </div>
                                 </div>

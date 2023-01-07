@@ -94,8 +94,8 @@ namespace DayanShop.Controllers
                         RequestPayId = confirmRequest.Data.Id,
                         UserId = userId
                     });
-                    
-                    return View(confirmRequest.Data);
+                    var model = await _peyment.UserOrderInfo.GetAsync(userId,requestPay.Data.Id);
+                    return View(model.Data);
                 }
                 else
                 {
@@ -105,7 +105,7 @@ namespace DayanShop.Controllers
             }
             else
             {
-                return null;
+                return View();
             }
 
         }
