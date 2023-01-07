@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection.Emit;
+using DayanShop.Domains.Entities.Common;
 
 namespace DayanShop.Core.Data;
 
@@ -27,6 +28,7 @@ public class DayanShopContext : IdentityDbContext<IdentityUser>
     public DbSet<OrderDetaile> OrderDetailes { get; set; }
     public DbSet<RequestPay> RequestPays { get; set; }
     public DbSet<UserAddress> UserAddresses { get; set; }
+    public DbSet<Slider> Sliders { get; set; }
     protected override void OnModelCreating(ModelBuilder builder)
     {
         foreach (var relationship in builder.Model.GetEntityTypes().SelectMany(s => s.GetForeignKeys()))
