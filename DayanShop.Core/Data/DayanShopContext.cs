@@ -26,6 +26,7 @@ public class DayanShopContext : IdentityDbContext<IdentityUser>
     public DbSet<Order> Orders { get; set; }
     public DbSet<OrderDetaile> OrderDetailes { get; set; }
     public DbSet<RequestPay> RequestPays { get; set; }
+    public DbSet<UserAddress> UserAddresses { get; set; }
     protected override void OnModelCreating(ModelBuilder builder)
     {
         foreach (var relationship in builder.Model.GetEntityTypes().SelectMany(s => s.GetForeignKeys()))

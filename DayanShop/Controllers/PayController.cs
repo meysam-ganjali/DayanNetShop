@@ -30,6 +30,16 @@ namespace DayanShop.Controllers
             _authority = expose.CreateAuthority();
             _transactions = expose.CreateTransactions();
         }
+
+        public async Task<IActionResult> CheckOut()
+        {
+            var claimIdentity = (ClaimsIdentity)User.Identity;
+            var claim = claimIdentity.FindFirst(ClaimTypes.NameIdentifier);
+            string userId = claim.Value;
+            var userCart = await _cartService.CartService.GetMyCart(cookiesManeger.GetBrowserId(HttpContext), userId);
+
+            return View(userCart.Data);
+        }
         public async Task<IActionResult> PaymentIndex()
         {
             var claimIdentity = (ClaimsIdentity)User.Identity;
