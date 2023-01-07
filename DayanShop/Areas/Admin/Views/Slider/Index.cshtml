@@ -1,0 +1,174 @@
+﻿@model IEnumerable<DayanShop.Domains.Entities.Common.Slider>
+@{
+    ViewData["Title"] = "لیست اسلادر ها و بنرها";
+}
+<partial name="_Notification" />
+<div class="page-breadcrumb">
+    <div class="row">
+        <div class="col-5 align-self-center">
+            <h4 class="page-title">@ViewData["Title"]</h4>
+        </div>
+        <div class="col-7 align-self-center">
+            <div class="d-flex align-items-center justify-content-end">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="/Admin/Home">داشبورد</a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"] </li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body d-flex justify-content-between flex-wrap">
+                    <div class="card-title">
+                        <form action="/Admin/Slider/Index" class="input-group mb-3">
+                            <input name="searchKey" type="text" class="form-control" placeholder="دنبال چی می گردی؟" aria-label="Search For Parent Category" aria-describedby="basic-addon2">
+                            <button type="submit" class="input-group-text bg-primary text-white" id="basic-addon2"><i class="fa fa-search"></i></button>
+                        </form>
+                    </div>
+                    <div class="card-subtitle">
+                        <button onclick="ShowModalAddSlider()" class="btn btn-success"><i class="fa fa-plus"></i>&nbsp;ثبت اسلایدر یا بنر</button>
+                    </div>
+                </div>
+                <div class="table-responsive p-1">
+                    <table class="table table-bordered table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th><i class="fa fa-image"></i></th>
+                                <th>عنوان اسلایدر</th>
+                                <th>مکان</th>
+                                <th>لینک</th>
+                                <th>
+                                    <i class=" mdi mdi-settings"></i>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                         
+                            @if (!Model.Any())
+                            {
+                                <tr>
+                                    <td colspan="4">
+                                        <p class="text-danger text-center">اسلایدری برای نمایش وجود ندارد. ابتدا یک اسلاید ثبت کنید!</p>
+                                    </td>
+                                </tr>
+                            }
+                            else
+                            {
+                                foreach (var slide in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            <img src="~/@slide.ImagePath" alt="@slide.AltAttr" title="@slide.TitleAttr" width="45" hidden="40" />
+                                        </td>
+                                        <td>
+                                            <p data-toggle="tooltip" data-placement="top" title data-original-title="@slide.Title">@slide.Title</p>
+                                        </td>
+                                        <td>@slide.Possition</td>
+                                        <td>
+                                            <a class="text-reset text-decoration-none" href="@slide.Link">@slide.Link</a>
+                                        </td>
+                                        <td>
+                                            <div class="btn-group-sm">
+                                                <button type="button" class="btn btn-primary"><i class="fa fa-edit"></i> ویرایش</button>
+                                                <button class="btn btn-danger"><i class="fa fa-trash"></i> حذف</button>
+                                                <button type="button" class="btn btn-success"><i class="fa fa-plus"></i> افزودن زیردسته</button>
+
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts
+    {
+    <link rel="stylesheet" href="~/admin/dist/Sweetalert2/sweetalert2.min.css" />
+    <script src="~/admin/dist/Sweetalert2/sweetalert2.min.js"></script>
+    <script>
+        function ShowModalAddSlider() {
+            $('#AddSlider').modal('show');
+        }
+    </script>
+}
+    @section Modals
+    {
+    <div class="modal" id="AddSlider" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-success">
+                    <h5 class="modal-title text-white">
+                        افزودن اسلایدر
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="/Admin/Slider/CreateSlider" enctype=multipart/form-data>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text bg-light" id="basic-addon1">عنوان </span>
+                            <input name="Title" type="text" class="form-control" placeholder="https//:www.site.com/address">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text bg-light" id="basic-addon1">توضیحات </span>
+                            <textarea class="form-control" name="Description"></textarea>
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text bg-light" id="basic-addon1">مکان نمایش </span>
+                            <select class="form-control" name="Possition">
+                                <option value="TOP_RIGHT">بالا - راست</option>
+                                <option value="TOP_LEFT">بالا - چپ - بالا </option>
+                                <option value="TOP_LEFT_CENTER">بالا - چپ - وسط</option>
+                                <option value="TOP_LEFT_BOTTOM">بالا - چپ - پایین</option>
+                                <option value="BUTTOM_LEFT">پایین - چپ</option>
+                                <option value="BUTTOM_RIGHT">پایین - راست</option>
+                            </select>
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text bg-light" id="basic-addon1">لینک </span>
+                            <input name="Link" type="text" class="form-control" placeholder="https//:www.site.com/address">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text bg-light" id="basic-addon1">تصویر</span>
+                            <input name="file" type="file" class="form-control" accept="image/*">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text bg-light" id="basic-addon1">alt Attribute</span>
+                            <input name="AltAttr" type="text" class="form-control" placeholder="برای سئو سایت موثر می باشد">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text bg-light" id="basic-addon1">title Attribute</span>
+                            <input name="TitleAttr" type="text" class="form-control" placeholder="برای سئو سایت موثر می باشد">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text bg-light" id="basic-addon1">ارتفاع</span>
+                            <input name="Height" type="number" class="form-control" placeholder="ارتفاع تصویر">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text bg-light" id="basic-addon1">عرض</span>
+                            <input name="width" type="number" class="form-control" placeholder="عرض تصویر">
+                        </div>
+                        <div class="row justify-content-around">
+                            <button type="submit" class="btn btn-success "><i class="fa fa-check"></i>&nbsp;ثبت </button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-arrow-left"></i>&nbsp;برگشت</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+}
