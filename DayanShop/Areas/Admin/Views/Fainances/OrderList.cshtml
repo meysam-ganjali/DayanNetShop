@@ -1,0 +1,154 @@
+﻿@addTagHelper *, LazZiya.TagHelpers
+
+@{
+    ViewData["Title"] = "لیست محصولات فروشگاه";
+}
+<partial name="_Notification" />
+<div class="page-breadcrumb">
+    <div class="row">
+        <div class="col-5 align-self-center">
+            <h4 class="page-title">@ViewData["Title"]</h4>
+        </div>
+        <div class="col-7 align-self-center">
+            <div class="d-flex align-items-center justify-content-end">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="/Admin/Home">داشبورد</a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">لیست محصولات</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body d-flex justify-content-between flex-wrap">
+                    <div class="card-title">
+                        <form action="/Admin/Product/Index" class="input-group mb-3">
+                            <div class="btn-group show">
+                                <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    دنبا ل چی میگردی؟
+                                </button>
+                                <div class="dropdown-menu show" x-placement="top-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, -204px, 0px);">
+                                    <a class="dropdown-item" href="javascript:void(0)">فاکتورهای جدید <i class="badge bg-success">3</i></a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="javascript:void(0)">فاکتورهای کنسل شده <i class="badge bg-danger">3</i></a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="javascript:void(0)">فاکتورهای تحویلی <i class="badge bg-success">3</i></a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="card-subtitle">
+                        <a href="/Admin/Product/CreateProduct" class="btn btn-success"><i class="fa fa-plus"></i>&nbsp;ثبت محصول جدید</a>
+                    </div>
+                    <div class="row w-100 justify-content-center">
+                        <p class="text-center text-primary">
+                            برای ویرایش ، حذف، افزودن عکس و افزودن بررسی به قسمت جزئیات محصول مراجعه کنید
+                        </p>
+                    </div>
+                </div>
+
+                <div class="table-responsive p-1">
+                    <table class="table table-bordered table-hover table-striped" style="overflow: scroll">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>نام محصول</th>
+                                <th>امتیاز</th>
+                                <th>تعداد بازدید</th>
+                                <th>قیمت</th>
+                                <th>تخفیفات</th>
+                                <th>
+                                    <i class=" mdi mdi-settings"></i>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td colspan="7">sssssssssss</td>
+                        </tr>
+                        @*@if (!Model.Products.Any())
+                            {
+                                <tr>
+                                    <td colspan="7">
+                                        <p class="text-danger text-center">محصولی برای نمایش یافت نشد. ابتدا یک دسته ثبت کنید!</p>
+                                    </td>
+                                </tr>
+                            }
+                            else
+                            {
+                                @foreach (var p in Model.Products)
+                                {
+                                    <tr>
+                                        <td>@p.Id</td>
+                                        <td>
+                                            <p data-toggle="tooltip" data-placement="top" title data-original-title="@p.Slug">@p.Name</p>
+                                        </td>
+                                        @if (p.Rate > 0)
+                                        {
+                                            <td>
+                                                @for (int i = 0; i < p.Rate; i++)
+                                                {
+                                                    <i class="fa fa-star text-warning"></i>
+                                                }
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td>
+                                                امتیاز ثبت نشده!
+                                            </td>
+                                        }
+                                        <td>@p.ShowCount عدد</td>
+                                        <td>@p.Price.ToString("n0") تومان</td>
+                                        <td>
+                                            @if (p.OldPrice > 0 || p.ShowDiscountLable)
+                                            {
+
+                                                <ul class="list-style-none">
+                                                    <li><small>درصد تخفیف :</small> @p.Percentage &nbsp;<i class="fas fa-percent"></i></li>
+                                                    <li><small>قیمت قبل :</small>@(p.OldPrice > 0 ? p.OldPrice : "مشخص نشده")</li>
+                                                </ul>
+
+                                            }
+
+                                        <td>
+                                            <div class="btn-group-sm">
+                                                <button onclick="DeleteProduct('@p.Id', '@p.Name')" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title data-original-title="حذف محصول"><i class="fa fa-trash"></i></button>
+                                                <a href="/Admin/Product/ProductDetails/@p.Id" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title data-original-title="جزئیات محصول"><i class="fa fa-eye"></i></a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            }*@
+                        </tbody>
+                    </table>
+                    <div class="row justify-content-center">
+
+                       @* <nav aria-label="Page navigation example">
+                            <paging total-records="@Model.RowCount"
+                                    page-no="@Model.CurrentPage"
+                                    page-size="@Model.PageSize"
+                                    show-prev-next="true"
+                                    show-total-pages="false"
+                                    show-total-records="false"
+                                    show-page-size-nav="true"
+                                    show-first-numbered-page="true"
+                                    show-last-numbered-page="true"
+                                    query-string-key-page-no="Page"
+                                    query-string-key-page-size="PageSize"
+                                    gap-size="2">
+                            </paging>
+                        </nav>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

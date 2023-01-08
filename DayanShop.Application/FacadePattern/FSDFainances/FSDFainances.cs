@@ -70,4 +70,14 @@ public class FSDFainances : IFSDFainances
             return _userOrderInfo= _userOrderInfo ?? new UserOrderInfo(_db);
         }
     }
+
+
+    private IOrdersInformation _ordersInformation;
+    public IOrdersInformation OrdersInfo
+    {
+        get
+        {
+            return _ordersInformation= _ordersInformation ?? new OrdersInformation(_db);
+        }
+    }
 }
