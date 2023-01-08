@@ -13,4 +13,5 @@ public interface IFSDFainances
     IOrdersInformation OrdersInfo { get; }
     IOrderDelivery OrderDelivery { get; }
     ICancelOrder CancelOrder { get; }
+    IOrderDetailes OrderDetailes { get; }
 }

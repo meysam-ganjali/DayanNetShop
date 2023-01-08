@@ -100,4 +100,14 @@ public class FSDFainances : IFSDFainances
             return _cancelOrder= _cancelOrder ?? new CancelOrder(_db);
         }
     }
+
+
+    IOrderDetailes _ordersDetailes;
+    public IOrderDetailes OrderDetailes
+    {
+        get
+        {
+            return _ordersDetailes = _ordersDetailes ?? new OrderDetailes(_db);
+        }
+    }
 }

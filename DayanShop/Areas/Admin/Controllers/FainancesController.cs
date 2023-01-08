@@ -4,6 +4,7 @@ using DayanShop.Domains.Entities;
 using DayanShop.Utilities.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ZarinPal.Class;
 
 namespace DayanShop.Areas.Admin.Controllers
 {
@@ -40,6 +41,12 @@ namespace DayanShop.Areas.Admin.Controllers
         {
             var result = await _fainances.CancelOrder.CancelASync(id);
             return Json(result);
+        }
+
+        public async Task<IActionResult> OrderDetailes(int id)//id = OrderId
+        {
+            var result = await _fainances.OrderDetailes.GetAsync(id);
+            return View(result.Data);
         }
     }
 }

@@ -1,0 +1,224 @@
+﻿@model DayanShop.Domains.Entities.Order
+@{
+    ViewData["Title"] = "جزئیات فاکتور";
+}
+<div class="page-breadcrumb">
+    <div class="row">
+        <div class="col-5 align-self-center">
+            <h4 class="page-title">@ViewData["Title"]</h4>
+        </div>
+        <div class="col-7 align-self-center">
+            <div class="d-flex align-items-center justify-content-end">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="~/">خانه</a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <!-- ============================================================== -->
+    <!-- Start Page Content -->
+    <!-- ============================================================== -->
+    <div class="row">
+        <!-- Column -->
+        <div class="col-md-9 col-lg-9">
+            <div class="card">
+                <div class="card-header bg-info">
+                    <h5 class="m-b-0 text-white">Your Cart (4 items)</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table product-overview">
+                            <thead>
+                            <tr>
+                                <th>تصویر</th>
+                                <th>اطلاعات محصول</th>
+                                <th>مبلغ</th>
+                                <th>تعداد</th>
+                                <th style="text-align:center">جمع</th>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @if (Model == null)
+                            {
+                                <tr>
+                                    <td colspan="5">فاقد کالا می باشد</td>
+                                </tr>
+                            }
+                            else
+                            {
+                                foreach (var item in Model.OrderDetailes)
+                                {
+                                    <tr>
+                                        <td width="150">
+                                            <img src="~/@item.Product.ProductImages.Select(p=>p.ImagePath).FirstOrDefault()" alt="iMac" width="80">
+                                        </td>
+                                        <td width="550">
+                                            <h5 class="font-500">@item.Product.Name</h5>
+                                            <p >@item.Product.Description</p>
+                                        </td>
+                                        <td><small>@item.ProductPrice.ToString("#,##") تومان</small></td>
+                                        <td width="70">
+                                            <input readonly type="text" class="form-control" placeholder="@item.ProductCount">
+                                        </td>
+                                        <td width="150" align="center" class="font-500">@((item.ProductPrice * item.ProductCount).ToString("#,##")) تومان</td>
+                                    </tr>
+                                }
+                            }
+
+
+                            </tbody>
+                        </table>
+                        <hr>
+                        <div class="d-flex no-block align-items-center">
+                            <a href="/Admin" class="btn btn-dark btn-outline"><i class="fas fa-arrow-left"></i> بازگشت</a>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Column -->
+        <div class="col-md-3 col-lg-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">خلاصه فاکتور</h5>
+                    <hr>
+                    <small>مبلغ قابل پرداخت</small>
+                    <h2>@Model.TootalAmount.ToString("#,##") تومان</h2>
+                    <hr>
+                    <button onclick="DeliveryOrder('@Model.Id')" class="btn btn-success">تایید فاکتور</button>
+                    <button onclick="CanselOrder('@Model.Id')" class="btn btn-secondary btn-outline">کنسل</button>
+                </div>
+            </div>
+         
+        </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- End PAge Content -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- Right sidebar -->
+    <!-- ============================================================== -->
+    <!-- .right-sidebar -->
+    <!-- ============================================================== -->
+    <!-- End Right sidebar -->
+    <!-- ============================================================== -->
+</div>
+@section Scripts
+    {
+    <link rel="stylesheet" href="~/admin/dist/Sweetalert2/sweetalert2.min.css" />
+    <script src="~/admin/dist/Sweetalert2/sweetalert2.min.js"></script>
+    <script>
+        function DeliveryOrder(orderId) {
+            swal.fire({
+                title: 'تحویل شفارش به مشتری',
+                text: "کاربر گرامی  مطمئن هستید؟",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#7cacbe',
+                confirmButtonText: 'بله ',
+                cancelButtonText: 'خیر'
+            }).then((result) => {
+                if (result.value) {
+
+                    var postData = {
+                        'id': orderId
+                    };
+
+                    $.ajax({
+                        contentType: 'application/x-www-form-urlencoded',
+                        dataType: 'json',
+                        type: "POST",
+                        url: "/Admin/Fainances/DeliveryOrder/",
+                        data: postData,
+                        success: function (data) {
+                            if (data.isSuccess == true) {
+                                swal.fire(
+                                    'موفق!',
+                                    data.message,
+                                    'success'
+                                ).then(function (isConfirm) {
+                                    location.reload();
+                                });
+                            } else {
+
+                                swal.fire(
+                                    'هشدار!',
+                                    data.message,
+                                    'warning'
+                                );
+
+                            }
+                        },
+                        error: function (request, status, error) {
+                            alert(request.responseText);
+                        }
+
+                    });
+
+                }
+            });
+        }
+
+        function CanselOrder(orderId) {
+            swal.fire({
+                title: 'کنسل فاکتور',
+                text: "کاربر گرامی  مطمئن هستید؟",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#7cacbe',
+                confirmButtonText: 'بله ',
+                cancelButtonText: 'خیر'
+            }).then((result) => {
+                if (result.value) {
+
+                    var postData = {
+                        'id': orderId
+                    };
+
+                    $.ajax({
+                        contentType: 'application/x-www-form-urlencoded',
+                        dataType: 'json',
+                        type: "POST",
+                        url: "/Admin/Fainances/CanselOrder/",
+                        data: postData,
+                        success: function (data) {
+                            if (data.isSuccess == true) {
+                                swal.fire(
+                                    'موفق!',
+                                    data.message,
+                                    'success'
+                                ).then(function (isConfirm) {
+                                    location.reload();
+                                });
+                            } else {
+
+                                swal.fire(
+                                    'هشدار!',
+                                    data.message,
+                                    'warning'
+                                );
+
+                            }
+                        },
+                        error: function (request, status, error) {
+                            alert(request.responseText);
+                        }
+
+                    });
+
+                }
+            });
+        }
+    </script>
+}
