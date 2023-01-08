@@ -38,11 +38,11 @@
                                     دنبا ل چی میگردی؟
                                 </button>
                                 <div class="dropdown-menu show" x-placement="top-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, -204px, 0px);">
-                                    <a class="dropdown-item" href="/Admin/Fainances/OrderList?orderState=Processing">فاکتورهای جدید <i class="badge bg-success">3</i></a>
+                                    <a class="dropdown-item" href="/Admin/Fainances/OrderList?orderState=Processing">فاکتورهای جدید <i class="badge bg-success" style="width: 20px; height: 20px; border-radius: 50%;">@Model.OrderLst.Count(p =>p.OrderState.Equals(OrderState.Processing))</i></a>
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="/Admin/Fainances/OrderList?orderState=Canceled">فاکتورهای کنسل شده <i class="badge bg-danger">3</i></a>
+                                    <a class="dropdown-item" href="/Admin/Fainances/OrderList?orderState=Canceled">فاکتورهای کنسل شده <i class="badge bg-danger" style="width: 20px; height: 20px; border-radius: 50%;">@Model.OrderLst.Count(p =>p.OrderState.Equals(OrderState.Canceled))</i></a>
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="/Admin/Fainances/OrderList?orderState=Delivered">فاکتورهای تحویلی <i class="badge bg-success">3</i></a>
+                                    <a class="dropdown-item" href="/Admin/Fainances/OrderList?orderState=Delivered">فاکتورهای تحویلی <i class="badge bg-success" style="width: 20px; height: 20px; border-radius: 50%;">@Model.OrderLst.Count(p =>p.OrderState.Equals(OrderState.Delivered))</i></a>
                                 </div>
                             </div>
                         </form>

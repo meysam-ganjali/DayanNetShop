@@ -55,6 +55,7 @@
                                 <th>وضعیت</th>
                                 <th>RefId</th>
                                 <th>Authority</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -71,7 +72,7 @@
                             {
                                 @foreach (var p in Model.RequestPayLst)
                                 {
-                                    <tr style="background: @(p.IsPay ? bg_s : bg_d)">
+                                    <tr>
                                         <td>@p.Id</td>
                                         <td>
                                             <p data-toggle="tooltip" data-placement="top" title data-original-title="@p.PayDate">@p.PayDate</p>
@@ -81,6 +82,13 @@
                                         <td>@(p.IsPay?"پرداخت شده":"پرداخت نشده")</td>
                                         <td>@p.RefId</td>
                                         <td>@p.Authority</td>
+                                        <td>
+                                            <div class="btn-group-sm">
+                                                <a href="/Admin/Fainances/OrderDetailes/@p.Id" class="btn btn-info"><i class="fa fa-eye"></i>&nbsp; جزئیات</a>
+                                                <button onclick="DeliveryOrder('@p.Id')" class="btn btn-success"><i class="fa fa-check"></i>&nbsp;تحویل </button>
+                                                <button onclick="CanselOrder('@p.Id')" class="btn btn-danger"><i class="fas fa-ban"></i>&nbsp;کنسل</button>
+                                            </div>
+                                        </td>
                                     </tr>
                                 }
                             }
