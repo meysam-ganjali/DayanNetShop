@@ -1,6 +1,8 @@
 ﻿using DayanShop.Core.Data;
+using DayanShop.Domains.Entities;
 using DayanShop.Utilities.DTOs;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DayanShop.Application.StoreServices.Fainances;
 
@@ -29,7 +31,8 @@ public class GetRequestPay : IGetRequestPay
                 Data = new RequestPayDto()
                 {
                     Amount = requestPay.Amount,
-                    Id = requestPay.Id
+                    Id = requestPay.Id,
+
                 }
             };
         }
@@ -47,5 +50,6 @@ public class RequestPayDto
 {
     public int Amount { get; set; }
     public int Id { get; set; }
+
 
 }

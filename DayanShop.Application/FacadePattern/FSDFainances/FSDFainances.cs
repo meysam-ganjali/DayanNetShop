@@ -47,17 +47,17 @@ public class FSDFainances : IFSDFainances
     {
         get
         {
-            return _editRequestPay= _editRequestPay ?? new EditRequestPay(_db);
+            return _editRequestPay = _editRequestPay ?? new EditRequestPay(_db);
         }
     }
 
 
-     IChangeCartStatus _changeCartStatus;
+    IChangeCartStatus _changeCartStatus;
     public IChangeCartStatus ChangeCartStatus
     {
         get
         {
-            return _changeCartStatus= _changeCartStatus ?? new ChangeCartStatus(_db);
+            return _changeCartStatus = _changeCartStatus ?? new ChangeCartStatus(_db);
         }
     }
 
@@ -67,7 +67,7 @@ public class FSDFainances : IFSDFainances
     {
         get
         {
-            return _userOrderInfo= _userOrderInfo ?? new UserOrderInfo(_db);
+            return _userOrderInfo = _userOrderInfo ?? new UserOrderInfo(_db);
         }
     }
 
@@ -77,7 +77,7 @@ public class FSDFainances : IFSDFainances
     {
         get
         {
-            return _ordersInformation= _ordersInformation ?? new OrdersInformation(_db);
+            return _ordersInformation = _ordersInformation ?? new OrdersInformation(_db);
         }
     }
 
@@ -97,7 +97,7 @@ public class FSDFainances : IFSDFainances
     {
         get
         {
-            return _cancelOrder= _cancelOrder ?? new CancelOrder(_db);
+            return _cancelOrder = _cancelOrder ?? new CancelOrder(_db);
         }
     }
 
@@ -108,6 +108,16 @@ public class FSDFainances : IFSDFainances
         get
         {
             return _ordersDetailes = _ordersDetailes ?? new OrderDetailes(_db);
+        }
+    }
+
+
+    private IRequestPayFAdmin _requestPayFAdmin;
+    public IRequestPayFAdmin RequestFAdmin
+    {
+        get
+        {
+            return _requestPayFAdmin = _requestPayFAdmin ?? new RequestPayFAdmin(_db);
         }
     }
 }

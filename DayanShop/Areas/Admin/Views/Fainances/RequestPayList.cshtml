@@ -1,10 +1,13 @@
 ﻿@addTagHelper *, LazZiya.TagHelpers
-@using Microsoft.AspNetCore.Mvc.TagHelpers
 @using DayanShop.Utilities.Helpers
+@using LazZiya.TagHelpers
+@using Microsoft.AspNetCore.Mvc.TagHelpers
 @using DayanShop.Domains.Entities
-@model DayanShop.Application.StoreServices.Fainances.ReslutGetOrderDto
+@model DayanShop.Application.StoreServices.Fainances.ReslutPayDto
 @{
-    ViewData["Title"] = "لیست فاکتور ها";
+    ViewData["Title"] = "لیست درخواستها";
+    string bg_s = "#C8DBBE";
+    string bg_d = "#FFD1D1";
 }
 <partial name="_Notification" />
 <div class="page-breadcrumb">
@@ -32,91 +35,55 @@
             <div class="card">
                 <div class="card-body d-flex justify-content-between flex-wrap">
                     <div class="card-title">
-                        <form class="input-group mb-3">
-                            <div class="btn-group show">
-                                <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                    دنبا ل چی میگردی؟
-                                </button>
-                                <div class="dropdown-menu show" x-placement="top-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, -204px, 0px);">
-                                    <a class="dropdown-item" href="/Admin/Fainances/OrderList?orderState=Processing">فاکتورهای جدید <i class="badge bg-success">3</i></a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="/Admin/Fainances/OrderList?orderState=Canceled">فاکتورهای کنسل شده <i class="badge bg-danger">3</i></a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="/Admin/Fainances/OrderList?orderState=Delivered">فاکتورهای تحویلی <i class="badge bg-success">3</i></a>
-                                </div>
-                            </div>
+                        <form action="/Admin/Finances/RequestPayList" class="input-group mb-3">
+                            <input name="searchKey" type="text" class="form-control" placeholder="دنبال چی می گردی؟" aria-label="Search For Parent Category" aria-describedby="basic-addon2">
+                            <button type="submit" class="input-group-text bg-primary text-white" id="basic-addon2"><i class="fa fa-search"></i></button>
                         </form>
                     </div>
                     <div class="row w-100 justify-content-center">
-                        
                     </div>
                 </div>
 
                 <div class="table-responsive p-1">
-                    <table class="table table-bordered table-hover table-striped" style="overflow: scroll">
+                    <table class="table table-bordered table-hover table-striped" style="overflow: scroll;border-color: #000">
                         <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>تاریخ ایجاد</th>
-                            <th>به نام</th>
-                            <th>مبلغ فاکتور</th>
-                            <th>وضعیت</th>
-                            <th>
-                                <i class=" mdi mdi-settings"></i>
-                            </th>
-                        </tr>
+                            <tr>
+                                <th>#</th>
+                                <th>تاریخ ایجاد</th>
+                                <th>به نام</th>
+                                <th>مبلغ درخواست</th>
+                                <th>وضعیت</th>
+                                <th>RefId</th>
+                                <th>Authority</th>
+                            </tr>
                         </thead>
                         <tbody>
 
-                        @if (Model == null)
-                        {
-                            <tr>
-                                <td colspan="7">
-                                    <p class="text-danger text-center">محصولی برای نمایش یافت نشد. ابتدا یک دسته ثبت کنید!</p>
-                                </td>
-                            </tr>
-                        }
-                        else
-                        {
-                            @foreach (var p in Model.OrderLst)
+                            @if (Model.RequestPayLst.Count() < 1)
                             {
                                 <tr>
-                                    <td>@p.Id</td>
-                                    <td>
-                                        <p data-toggle="tooltip" data-placement="top" title data-original-title="@p.CreatedDate">@p.CreatedDate.ToPersianDate()</p>
-                                    </td>
-                                       
-                                    <td>@p.ApplicationUser.FirstName @p.ApplicationUser.LastName</td>
-                                    <td>@p.TootalAmount.ToString("#,##") تومان</td>
-                                    @switch (p.OrderState)
-                                    {
-                                        case OrderState.Processing:
-                                        {
-                                            <td class="text-primary"><i class="fa fa-clock bg-primary badg text-white"></i>&nbsp; در حال پردازش</td>
-                                            break;
-                                        }
-                                        case OrderState.Canceled:
-                                        {
-                                            <td class="text-danger"><i class="fas fa-ban bg-danger badg text-white"></i>&nbsp;کنسل شده</td>
-                                            break;
-                                        }
-                                        case OrderState.Delivered:
-                                        {
-                                                    <td class="text-success"><i class="fas fa-check bg-success badg text-white"></i>&nbsp;تحویل داده </td>
-                                            break;
-                                        }
-                                    }
-
-                                    <td>
-                                        <div class="btn-group-sm">
-                                            <a href="/Admin/Fainances/OrderDetailes/@p.Id" class="btn btn-info"><i class="fa fa-eye"></i>&nbsp; جزئیات</a>
-                                            <button onclick="DeliveryOrder('@p.Id')" class="btn btn-success"><i class="fa fa-check"></i>&nbsp;تحویل </button>
-                                                <button onclick="CanselOrder('@p.Id')" class="btn btn-danger"><i class="fas fa-ban"></i>&nbsp;کنسل</button>
-                                        </div>
+                                    <td colspan="7">
+                                        <p class="text-danger text-center">درخواست پرداخت یافت نشد!</p>
                                     </td>
                                 </tr>
                             }
-                        }
+                            else
+                            {
+                                @foreach (var p in Model.RequestPayLst)
+                                {
+                                    <tr style="background: @(p.IsPay ? bg_s : bg_d)">
+                                        <td>@p.Id</td>
+                                        <td>
+                                            <p data-toggle="tooltip" data-placement="top" title data-original-title="@p.PayDate">@p.PayDate</p>
+                                        </td>
+                                        <td>@p.User.FirstName @p.User.LastName</td>
+                                        <td>@p.Amount.ToString("#,##") تومان</td>
+                                        <td>@(p.IsPay?"پرداخت شده":"پرداخت نشده")</td>
+                                        <td>@p.RefId</td>
+                                        <td>@p.Authority</td>
+                                    </tr>
+                                }
+                            }
                         </tbody>
                     </table>
                     <div class="row justify-content-center">
@@ -143,11 +110,11 @@
     </div>
 </div>
 @section Scripts
-{
-    <link rel="stylesheet" href="~/admin/dist/Sweetalert2/sweetalert2.min.css"/>
+    {
+    <link rel="stylesheet" href="~/admin/dist/Sweetalert2/sweetalert2.min.css" />
     <script src="~/admin/dist/Sweetalert2/sweetalert2.min.js"></script>
     <script>
-        function DeliveryOrder(orderId){
+        function DeliveryOrder(orderId) {
             swal.fire({
                 title: 'تحویل شفارش به مشتری',
                 text: "کاربر گرامی  مطمئن هستید؟",
@@ -168,7 +135,7 @@
                         contentType: 'application/x-www-form-urlencoded',
                         dataType: 'json',
                         type: "POST",
-                        url: "/Admin/Fainances/DeliveryOrder/",                
+                        url: "/Admin/Fainances/DeliveryOrder/",
                         data: postData,
                         success: function (data) {
                             if (data.isSuccess == true) {

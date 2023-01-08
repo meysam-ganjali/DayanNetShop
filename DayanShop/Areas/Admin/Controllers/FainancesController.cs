@@ -48,5 +48,15 @@ namespace DayanShop.Areas.Admin.Controllers
             var result = await _fainances.OrderDetailes.GetAsync(id);
             return View(result.Data);
         }
+        public IActionResult RequestPayList(string? searchKey, OrderState? orderState, int pageSize = 50, int page = 1)
+        {
+            var result = _fainances.RequestFAdmin.GetAsync(new RequestRequestPayDto
+            {
+                PageSize = pageSize,
+                Page = page,
+                SearchKey = searchKey
+            });
+            return View(result);
+        }
     }
 }
