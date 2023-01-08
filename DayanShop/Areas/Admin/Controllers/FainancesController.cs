@@ -35,5 +35,11 @@ namespace DayanShop.Areas.Admin.Controllers
             var result = await _fainances.OrderDelivery.DeliveryASync(id);
             return Json(result);
         }
+        [HttpPost]
+        public async Task<IActionResult> CanselOrder(int id)// id = Order Id
+        {
+            var result = await _fainances.CancelOrder.CancelASync(id);
+            return Json(result);
+        }
     }
 }

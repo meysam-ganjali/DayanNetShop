@@ -90,4 +90,14 @@ public class FSDFainances : IFSDFainances
             return _orderDelivery = _orderDelivery ?? new OrderDelivery(_db);
         }
     }
+
+
+    private ICancelOrder _cancelOrder;
+    public ICancelOrder CancelOrder
+    {
+        get
+        {
+            return _cancelOrder= _cancelOrder ?? new CancelOrder(_db);
+        }
+    }
 }
