@@ -17,7 +17,7 @@ namespace DayanShop.Areas.Admin.Controllers
         {
             _fainances = fainances;
         }
-        public IActionResult OrderList(string? searchKey,OrderState? orderState, int pageSize = 2, int page = 1)
+        public IActionResult OrderList(string? searchKey,OrderState? orderState, int pageSize = 50, int page = 1)
         {
             var result = _fainances.OrdersInfo.GetAsync(new RequestGetOrderDto
             {
@@ -27,6 +27,13 @@ namespace DayanShop.Areas.Admin.Controllers
                 SearchKey =searchKey
             });
             return View(result);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeliveryOrder(int id)// id = Order Id
+        {
+            var result = await _fainances.OrderDelivery.DeliveryASync(id);
+            return Json(result);
         }
     }
 }

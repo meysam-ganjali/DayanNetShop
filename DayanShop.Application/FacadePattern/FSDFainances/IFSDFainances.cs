@@ -11,4 +11,5 @@ public interface IFSDFainances
     IChangeCartStatus ChangeCartStatus { get; }
     IUserOrderInfo UserOrderInfo { get; }
     IOrdersInformation OrdersInfo { get; }
+    IOrderDelivery OrderDelivery { get; }
 }

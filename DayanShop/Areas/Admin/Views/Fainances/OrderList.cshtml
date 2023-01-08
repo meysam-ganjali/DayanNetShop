@@ -57,68 +57,68 @@
                 <div class="table-responsive p-1">
                     <table class="table table-bordered table-hover table-striped" style="overflow: scroll">
                         <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>تاریخ ایجاد</th>
-                                <th>به نام</th>
-                                <th>مبلغ فاکتور</th>
-                                <th>وضعیت</th>
-                                <th>
-                                    <i class=" mdi mdi-settings"></i>
-                                </th>
-                            </tr>
+                        <tr>
+                            <th>#</th>
+                            <th>تاریخ ایجاد</th>
+                            <th>به نام</th>
+                            <th>مبلغ فاکتور</th>
+                            <th>وضعیت</th>
+                            <th>
+                                <i class=" mdi mdi-settings"></i>
+                            </th>
+                        </tr>
                         </thead>
                         <tbody>
 
-                            @if (Model == null)
+                        @if (Model == null)
+                        {
+                            <tr>
+                                <td colspan="7">
+                                    <p class="text-danger text-center">محصولی برای نمایش یافت نشد. ابتدا یک دسته ثبت کنید!</p>
+                                </td>
+                            </tr>
+                        }
+                        else
+                        {
+                            @foreach (var p in Model.OrderLst)
                             {
                                 <tr>
-                                    <td colspan="7">
-                                        <p class="text-danger text-center">محصولی برای نمایش یافت نشد. ابتدا یک دسته ثبت کنید!</p>
+                                    <td>@p.Id</td>
+                                    <td>
+                                        <p data-toggle="tooltip" data-placement="top" title data-original-title="@p.CreatedDate">@p.CreatedDate.ToPersianDate()</p>
+                                    </td>
+                                       
+                                    <td>@p.ApplicationUser.FirstName @p.ApplicationUser.LastName</td>
+                                    <td>@p.TootalAmount.ToString("#,##") تومان</td>
+                                    @switch (p.OrderState)
+                                    {
+                                        case OrderState.Processing:
+                                        {
+                                            <td class="text-primary"><i class="fa fa-clock bg-primary badg text-white"></i>&nbsp; در حال پردازش</td>
+                                            break;
+                                        }
+                                        case OrderState.Canceled:
+                                        {
+                                            <td class="text-danger"><i class="fas fa-ban bg-danger badg text-white"></i>&nbsp;کنسل شده</td>
+                                            break;
+                                        }
+                                        case OrderState.Delivered:
+                                        {
+                                                    <td><i class="fas fa-check bg-success badg text-white"></i>&nbsp;تحویل داده </td>
+                                            break;
+                                        }
+                                    }
+
+                                    <td>
+                                        <div class="btn-group-sm">
+                                            <button class="btn btn-info"><i class="fa fa-eye"></i>&nbsp; جزئیات</button>
+                                            <button onclick="DeliveryOrder('@p.Id')" class="btn btn-success"><i class="fa fa-check"></i>&nbsp;تحویل داده شد</button>
+                                            <button class="btn btn-danger"><i class="fas fa-ban"></i>&nbsp;کنسل</button>
+                                        </div>
                                     </td>
                                 </tr>
                             }
-                            else
-                            {
-                                @foreach (var p in Model.OrderLst)
-                                {
-                                    <tr>
-                                        <td>@p.Id</td>
-                                        <td>
-                                            <p data-toggle="tooltip" data-placement="top" title data-original-title="@p.CreatedDate">@p.CreatedDate.ToPersianDate()</p>
-                                        </td>
-                                       
-                                            <td>@p.ApplicationUser.FirstName @p.ApplicationUser.LastName</td>
-                                        <td>@p.TootalAmount.ToString("#,##") تومان</td>
-                                        @switch (p.OrderState)
-                                           {
-                                               case OrderState.Processing:
-                                               {
-                                                    <td class="text-primary"><i class="fa fa-clock bg-primary badg text-white"></i>&nbsp; در حال پردازش</td>
-                                                   break;
-                                               }
-                                               case OrderState.Canceled:
-                                               {
-                                                    <td class="text-danger"><i class="fas fa-ban bg-danger badg text-white"></i>&nbsp;کنسل شده</td>
-                                                   break;
-                                               }
-                                               case OrderState.Delivered:
-                                               {
-                                                   <td>تحویل داده</td>
-                                                   break;
-                                               }
-                                           }
-
-                                        <td>
-                                            <div class="btn-group-sm">
-                                                <button class="btn btn-info"><i class="fa fa-eye"></i>&nbsp; جزئیات</button>
-                                                <button class="btn btn-success"><i class="fa fa-check"></i>&nbsp;تحویل داده شد</button>
-                                                <button class="btn btn-danger"><i class="fas fa-ban"></i>&nbsp;کنسل</button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                }
-                            }
+                        }
                         </tbody>
                     </table>
                     <div class="row justify-content-center">
@@ -144,3 +144,61 @@
         </div>
     </div>
 </div>
+@section Scripts
+{
+    <link rel="stylesheet" href="~/admin/dist/Sweetalert2/sweetalert2.min.css"/>
+    <script src="~/admin/dist/Sweetalert2/sweetalert2.min.js"></script>
+    <script>
+        function DeliveryOrder(orderId){
+            swal.fire({
+                title: 'تحویل شفارش به مشتری',
+                text: "کاربر گرامی  مطمئن هستید؟",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#7cacbe',
+                confirmButtonText: 'بله ',
+                cancelButtonText: 'خیر'
+            }).then((result) => {
+                if (result.value) {
+
+                    var postData = {
+                        'id': orderId
+                    };
+
+                    $.ajax({
+                        contentType: 'application/x-www-form-urlencoded',
+                        dataType: 'json',
+                        type: "POST",
+                        url: "/Admin/Fainances/DeliveryOrder/",                
+                        data: postData,
+                        success: function (data) {
+                            if (data.isSuccess == true) {
+                                swal.fire(
+                                    'موفق!',
+                                    data.message,
+                                    'success'
+                                ).then(function (isConfirm) {
+                                    location.reload();
+                                });
+                            } else {
+
+                                swal.fire(
+                                    'هشدار!',
+                                    data.message,
+                                    'warning'
+                                );
+
+                            }
+                        },
+                        error: function (request, status, error) {
+                            alert(request.responseText);
+                        }
+
+                    });
+
+                }
+            });
+        }
+    </script>
+}
