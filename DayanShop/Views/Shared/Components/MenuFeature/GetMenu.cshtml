@@ -1,0 +1,92 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using DayanShop.Utilities.DTOs
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@model IEnumerable<DayanShop.Domains.Entities.ParentCategory>
+@{
+    string uri = "";
+    if (User.IsInRole(SD.ManagerRole))
+    {
+        uri = "/Admin/";
+    }
+    else if (User.IsInRole(SD.ManagerRole))
+    {
+        uri = "~/";
+    }
+}
+<div class="droopmenu-nav">
+    <div class="droopmenu-nav-wrap">
+        <div class="droopmenu-navi">
+            <ul class="droopmenu">
+                <li class="droopmenu-parent" aria-haspopup="true">
+                    <a href="#" aria-expanded="false"><i class="fa fa-bars"></i>&nbsp;&nbsp;گروه های محصولات<em class="droopmenu-topanim"></em></a><div class="dm-arrow"></div>
+                    <ul class="droopmenu-grid droopmenu-grid-9">
+                        <li class="droopmenu-tabs droopmenu-tabs-vertical">
+                            @foreach (var parent in Model)
+                            {
+                                <div class="droopmenu-tabsection " id="droopmenutab10">
+                                    <a class="droopmenu-tabheader" href="#">@parent.ParentTitle</a>
+                                    <div class="droopmenu-tabcontent">
+                                        <div class="droopmenu-row">
+                                            @foreach (var child in parent.ChildCategories)
+                                            {
+                                                <ul class="droopmenu-col droopmenu-col4">
+                                                    <li><a href="./products.html">@child.ChildTitle</a></li>
+
+                                                </ul>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+                        </li>
+                    </ul>
+                </li>
+                <li><a href="./about.html">درباره ما<em class="droopmenu-topanim"></em></a></li>
+                <li class="droopmenu-parent" aria-haspopup="true">
+                    <a asp-controller="Shop" asp-action="Index" aria-expanded="false"> فروشگاه<em class="droopmenu-topanim"></em></a>
+                </li>
+                <li class="droopmenu-parent" aria-haspopup="true">
+                    <a href="./contact.html" aria-expanded="false">تماس با فروشگاه<em class="droopmenu-topanim"></em></a>
+
+                </li>
+                <li class="droopmenu-parent" aria-haspopup="true">
+                    <a href="./blog.html" aria-expanded="false">بلاگ آموزشی<em class="droopmenu-topanim"></em></a>
+
+                </li>
+                <li class="droopmenu-parent" aria-haspopup="true">
+                    <a href="#" aria-expanded="false">سایر صفحات<em class="droopmenu-topanim"></em></a><div class="dm-arrow"></div>
+                    <ul style="">
+                        <li><a href="./compare.html">مقایسه محصول</a></li>
+                        <li><a href="./cart.html">سبد خرید</a></li>
+                        <li><a href="./checkout.html">پیش فاکتور</a></li>
+                        <li class="dm-bottom-separator"></li>
+                        <li><a href="./login.html">ورود به سایت</a></li>
+                        <li><a href="./register.html">عضویت در سایت</a></li>
+                        <li><a href="./reset-password.html">بازگردانی رمز عبور</a></li>
+                        <li class="dm-bottom-separator"></li>
+                        <li><a href="./error-404.html">خطای 404</a></li>
+                    </ul>
+                </li>
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    <li class="droopmenu-parent" aria-haspopup="true">
+                        <a href="@uri" aria-expanded="false">پروفایل کاربری<em class="droopmenu-topanim"></em></a><div class="dm-arrow"></div>
+                        <ul style="">
+                            <li><a href="profile/personal-info.html">مشخصات کاربری</a></li>
+                            <li><a href="profile/factors.html">سفارشات</a></li>
+                            <li><a href="profile/addresses.html">آدرس ها</a></li>
+                            <li>
+                                <form id="logoutForm" class="dropdown-item" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                                    <button id="logout" type="submit" class="nav-link btn btn-link text-dark"><small><i class="fa fa-lock"></i>&nbsp;خروج</small></button>
+                                </form>
+                            </li>
+                        </ul>
+                    </li>
+                }
+
+            </ul>
+        </div>
+    </div>
+</div>

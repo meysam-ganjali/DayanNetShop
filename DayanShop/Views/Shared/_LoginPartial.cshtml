@@ -15,9 +15,9 @@
     }
 }
 <div class="col-12 col-md-7 col-lg-6 text-center" id="btn-login-register">
-    @if (SignInManager.IsSignedIn(User))
+    @if (!SignInManager.IsSignedIn(User))
     {
-        <div class="dropdown">
+  @*      <div class="dropdown">
             <a class="btn btn-sm btn-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
                 <small>دسترسی کاربر</small>
             </a>
@@ -35,9 +35,19 @@
             </ul>
         </div>
 
+*@
+        <div class="dropdown">
+            <a class="btn btn-sm btn-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                <small> ثبت نام/ورود</small>
+            </a>
 
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <li><a class="dropdown-item" id="register" asp-area="Identity" asp-page="/Account/Register"><small>ثبت نام</small></a></li>
+                <li><a class="dropdown-item" id="login" asp-area="Identity" asp-page="/Account/Login"><small>ورود</small></a></li>
+            </ul>
+        </div>
     }
-    else
+    @*else
     {
         <div class="dropdown">
             <a class="btn btn-sm btn-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
@@ -50,5 +60,5 @@
             </ul>
         </div>
       
-    }
+    }*@
 </div>
