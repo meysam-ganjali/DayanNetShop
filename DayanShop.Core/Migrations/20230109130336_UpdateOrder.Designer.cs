@@ -4,6 +4,7 @@ using DayanShop.Core.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DayanShop.Core.Migrations
 {
     [DbContext(typeof(DayanShopContext))]
-    partial class DayanShopContextModelSnapshot : ModelSnapshot
+    [Migration("20230109130336_UpdateOrder")]
+    partial class UpdateOrder
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -50,7 +52,7 @@ namespace DayanShop.Core.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Carts", (string)null);
+                    b.ToTable("Carts");
                 });
 
             modelBuilder.Entity("DayanShop.Domains.Entities.CartItem", b =>
@@ -79,7 +81,7 @@ namespace DayanShop.Core.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("CartItems", (string)null);
+                    b.ToTable("CartItems");
                 });
 
             modelBuilder.Entity("DayanShop.Domains.Entities.CategoryAttribute", b =>
@@ -102,7 +104,7 @@ namespace DayanShop.Core.Migrations
 
                     b.HasIndex("ChildCategoryId");
 
-                    b.ToTable("CategoryAttributes", (string)null);
+                    b.ToTable("CategoryAttributes");
                 });
 
             modelBuilder.Entity("DayanShop.Domains.Entities.ChildCategory", b =>
@@ -132,7 +134,7 @@ namespace DayanShop.Core.Migrations
 
                     b.HasIndex("ParentCategoryId");
 
-                    b.ToTable("ChildCategories", (string)null);
+                    b.ToTable("ChildCategories");
                 });
 
             modelBuilder.Entity("DayanShop.Domains.Entities.Common.Slider", b =>
@@ -179,7 +181,7 @@ namespace DayanShop.Core.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Sliders", (string)null);
+                    b.ToTable("Sliders");
                 });
 
             modelBuilder.Entity("DayanShop.Domains.Entities.Order", b =>
@@ -232,7 +234,7 @@ namespace DayanShop.Core.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Orders", (string)null);
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("DayanShop.Domains.Entities.OrderDetaile", b =>
@@ -264,7 +266,7 @@ namespace DayanShop.Core.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("OrderDetailes", (string)null);
+                    b.ToTable("OrderDetailes");
                 });
 
             modelBuilder.Entity("DayanShop.Domains.Entities.ParentCategory", b =>
@@ -289,7 +291,7 @@ namespace DayanShop.Core.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ParentCategories", (string)null);
+                    b.ToTable("ParentCategories");
                 });
 
             modelBuilder.Entity("DayanShop.Domains.Entities.Product", b =>
@@ -346,7 +348,7 @@ namespace DayanShop.Core.Migrations
 
                     b.HasIndex("ChildCategoryId");
 
-                    b.ToTable("Products", (string)null);
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("DayanShop.Domains.Entities.ProductAttribute", b =>
@@ -373,7 +375,7 @@ namespace DayanShop.Core.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductAttributes", (string)null);
+                    b.ToTable("ProductAttributes");
                 });
 
             modelBuilder.Entity("DayanShop.Domains.Entities.ProductImage", b =>
@@ -407,7 +409,7 @@ namespace DayanShop.Core.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductImages", (string)null);
+                    b.ToTable("ProductImages");
                 });
 
             modelBuilder.Entity("DayanShop.Domains.Entities.ProductReviw", b =>
@@ -442,7 +444,7 @@ namespace DayanShop.Core.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductReviws", (string)null);
+                    b.ToTable("ProductReviws");
                 });
 
             modelBuilder.Entity("DayanShop.Domains.Entities.RequestPay", b =>
@@ -479,7 +481,7 @@ namespace DayanShop.Core.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("RequestPays", (string)null);
+                    b.ToTable("RequestPays");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

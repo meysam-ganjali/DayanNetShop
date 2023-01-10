@@ -27,7 +27,6 @@ public class DayanShopContext : IdentityDbContext<IdentityUser>
     public DbSet<Order> Orders { get; set; }
     public DbSet<OrderDetaile> OrderDetailes { get; set; }
     public DbSet<RequestPay> RequestPays { get; set; }
-    public DbSet<UserAddress> UserAddresses { get; set; }
     public DbSet<Slider> Sliders { get; set; }
     protected override void OnModelCreating(ModelBuilder builder)
     {
